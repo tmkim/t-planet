@@ -128,11 +128,12 @@ async function seedCardsets(client) {
 
 async function seedUsersFlashcards(client) {
     try {
+
         const createTable = await client.sql`
         CREATE TABLE IF NOT EXISTS users_flashcards(
             uid VARCHAR(255) NOT NULL,
             fcid VARCHAR(255) NOT NULL,
-            PRIMARY KEY('uid', 'fcid')
+            PRIMARY KEY(uid, fcid)
         );
     `;
 
@@ -164,7 +165,7 @@ async function seedUsersCardsets(client) {
         CREATE TABLE IF NOT EXISTS users_cardsets(
             uid VARCHAR(255) NOT NULL,
             csid VARCHAR(255) NOT NULL,
-            PRIMARY KEY('uid', 'csid')
+            PRIMARY KEY(uid, csid)
         );
     `;
 
@@ -196,7 +197,7 @@ async function seedCardsetsFlashcards(client) {
         CREATE TABLE IF NOT EXISTS cardsets_flashcards(
             csid VARCHAR(255) NOT NULL,
             fcid VARCHAR(255) NOT NULL,
-            PRIMARY KEY('csid', 'fcid')
+            PRIMARY KEY(csid, fcid)
         );
     `;
 
@@ -226,8 +227,8 @@ async function seedCardsetsFlashcards(client) {
 async function main() {
     const client = await db.connect();
 
-    // await seedUsers(client);
-    // await seedFlashcards(client);
+    await seedUsers(client);
+    await seedFlashcards(client);
     await seedCardsets(client);
     await seedUsersFlashcards(client);
     await seedUsersCardsets(client);
