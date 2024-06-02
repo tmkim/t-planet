@@ -38,3 +38,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 # T-Planet
 Built using Next.js
 Database - Postgres
+
+-- database set up, seeded users, flash cards, card sets, connections btwn the 3
+-- initialize dashboard/welcome, login page + auth config, actions, sidenav
+    ** need to update actions
+    ** need to work on front-end (ui)
+     
