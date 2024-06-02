@@ -48,3 +48,10 @@ Database - Postgres
     * add middleware.ts
     * generate secret (openssl rand -base64 32) and update .env
     ** login page works!
+
+-- work on creating new user
+    * registration page built (basic) and link on login page redirects
+    * name, email, password are requested + validated
+    * error creating user in DB -- likely because of uid.
+        This is ok bc the reason I built the registration page was to test things with UID
+        Namely auto-generation of primary key for uid.
