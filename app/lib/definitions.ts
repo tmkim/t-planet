@@ -38,6 +38,13 @@ export type Cardsets_Flashcards = {
   fcid: string;
 };
 
+export type UserField = {
+  uid: string;
+  name: string;
+  email: string;
+  password: string;
+};
+
 /*export type LatestInvoice = {
   id: string;
   name: string;
@@ -82,10 +89,6 @@ export type FormattedCustomersTable = {
   total_paid: string;
 };
 
-export type CustomerField = {
-  id: string;
-  name: string;
-};
 
 export type InvoiceForm = {
   id: string;

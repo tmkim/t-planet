@@ -44,3 +44,7 @@ Database - Postgres
     ** need to update actions
     ** need to work on front-end (ui)
      
+-- work on login page
+    * add middleware.ts
+    * generate secret (openssl rand -base64 32) and update .env
+    ** login page works!
