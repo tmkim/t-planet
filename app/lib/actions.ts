@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import { getJSDocReturnType } from 'typescript';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth'
+import bcrypt from 'bcrypt'
 
 const UserSchema = z.object({
   uid: z.string(),
@@ -48,16 +49,17 @@ export async function createUser(prevState: UserState, formData: FormData) {
     };
   }
   const { name, email, password } = validatedFields.data;
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
     await sql`
-        INSERT INTO users (name, email, password))
-        VALUES (${name}, ${email}, ${password})
+        INSERT INTO users (name, email, password)
+        VALUES (${name}, ${email}, ${hashedPassword})
         `;
   } catch (error) {
     return {
       errors: {},
-      message: 'Database Error: Failed to Create User.',
+      message: `Database Error: Failed to Create User.\n${error}`,
     }
   }
 
@@ -66,6 +68,68 @@ export async function createUser(prevState: UserState, formData: FormData) {
   // Test it out:
   //   console.log(rawFormData);
 }
+
+// --------------------- Flash Cards ------------------------
+const FCSchema = z.object({
+  uid: z.string(),
+  name: z.string({
+    required_error: 'Please enter your name.',
+  }),
+  email: z.string({
+    required_error: 'Please enter your e-mail address.',
+  }).email({
+    message: 'Please enter a valid e-mail'
+  }),
+  password: z.string({
+    required_error: 'Please enter your password.'
+  }).min(6, {
+    message: 'Password must be at least 6 characters'
+  }),
+});
+
+const CreateFC = UserSchema.omit({ uid: true });
+export type FCState = {
+  errors?: {
+    name?: string[];
+    email?: string[];
+    password?: string[];
+  };
+  message?: string | null;
+};
+
+export async function createFlashcard(prevState: FCState, formData: FormData) {
+  const validatedFields = CreateUser.safeParse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    password: formData.get('password'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Register User.',
+    };
+  }
+  const { name, email, password } = validatedFields.data;
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  try {
+    await sql`
+        INSERT INTO users (name, email, password)
+        VALUES (${name}, ${email}, ${hashedPassword})
+        `;
+  } catch (error) {
+    return {
+      errors: {},
+      message: `Database Error: Failed to Create Flashcard.\n${error}`,
+    }
+  }
+
+  // not sure if below will be necessary -- want to make this into a modal form
+  revalidatePath('/dashboard/flashcards');
+  redirect('/dashboard/flashcards');
+}
+
 
 // const UpdateInvoice = FormSchema.omit({id: true, date: true})
 
