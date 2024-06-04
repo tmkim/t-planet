@@ -1,3 +1,4 @@
+import Table from '@/app/ui/flashcards/table'
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -18,7 +19,7 @@ export default async function Page({
     };
 }) {
     const query = searchParams?.query || '';
-    // const currentPage = Number(searchParams?.page) || 1;
+    const currentPage = Number(searchParams?.page) || 1;
     // const totalFCPages = await fetchFlashcardPages;
     // const totalCSPages = await fetchCardsetPages;
 
@@ -37,12 +38,12 @@ export default async function Page({
                 <CreateFlashcard /> */}
                 </div>
                 <div> Suspense Table Placeholder </div>
-                {/* <Suspense key={query + currentPage} fallback={<FlashcardsTableSkeleton />}>
-                <Table query={query} currentPage={currentPage}
-            </Suspense> */}
+                <Suspense key={query + currentPage}>
+                    <Table query={query} currentPage={currentPage}/>
+                </Suspense>
                 {/* <Suspense key={query} fallback={<FlashcardsTableSkeleton />}>
                 <Table query={query}/>
-            </Suspense> */}
+                </Suspense> */}
                 <div className="mt-5 flex w-full justify-center">
                     {/* <Pagination totalPages={totalPages} /> */}
                     <div>Pagination placeholder</div>

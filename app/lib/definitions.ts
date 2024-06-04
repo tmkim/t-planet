@@ -45,6 +45,11 @@ export type UserField = {
   password: string;
 };
 
+export type FlashcardsTable = {
+  fcid: string;
+  front_text: string;
+}
+
 /*export type LatestInvoice = {
   id: string;
   name: string;

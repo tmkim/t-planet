@@ -130,6 +130,16 @@ export async function createFlashcard(prevState: FCState, formData: FormData) {
   redirect('/dashboard/flashcards');
 }
 
+export async function deleteFlashcard(id: string){
+  try{
+    await sql `DELETE FROM flashcards WHERE id = ${id}`
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to Delete Flashcard',
+    }
+  }
+  revalidatePath('/dashboard/flashcards')
+}
 
 // const UpdateInvoice = FormSchema.omit({id: true, date: true})
 

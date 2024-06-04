@@ -55,3 +55,8 @@ Database - Postgres
     * error creating user in DB -- likely because of uid.
         This is ok bc the reason I built the registration page was to test things with UID
         Namely auto-generation of primary key for uid.
+
+Working on displaying table for flashcards
+    * basic set up is done for table + fetching + buttons
+    * currently error with fetching - NeonDbError: operator does not exist: character varying = uuid
+    * also need to set up table skeletons
