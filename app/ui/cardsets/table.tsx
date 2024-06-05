@@ -1,17 +1,17 @@
 // import Image from 'next/image';
-import { UpdateFlashcard, DeleteFlashcard, ReadFlashcard } from '@/app/ui/flashcards/buttons';
+import { UpdateCardset, DeleteCardset, ReadCardset } from './buttons';
 // import InvoiceStatus from '@/app/ui/flashcards/status';
 // import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
-import { fetchFilteredFlashcards } from '@/app/lib/data';
+import { fetchFilteredCardsets } from '@/app/lib/data';
 
-export default async function FlashcardsTable({
+export default async function CardsetsTable({
   query,
   currentPage,
 }: {
   query: string;
   currentPage: number;
 }) {
-  const flashcards = await fetchFilteredFlashcards(query, currentPage);
+  const cardsets = await fetchFilteredCardsets(query, currentPage);
 
   return (
     <div className="mt-6 flow-root">
@@ -21,10 +21,10 @@ export default async function FlashcardsTable({
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Front Text
+                  Name
                 </th>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Back Text
+                  Created By
                 </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Edit</span>
@@ -32,26 +32,26 @@ export default async function FlashcardsTable({
               </tr>
             </thead>
             <tbody className="bg-white">
-              {flashcards?.map((flashcard) => (
+              {cardsets?.map((cardset) => (
                 <tr
-                  key={flashcard.fcid}
+                  key={cardset.csid}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
-                      <p>{flashcard.front_text}</p>
+                      <p>{cardset.name}</p>
                     </div>
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
-                      <p>{flashcard.back_text}</p>
+                      <p>{cardset.created_by}</p>
                     </div>
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      <ReadFlashcard id={flashcard.fcid} />
-                      <UpdateFlashcard id={flashcard.fcid} />
-                      <DeleteFlashcard id={flashcard.fcid} />
+                      <ReadCardset id={cardset.csid} />
+                      <UpdateCardset id={cardset.csid} />
+                      <DeleteCardset id={cardset.csid} />
                     </div>
                   </td>
                 </tr>

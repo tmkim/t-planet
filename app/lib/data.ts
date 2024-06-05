@@ -9,11 +9,12 @@ import {
     Cardsets_Flashcards,
     UserField,
     FlashcardsTable,
+    CardsetsTable
 } from './definitions';
 // import { formatCurrency } from './utils';
 
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 5;
 export async function fetchFilteredFlashcards(
   query: string,
   currentPage: number,
@@ -22,22 +23,121 @@ export async function fetchFilteredFlashcards(
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
-    const flashcards = await sql<FlashcardsTable>`
+/*    const flashcards = await sql<FlashcardsTable>`
       SELECT
-        fc.id,
+        fc.fcid,
         fc.front_text
       FROM users u
-      JOIN users_flashcards ufc ON ufc.uid = u.uid
-      JOIN flashcards fc ON ufc.fcid = fc.fcid
+      LEFT JOIN users_flashcards ufc ON ufc.uid = u.uid
+      LEFT JOIN flashcards fc ON ufc.fcid = fc.fcid
       WHERE
         fc.front_text ILIKE ${`%${query}%`} OR
         fc.back_text ILIKE ${`%${query}%`}
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
+*/
+    const flashcards = await sql<FlashcardsTable>`
+    SELECT
+      fcid,
+      front_text,
+      back_text
+    FROM flashcards
+    WHERE
+      front_text ILIKE ${`%${query}%`} OR
+      back_text ILIKE ${`%${query}%`}
+    LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `
 
     return flashcards.rows;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error(`Failed to fetch flashcards. : ${error}`);
+  }
+}
+
+export async function fetchFlashcardsPages(query: string){
+  noStore();
+
+  try {
+    const count = await sql`SELECT COUNT(*)
+    FROM flashcards
+    WHERE
+      front_text ILIKE ${`%${query}%`} OR
+      back_text ILIKE ${`%${query}%`}
+    `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of flashcards.');
+  }
+}
+
+export async function fetchFilteredCardsets(
+  query: string,
+  currentPage: number,
+) {
+  noStore();
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const cardsets = await sql<CardsetsTable>`
+    SELECT
+      csid,
+      name,
+      created_by
+    FROM cardsets
+    WHERE
+      name ILIKE ${`%${query}%`} OR
+      created_by ILIKE ${`%${query}%`} 
+    LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `
+
+    return cardsets.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error(`Failed to fetch card sets. : ${error}`);
+  }
+}
+
+export async function fetchCardsetsPages(query: string){
+  noStore();
+
+  try {
+    const count = await sql`SELECT COUNT(*)
+    FROM cardsets
+    WHERE
+      name ILIKE ${`%${query}%`} OR
+      created_by ILIKE ${`%${query}%`} 
+    `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of card sets.');
+  }
+}
+
+export async function fetchInvoicesPages(query: string) {
+  noStore();
+  try {
+    const count = await sql`SELECT COUNT(*)
+    FROM invoices
+    JOIN customers ON invoices.customer_id = customers.id
+    WHERE
+      customers.name ILIKE ${`%${query}%`} OR
+      customers.email ILIKE ${`%${query}%`} OR
+      invoices.amount::text ILIKE ${`%${query}%`} OR
+      invoices.date::text ILIKE ${`%${query}%`} OR
+      invoices.status ILIKE ${`%${query}%`}
+  `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of invoices.');
   }
 }

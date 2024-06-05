@@ -48,8 +48,14 @@ export type UserField = {
 export type FlashcardsTable = {
   fcid: string;
   front_text: string;
+  back_text: string;
 }
 
+export type CardsetsTable = {
+  csid: string;
+  name: string;
+  created_by: string;
+}
 /*export type LatestInvoice = {
   id: string;
   name: string;

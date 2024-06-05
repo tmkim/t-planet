@@ -60,3 +60,10 @@ Working on displaying table for flashcards
     * basic set up is done for table + fetching + buttons
     * currently error with fetching - NeonDbError: operator does not exist: character varying = uuid
     * also need to set up table skeletons
+
+    -- fixed issue with fetching (need to make sure all IDs are type uuid)
+    -- set up basic functionality for table!
+        ** Good : display flashcards, searchable, pagination, buttons exist
+        ** TODO : button functionality, table skeletons
+                idk why cardset page count keeps throwing errors ?
+                also need to fix pagination because change page on FC affects CS

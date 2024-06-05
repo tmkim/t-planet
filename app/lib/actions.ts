@@ -132,13 +132,26 @@ export async function createFlashcard(prevState: FCState, formData: FormData) {
 
 export async function deleteFlashcard(id: string){
   try{
-    await sql `DELETE FROM flashcards WHERE id = ${id}`
+    await sql `DELETE FROM flashcards WHERE fcid = ${id}`
   } catch (error) {
     return {
-      message: 'Database Error: Failed to Delete Flashcard',
+      message: `Database Error: Failed to Delete Flashcard ${id} `,
     }
   }
   revalidatePath('/dashboard/flashcards')
+  redirect('/dashboard/flashcards');
+}
+
+export async function deleteCardset(id: string){
+  try{
+    await sql `DELETE FROM cardsets WHERE csid = ${id}`
+  } catch (error) {
+    return {
+      message: `Database Error: Failed to Delete Card Set ${id}`,
+    }
+  }
+  revalidatePath('/dashboard/flashcards')
+  redirect('/dashboard/flashcards');
 }
 
 // const UpdateInvoice = FormSchema.omit({id: true, date: true})

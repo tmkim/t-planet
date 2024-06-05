@@ -65,7 +65,7 @@ async function seedFlashcards(client) {
 
         console.log(`Created "flashcards" table`);
 
-        // Insert data into the "invoices" table
+        // Insert data into the "flashcards" table
         const insertedFlashcards = await Promise.all(
             flashcards.map(
                 (flashcard) => client.sql`
@@ -92,7 +92,7 @@ async function seedCardsets(client) {
     try {
         await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
-        // Create the "customers" table if it doesn't exist
+        // Create the "cardsets" table if it doesn't exist
         const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS cardsets (
         csid UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -103,7 +103,7 @@ async function seedCardsets(client) {
 
         console.log(`Created "cardsets" table`);
 
-        // Insert data into the "customers" table
+        // Insert data into the "cardsets" table
         const insertedCardsets = await Promise.all(
             cardsets.map(
                 (cardset) => client.sql`
@@ -118,7 +118,7 @@ async function seedCardsets(client) {
 
         return {
             createTable,
-            customers: insertedCardsets,
+            cardsets: insertedCardsets,
         };
     } catch (error) {
         console.error('Error seeding card sets:', error);
@@ -131,9 +131,8 @@ async function seedUsersFlashcards(client) {
 
         const createTable = await client.sql`
         CREATE TABLE IF NOT EXISTS users_flashcards(
-            uid VARCHAR(255) NOT NULL,
-            fcid VARCHAR(255) NOT NULL,
-            PRIMARY KEY(uid, fcid)
+            uid UUID DEFAULT uuid_generate_v4(),
+            fcid UUID DEFAULT uuid_generate_v4()
         );
     `;
 
@@ -163,9 +162,8 @@ async function seedUsersCardsets(client) {
     try {
         const createTable = await client.sql`
         CREATE TABLE IF NOT EXISTS users_cardsets(
-            uid VARCHAR(255) NOT NULL,
-            csid VARCHAR(255) NOT NULL,
-            PRIMARY KEY(uid, csid)
+            uid UUID DEFAULT uuid_generate_v4(),
+            csid UUID DEFAULT uuid_generate_v4()
         );
     `;
 
@@ -195,9 +193,8 @@ async function seedCardsetsFlashcards(client) {
     try {
         const createTable = await client.sql`
         CREATE TABLE IF NOT EXISTS cardsets_flashcards(
-            csid VARCHAR(255) NOT NULL,
-            fcid VARCHAR(255) NOT NULL,
-            PRIMARY KEY(csid, fcid)
+            csid UUID DEFAULT uuid_generate_v4(),
+            fcid UUID DEFAULT uuid_generate_v4()
         );
     `;
 
@@ -223,9 +220,33 @@ async function seedCardsetsFlashcards(client) {
     }
 }
 
+async function clearTables(client){
+    try{
+        const clearTables = await client.sql`
+        DROP TABLE IF EXISTS users;
+        DROP TABLE IF EXISTS flashcards;
+        DROP TABLE IF EXISTS cardsets;
+        DROP TABLE IF EXISTS users_flashcards;
+        DROP TABLE IF EXISTS users_cardsets;
+        DROP TABLE IF EXISTS cardsets_flashcards;
+        `;
+
+        console.log("All Tables Dropped")
+
+        return {
+            clearTables
+        }
+    } catch (error) {
+        console.error("Error dropping tables");
+        throw error;
+    }
+}
+
 
 async function main() {
     const client = await db.connect();
+
+    await clearTables(client);
 
     await seedUsers(client);
     await seedFlashcards(client);
