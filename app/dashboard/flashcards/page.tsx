@@ -1,15 +1,19 @@
 import FlashcardsTable from '@/app/ui/flashcards/table'
 import CardsetsTable from '@/app/ui/cardsets/table';
-import Search from '@/app/ui/search';
-import Pagination from '@/app/ui/flashcards/pagination';
+// import Search from '@/app/ui/search';
+import FCSearch from '@/app/ui/fc_search';
+import CSSearch from '@/app/ui/cs_search';
+import FCPagination from '@/app/ui/flashcards/pagination';
+import CSPagination from '@/app/ui/cardsets/pagination';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { Metadata } from 'next';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { Suspense } from 'react';
 import { lusitana } from '@/app/ui/fonts';
 import { CreateFlashcard } from '@/app/ui/flashcards/buttons';
 import { CreateCardset, BrowseCardsets } from '@/app/ui/cardsets/buttons';
 import { fetchFlashcardsPages, fetchCardsetsPages } from '@/app/lib/data';
+import { FlashcardTableSkeleton, CardsetTableSkeleton } from '@/app/ui/skeletons';
 
 export const metadata: Metadata = {
     title: 'Flashcards',
@@ -19,17 +23,21 @@ export default async function Page({
     searchParams,
 }: {
     searchParams?: {
-        query?: string;
-        page?: string;
+        fcquery?: string;
+        csquery?: string;
+        fcpage?: string;
+        cspage?: string;
     };
 }) {
-    const query = searchParams?.query || '';
-    const currentPage = Number(searchParams?.page) || 1;
-    const totalFCPages = await fetchFlashcardsPages(query);
-    const totalCSPages = await fetchCardsetsPages(query);
+    const fcquery = searchParams?.fcquery || '';
+    const csquery = searchParams?.csquery || '';
+    const currentFCPage = Number(searchParams?.fcpage) || 1;
+    const currentCSPage = Number(searchParams?.cspage) || 1;
+    const totalFCPages = await fetchFlashcardsPages(fcquery);
+    const totalCSPages = await fetchCardsetsPages(csquery);
 
     return (
-        <div className="grid grid-cols-2 w-full gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-5">
             {/* ---------------- flash cards ---------------- */}
             <div className="w-full">
                 <div className="flex w-full items-center justify-between">
@@ -37,14 +45,14 @@ export default async function Page({
                 </div>
 
                 <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-                    <Search placeholder="Search Flashcards..." />
+                    <FCSearch placeholder="Search Flashcards..." />
                     <CreateFlashcard />
                 </div>
-                <Suspense key={query + currentPage}>
-                    <FlashcardsTable query={query} currentPage={currentPage}/>
+                <Suspense key={fcquery + currentFCPage} fallback={<FlashcardTableSkeleton/>}>
+                    <FlashcardsTable query={fcquery} currentPage={currentFCPage}/>
                 </Suspense>
                 <div className="mt-5 flex w-full justify-center">
-                    <Pagination totalPages={totalFCPages} />
+                    <FCPagination totalPages={totalFCPages} />
                 </div>
             </div>
             
@@ -56,15 +64,15 @@ export default async function Page({
                 </div>
 
                 <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-                    <Search placeholder="Search Card Sets..." />
+                    <CSSearch placeholder="Search Card Sets..." />
                     <CreateCardset />
                     <BrowseCardsets />
                 </div>
-                <Suspense key={query + currentPage}>
-                    <CardsetsTable query={query} currentPage={currentPage}/>
+                <Suspense key={csquery + currentCSPage} fallback={<CardsetTableSkeleton/>}>
+                    <CardsetsTable query={csquery} currentPage={currentCSPage}/>
                 </Suspense>
                 <div className="mt-5 flex w-full justify-center">
-                    <Pagination totalPages={totalCSPages} />
+                    <CSPagination totalPages={totalCSPages} />
                 </div>
             </div>
         </div>

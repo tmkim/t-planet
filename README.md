@@ -67,3 +67,16 @@ Working on displaying table for flashcards
         ** TODO : button functionality, table skeletons
                 idk why cardset page count keeps throwing errors ?
                 also need to fix pagination because change page on FC affects CS
+
+OK so let me start with table skeletons, then pagination, then buttons
+    ** Skeletons for Flashcards and Cardsets tables look good!
+    ** pagination is funny bc based on URL for query. so going to use scrollbar instead.
+        ++ GOOD GOOD
+        -- Probably going to re-intro pagination later bc could have WAYTOOMANY flashcards
+        -- Probably need to add cute way to sort/filter/something
+    ** Update position of tables to be responsive to screen size
+        -- issue with table displaying data on small screens ??
+    -- issue with Search affecting both tables
+    ..... actually jk let's just implement both pagination and scrolling lmao
+        ++ GOOD GOOD
+        
