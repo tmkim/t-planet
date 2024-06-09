@@ -12,8 +12,8 @@ export default function FlashcardForm() {
     errors: {
       front_text: [],
       back_text: [],
-      front_img: [],
-      back_img: []
+      // front_img: [],
+      // back_img: []
     }
   }
   const [state, dispatch] = useFormState(createFlashcard, initialState);
@@ -24,22 +24,20 @@ export default function FlashcardForm() {
         <div className="w-full">
           <label
             className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-            htmlFor="name"
+            htmlFor="front_text"
           >
             Front Text
           </label>
           <div className="relative">
-            <input
-              className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+            <textarea
+              className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
               id="front_text"
-              type="front_text"
               name="front_text"
               placeholder="Enter front text here"
               required
             />
           </div>
-
-          <div id="name-error" aria-live="polite" aria-atomic="true">
+          <div id="front_text-error" aria-live="polite" aria-atomic="true">
             {state.errors?.front_text &&
               state.errors.front_text.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
@@ -51,21 +49,20 @@ export default function FlashcardForm() {
         <div>
           <label
             className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-            htmlFor="email"
+            htmlFor="back_text"
           >
             Back Text
           </label>
           <div className="relative">
-            <input
-              className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+            <textarea
+              className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
               id="back_text"
-              type="back_text"
               name="back_text"
               placeholder="Enter back text here"
               required
             />
           </div>
-          <div id="email-error" aria-live="polite" aria-atomic="true">
+          <div id="back_text-error" aria-live="polite" aria-atomic="true">
             {state.errors?.back_text &&
               state.errors.back_text.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
@@ -77,7 +74,7 @@ export default function FlashcardForm() {
         <div className="w-full">
           <label
             className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-            htmlFor="name"
+            htmlFor="front_img"
           >
             Front Image
           </label>
@@ -88,11 +85,10 @@ export default function FlashcardForm() {
               type="front_img"
               name="front_img"
               placeholder="Enter front image here"
-              required
             />
           </div>
 
-          <div id="name-error" aria-live="polite" aria-atomic="true">
+          <div id="front_img-error" aria-live="polite" aria-atomic="true">
             {state.errors?.front_img &&
               state.errors.front_img.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
@@ -104,7 +100,7 @@ export default function FlashcardForm() {
         <div>
           <label
             className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-            htmlFor="email"
+            htmlFor="back_img"
           >
             Back Image
           </label>
@@ -115,10 +111,9 @@ export default function FlashcardForm() {
               type="back_img"
               name="back_img"
               placeholder="Enter back image here"
-              required
             />
           </div>
-          <div id="email-error" aria-live="polite" aria-atomic="true">
+          <div id="back_img-error" aria-live="polite" aria-atomic="true">
             {state.errors?.back_img &&
               state.errors.back_img.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
@@ -127,13 +122,16 @@ export default function FlashcardForm() {
               ))}
           </div>
           <div className="mt-6 flex justify-end gap-4">
-            <Link
+            {/* <Link
               href="/dashboard/flashcards"
               className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
             >
               Cancel
-            </Link>
-            <Button type="submit">Create Flashcard</Button>
+            </Link> */}
+            {/* Need to add appropriate functionality to the below buttons */}
+            <Button type="button">Cancel</Button>
+            <Button type="submit">Save + Close</Button>
+            <Button type="button">Save + Add New</Button>
           </div>
         </div>
       </div>

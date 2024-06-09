@@ -52,3 +52,5 @@ Time to work on buttons ~
         ++ modal view works (might need to play with styling)
         -- need to create form
             ** basic form created, style and functionality need work
+
+        ++ did a bit of work styling modal form

@@ -11,7 +11,6 @@ import FlashcardForm from './create-form';
 export function CreateFlashcard() {
   const { isShown, toggle } = useModal();
 
-  // const content = <React.Fragment>Hey, I'm a model.</React.Fragment>;
   const content = <FlashcardForm/>
   return (
     <React.Fragment>
@@ -21,7 +20,7 @@ export function CreateFlashcard() {
           <span className="hidden md:block">Create Flashcard</span>{' '}
           <PlusIcon className="h-5 md:ml-4" />
       </button>
-      <Modal isShown={isShown} hide={toggle} modalContent={content} headerText='HEWWO?'/>
+      <Modal isShown={isShown} hide={toggle} modalContent={content} headerText='Add New Flashcard'/>
     </React.Fragment>
 
     // <Link
