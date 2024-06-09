@@ -54,7 +54,7 @@ export default async function FlashcardsTable({
                       <div className="flex justify-end gap-3">
                         <ReadFlashcard id={flashcard.fcid} />
                         <UpdateFlashcard id={flashcard.fcid} />
-                        <DeleteFlashcard id={flashcard.fcid} />
+                        <DeleteFlashcard id={flashcard.fcid} ft={flashcard.front_text} />
                       </div>
                     </td>
                   </tr>

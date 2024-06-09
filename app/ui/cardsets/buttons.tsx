@@ -1,6 +1,8 @@
+'use client'
 import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, MagnifyingGlassPlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deleteCardset } from '@/app/lib/actions';
+import { FormEvent } from 'react';
 
 export function CreateCardset() {
   return (
@@ -49,10 +51,17 @@ export function UpdateCardset({ id }: { id: string }) {
   );
 }
 
-export function DeleteCardset({ id }: { id: string }) {
+export function DeleteCardset({ id, name }: { id: string, name: string }) {
   const deleteCardsetWithId = deleteCardset.bind(null, id);
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    if (!confirm(`Delete flashcard ${name}?`)) {
+      e.preventDefault();
+    }
+  };
+
   return (
-    <form action={deleteCardsetWithId}>
+    <form action={deleteCardsetWithId} onSubmit={onSubmit}>
       <button className="rounded-md border p-2 hover:bg-gray-100">
         <span className="sr-only">Delete</span>
         <TrashIcon className="w-5" />

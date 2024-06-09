@@ -69,54 +69,65 @@ export async function createUser(prevState: UserState, formData: FormData) {
   //   console.log(rawFormData);
 }
 
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
+  }
+}
+
 // --------------------- Flash Cards ------------------------
 const FCSchema = z.object({
-  uid: z.string(),
-  name: z.string({
-    required_error: 'Please enter your name.',
-  }),
-  email: z.string({
-    required_error: 'Please enter your e-mail address.',
-  }).email({
-    message: 'Please enter a valid e-mail'
-  }),
-  password: z.string({
-    required_error: 'Please enter your password.'
-  }).min(6, {
-    message: 'Password must be at least 6 characters'
-  }),
+  fcid: z.string(),
+  front_text: z.string(),
+  back_text: z.string(),
+  front_img: z.string(),
+  back_img: z.string()
 });
 
-const CreateFC = UserSchema.omit({ uid: true });
+const CreateFC = FCSchema.omit({ fcid: true });
 export type FCState = {
   errors?: {
-    name?: string[];
-    email?: string[];
-    password?: string[];
+    front_text?: string[];
+    back_text?: string[];
+    front_img?: string[];
+    back_img?: string[];
   };
   message?: string | null;
 };
 
 export async function createFlashcard(prevState: FCState, formData: FormData) {
-  const validatedFields = CreateUser.safeParse({
-    name: formData.get('name'),
-    email: formData.get('email'),
-    password: formData.get('password'),
+  const validatedFields = CreateFC.safeParse({
+    front_text: formData.get('front_text'),
+    back_text: formData.get('back_text'),
+    front_img: formData.get('front_img'),
+    back_img: formData.get('back_img'),
   });
 
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Register User.',
+      message: 'Missing Fields. Failed to Create Flashcard.',
     };
   }
-  const { name, email, password } = validatedFields.data;
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const { front_text, back_text, front_img, back_img } = validatedFields.data;
 
   try {
     await sql`
-        INSERT INTO users (name, email, password)
-        VALUES (${name}, ${email}, ${hashedPassword})
+        INSERT INTO users (front_text, back_text, front_img, back_img)
+        VALUES (${front_text}, ${back_text}, ${front_img}, ${back_img})
         `;
   } catch (error) {
     return {
@@ -197,22 +208,3 @@ export async function deleteCardset(id: string){
 //   }
 //   revalidatePath('/dashboard/invoices')
 // }
-
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData,
-) {
-  try {
-    await signIn('credentials', formData);
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
-        default:
-          return 'Something went wrong.';
-      }
-    }
-    throw error;
-  }
-}

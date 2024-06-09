@@ -54,7 +54,7 @@ export default async function CardsetsTable({
                       <div className="flex justify-end gap-3">
                         <ReadCardset id={cardset.csid} />
                         <UpdateCardset id={cardset.csid} />
-                        <DeleteCardset id={cardset.csid} />
+                        <DeleteCardset id={cardset.csid} name={cardset.name} />
                       </div>
                     </td>
                   </tr>

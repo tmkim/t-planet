@@ -1,13 +1,11 @@
 import FlashcardsTable from '@/app/ui/flashcards/table'
 import CardsetsTable from '@/app/ui/cardsets/table';
-// import Search from '@/app/ui/search';
 import FCSearch from '@/app/ui/fc_search';
 import CSSearch from '@/app/ui/cs_search';
 import FCPagination from '@/app/ui/flashcards/pagination';
 import CSPagination from '@/app/ui/cardsets/pagination';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { Metadata } from 'next';
-// import Link from 'next/link';
 import { Suspense } from 'react';
 import { lusitana } from '@/app/ui/fonts';
 import { CreateFlashcard } from '@/app/ui/flashcards/buttons';

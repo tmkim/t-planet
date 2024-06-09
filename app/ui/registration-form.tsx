@@ -123,7 +123,7 @@ export default function RegistrationForm() {
             >
               Cancel
             </Link>
-            <Button type="submit">Create Invoice</Button>
+            <Button type="submit">Register</Button>
           </div>
         </div>
       </div>
