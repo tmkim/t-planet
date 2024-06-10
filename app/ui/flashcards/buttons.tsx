@@ -6,12 +6,14 @@ import { FormEvent } from 'react';
 import { useModal } from '@/app/lib/useModal';
 import { Modal } from '@/app/ui/myModal';
 import React from 'react'
-import FlashcardForm from './create-form';
+import FlashcardCreateForm from './create-form';
+import FlashcardEditForm from './edit-form';
+import { fetchFlashcardById } from '@/app/lib/data';
 
 export function CreateFlashcard() {
   const { isShown, toggle } = useModal();
 
-  const content = <FlashcardForm/>
+  const content = <FlashcardCreateForm/>
   return (
     <React.Fragment>
       <button 
@@ -44,14 +46,24 @@ export function ReadFlashcard({ id }: { id: string }) {
   )
 }
 
-export function UpdateFlashcard({ id }: { id: string }) {
+export async function UpdateFlashcard({ id }: { id: string }) {
+  // const [flashcard] = await Promise.all([fetchFlashcardById(id)]);
+  // const flashcard = await Promise.resolve(fetchFlashcardById(id));
+
+  const { isShown, toggle } = useModal();
+  // const content = <FlashcardEditForm flashcard={flashcard}/>
+  const content = <FlashcardCreateForm/>
+
   return (
-    <Link
-      href={`/dashboard/flashcards/edit/${id}`}
-      className="rounded-md border p-2 hover:bg-gray-100"
-    >
-      <PencilIcon className="w-5" />
-    </Link>
+    <React.Fragment>
+      <button 
+        onClick={toggle}
+        className="rounded-md border p-2 hover:bg-gray-100">
+          <span className="sr-only">Update Flashcard</span>{' '}
+          <PencilIcon className="w-5" />
+      </button>
+      <Modal isShown={isShown} hide={toggle} modalContent={content} headerText='Update Flashcard'/>
+    </React.Fragment>
   );
 }
 

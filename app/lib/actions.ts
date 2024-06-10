@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { getJSDocReturnType } from 'typescript';
+import { Statement, getJSDocReturnType } from 'typescript';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth'
 import bcrypt from 'bcrypt'
@@ -165,38 +165,42 @@ export async function deleteCardset(id: string){
   redirect('/dashboard/flashcards');
 }
 
-// const UpdateInvoice = FormSchema.omit({id: true, date: true})
+const UpdateFlashcard = FCSchema.omit({fcid: true})
 
-// export async function updateInvoice(id: string, prevState: State, formData: FormData) {
-//     const validatedFields = UpdateInvoice.safeParse({
-//       customerId: formData.get('customerId'),
-//       amount: formData.get('amount'),
-//       status: formData.get('status'),
-//     });
-//     if (!validatedFields.success) {
-//       return {
-//         errors: validatedFields.error.flatten().fieldErrors,
-//         message: 'Missing Fields. Failed to Create Invoice.',
-//       };
-//     } 
-//     const { customerId, amount, status } = validatedFields.data;
-//     const amountInCents = amount * 100;
+export async function updateFlashcard(fcid: string, prevState: FCState, formData: FormData){
+  const validatedFields = UpdateFlashcard.safeParse({
+    front_text: formData.get('front_text'),
+    back_text: formData.get('back_text'),
+    front_img: formData.get('front_img'),
+    back_img: formData.get('back_text')
+  });
+  if (!validatedFields.success){
+    return{
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing fields. Failed to Create Flashcard.',
+    }
+  }
+  const {front_text, back_text, front_img, back_img} = validatedFields.data;
 
-//     try{
-//       await sql`
-//         UPDATE invoices
-//         SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
-//         WHERE id = ${id}
-//       `;
-//     } catch (error) {
-//       return {
-//         message: 'Database Error: Failed to Update Invoice.',
-//       }
-//     }
+  try{
+    await sql`
+    UPDATE flashcards
+    SET front_text = ${front_text},
+        back_text = ${back_text},
+        front_img = ${front_img},
+        back_img = ${back_img}
+    WHERE fcid = ${fcid}
+    `;
+  } catch (error){
+    return {
+      message: `Database Error: Failed to Update Flashcard: ${fcid}`
+    }
+  }
 
-//     revalidatePath('/dashboard/invoices');
-//     redirect('/dashboard/invoices');
-//   }
+  // might not need bc modal
+  revalidatePath('/dashboard/flashcards');
+  redirect('/dashboard/flashcards');
+}
 
 // export async function deleteInvoice(id: string){
 //   try{

@@ -59,3 +59,8 @@ Did a bit of work on create-form UI
     ++ set up upload file button and customizable text area, needs more work on functionality 
     -- need to work on button functionality
     ++ started working on edit form a bit, need to fix up UpdateFlashcard
+
+    ++ fixed UpdateFlashcard
+    -- working on passing id to modal
+        .. currently edit button is set up to bring CreateFC Modal bc errors with EditFC Modal
+        .. something with fetching flashcards by ID. Need to figure out appropriate timing for fetching data.

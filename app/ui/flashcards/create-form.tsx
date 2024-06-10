@@ -7,14 +7,14 @@ import { TAC_Back, TAC_Front } from '@/app/ui/textarea_custom';
 import { createFlashcard } from '@/app/lib/actions';
 
 
-export default function FlashcardForm() {
+export default function FlashcardCreateForm() {
   const initialState = {
     message: "",
     errors: {
       front_text: [],
       back_text: [],
-      // front_img: [],
-      // back_img: []
+      front_img: [],
+      back_img: []
     }
   }
   const [state, dispatch] = useFormState(createFlashcard, initialState);
@@ -48,32 +48,6 @@ export default function FlashcardForm() {
               ))}
           </div>
         </div>
-        <div>
-          <label
-            className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-            htmlFor="back_text"
-          >
-            Back Text
-          </label>
-          <div className="relative">
-            {/* <textarea
-              className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
-              id="back_text"
-              name="back_text"
-              placeholder="Enter back text here"
-              required
-            /> */}
-            <TAC_Back/>
-          </div>
-          <div id="back_text-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.back_text &&
-              state.errors.back_text.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
         <div className="w-full">
           <label
             className="mb-3 mt-5 block text-xs font-medium text-gray-900"
@@ -95,6 +69,32 @@ export default function FlashcardForm() {
           <div id="front_img-error" aria-live="polite" aria-atomic="true">
             {state.errors?.front_img &&
               state.errors.front_img.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+        <div>
+          <label
+            className="mb-3 mt-5 block text-xs font-medium text-gray-900"
+            htmlFor="back_text"
+          >
+            Back Text
+          </label>
+          <div className="relative">
+            {/* <textarea
+              className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
+              id="back_text"
+              name="back_text"
+              placeholder="Enter back text here"
+              required
+            /> */}
+            <TAC_Back/>
+          </div>
+          <div id="back_text-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.back_text &&
+              state.errors.back_text.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>

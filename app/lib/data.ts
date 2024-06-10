@@ -9,7 +9,8 @@ import {
     Cardsets_Flashcards,
     UserField,
     FlashcardsTable,
-    CardsetsTable
+    CardsetsTable,
+    FlashcardForm
 } from './definitions';
 // import { formatCurrency } from './utils';
 
@@ -53,6 +54,27 @@ export async function fetchFilteredFlashcards(
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error(`Failed to fetch flashcards. : ${error}`);
+  }
+}
+
+export async function fetchFlashcardById(id: string){
+  noStore();
+  try{
+    const data = await sql<FlashcardForm>`
+    SELECT
+      fcid,
+      front_text,
+      back_text,
+      front_img,
+      back_img,
+    FROM flashcards
+    WHERE fcid = ${id}
+    `
+
+    return data.rows[0]
+  } catch (error){
+    console.error('Database Error:', error);
+    throw new Error(`Failed to fetch Flashcard: ${id}`)
   }
 }
 
