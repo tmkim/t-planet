@@ -54,3 +54,8 @@ Time to work on buttons ~
             ** basic form created, style and functionality need work
 
         ++ did a bit of work styling modal form
+
+Did a bit of work on create-form UI
+    ++ set up upload file button and customizable text area, needs more work on functionality 
+    -- need to work on button functionality
+    ++ started working on edit form a bit, need to fix up UpdateFlashcard

@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { useFormState } from 'react-dom'
+import { TAC_Back, TAC_Front } from '@/app/ui/textarea_custom';
 
 import { createFlashcard } from '@/app/lib/actions';
 
@@ -29,13 +30,14 @@ export default function FlashcardForm() {
             Front Text
           </label>
           <div className="relative">
-            <textarea
+            <TAC_Front />
+            {/* <textarea
               className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
               id="front_text"
               name="front_text"
               placeholder="Enter front text here"
               required
-            />
+            /> */}
           </div>
           <div id="front_text-error" aria-live="polite" aria-atomic="true">
             {state.errors?.front_text &&
@@ -54,13 +56,14 @@ export default function FlashcardForm() {
             Back Text
           </label>
           <div className="relative">
-            <textarea
+            {/* <textarea
               className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
               id="back_text"
               name="back_text"
               placeholder="Enter back text here"
               required
-            />
+            /> */}
+            <TAC_Back/>
           </div>
           <div id="back_text-error" aria-live="polite" aria-atomic="true">
             {state.errors?.back_text &&
@@ -76,16 +79,17 @@ export default function FlashcardForm() {
             className="mb-3 mt-5 block text-xs font-medium text-gray-900"
             htmlFor="front_img"
           >
-            Front Image
+            Upload Front Image
           </label>
           <div className="relative">
-            <input
+            {/* <input
               className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
               id="front_img"
               type="front_img"
               name="front_img"
               placeholder="Enter front image here"
-            />
+            /> */}
+            {/* <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" /> */}
           </div>
 
           <div id="front_img-error" aria-live="polite" aria-atomic="true">
@@ -102,16 +106,18 @@ export default function FlashcardForm() {
             className="mb-3 mt-5 block text-xs font-medium text-gray-900"
             htmlFor="back_img"
           >
-            Back Image
+            Upload Back Image
           </label>
           <div className="relative">
-            <input
+            {/* <input
               className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
               id="back_img"
               type="back_img"
               name="back_img"
               placeholder="Enter back image here"
-            />
+            /> */}
+            {/* <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload file</label> */}
+            {/* <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" /> */}
           </div>
           <div id="back_img-error" aria-live="polite" aria-atomic="true">
             {state.errors?.back_img &&

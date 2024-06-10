@@ -107,3 +107,11 @@ export type InvoiceForm = {
   amount: number;
   status: 'pending' | 'paid';
 };
+
+export type FlashcardForm = {
+  fcid: string;
+  front_text: string;
+  back_text: string;
+  front_img: string;
+  back_img: string;
+}
