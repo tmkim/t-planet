@@ -20,12 +20,12 @@ export default function FlashcardEditForm({
 }) {
   const updateFlashcardWithId = updateFlashcard.bind(null, flashcard.fcid);
   const initialState = {
-    message: "",
+    message: null,
     errors: {
-      front_text: [],
-      back_text: [],
-      front_img: [],
-      back_img: []
+      // front_text: [],
+      // back_text: [],
+      // front_img: [],
+      // back_img: []
     }
   }
   const [state, dispatch] = useFormState(updateFlashcardWithId, initialState);
@@ -41,7 +41,7 @@ export default function FlashcardEditForm({
             Front Text
           </label>
           <div className="relative">
-            <TAC_Front />
+            <TAC_Front ft={flashcard.front_text}/>
             {/* <textarea
               className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
               id="front_text"

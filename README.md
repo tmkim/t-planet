@@ -64,3 +64,25 @@ Did a bit of work on create-form UI
     -- working on passing id to modal
         .. currently edit button is set up to bring CreateFC Modal bc errors with EditFC Modal
         .. something with fetching flashcards by ID. Need to figure out appropriate timing for fetching data.
+
+    ughhhh why is fetching data with modal weird? Maybe need to redo the way I set up modal?
+    issue appears to be trying to fetch data while using client (bad bc data security)
+    but need to use client to use modal? maybe? iDONO
+
+6/11 TODO --
+    *** Figure out EditFC Modal
+    ** CreateFC Modal Buttons // EditFC Modal Buttons
+    * CreateCS Modal
+    * Apply same logic to EditCS Modal
+
+    OK so current status with EditFC Modal --
+        Clicking button brings up Modal, but none of the info is populated, and site refreshes (almost) immediately
+        So why is it refreshing? I think it has to do with timing of update function.
+            >> Issue was that I tried to make the button a form
+            So how do I pass a form action? can I do button action? yes but issue with await fetch
+
+    So, I think I figured out how to fetch data from client
+        ** useEffect() lets me await in client component
+    But there's an issue in edit-form with useFormState ... ?
+        I feel like this issue wasn't there before but now it is.
+        Maybe it just didn't recognize it as issue last time I checked? IONO vscode can be slow. Either way, have to look into it.

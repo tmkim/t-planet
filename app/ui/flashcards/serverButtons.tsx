@@ -1,17 +1,15 @@
-'use client'
 import { PencilIcon, PlusIcon, TrashIcon, EyeIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deleteFlashcard } from '@/app/lib/actions';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent } from 'react';
 import { useModal } from '@/app/lib/useModal';
 import { Modal } from '@/app/ui/myModal';
 import React from 'react'
 import FlashcardCreateForm from './create-form';
 import FlashcardEditForm from './edit-form';
 import { fetchFlashcardById } from '@/app/lib/data';
-import { FlashcardForm } from '@/app/lib/definitions';
 
-export function CreateFlashcard() {
+export function ServerCreateFlashcard() {
   const { isShown, toggle } = useModal();
 
   const content = <FlashcardCreateForm/>
@@ -36,7 +34,7 @@ export function CreateFlashcard() {
   );
 }
 
-export function ReadFlashcard({ id }: { id: string }) {
+export function ServerReadFlashcard({ id }: { id: string }) {
   return (
     <Link
       href = {`/dashboard/flashcards/read/${id}`}
@@ -47,42 +45,13 @@ export function ReadFlashcard({ id }: { id: string }) {
   )
 }
 
-export function UpdateFlashcard({ id }: { id: string }) {
+export function ServerUpdateFlashcard({ id }: { id: string }) {
   // const [flashcard] = await Promise.all([fetchFlashcardById(id)]);
   // const flashcard = await Promise.resolve(fetchFlashcardById(id));
-  // const flashcard = fetchFlashcardById(id);
-  const initialStateFF: FlashcardForm = {
-    fcid: '',
-    front_text: '',
-    back_text: '',
-    front_img: '',
-    back_img: ''
-  }
-  const initialState = {
-      fcid: '',
-      front_text: '',
-      back_text: '',
-      front_img: '',
-      back_img: ''
-  }
-  const [flashcard, setData] = useState(initialState); 
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fc = await fetchFlashcardById(id);
-        setData(fc)
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  });
 
   const { isShown, toggle } = useModal();
-  const content = <FlashcardEditForm flashcard={flashcard}/>
-  // const content = <FlashcardCreateForm/>
+  // const content = <FlashcardEditForm flashcard={flashcard}/>
+  const content = <FlashcardCreateForm/>
   // const fetchFlashcardByIdAction = fetchFlashcardById.bind(null, id)
 
   return (
@@ -100,7 +69,7 @@ export function UpdateFlashcard({ id }: { id: string }) {
   );
 }
 
-export function DeleteFlashcard({ id, ft }: { id: string, ft: string }) {
+export function ServerDeleteFlashcard({ id, ft }: { id: string, ft: string }) {
   const deleteFlashcardWithId = deleteFlashcard.bind(null, id);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {

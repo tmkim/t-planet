@@ -66,7 +66,7 @@ export async function fetchFlashcardById(id: string){
       front_text,
       back_text,
       front_img,
-      back_img,
+      back_img
     FROM flashcards
     WHERE fcid = ${id}
     `
@@ -74,7 +74,8 @@ export async function fetchFlashcardById(id: string){
     return data.rows[0]
   } catch (error){
     console.error('Database Error:', error);
-    throw new Error(`Failed to fetch Flashcard: ${id}`)
+    throw new Error(`${error}`)
+    // throw new Error(`Failed to fetch Flashcard: ${id}`)
   }
 }
 

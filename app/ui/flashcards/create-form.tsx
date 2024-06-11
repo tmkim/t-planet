@@ -30,7 +30,7 @@ export default function FlashcardCreateForm() {
             Front Text
           </label>
           <div className="relative">
-            <TAC_Front />
+            <TAC_Front ft={''}/>
             {/* <textarea
               className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
               id="front_text"

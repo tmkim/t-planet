@@ -1,5 +1,5 @@
 // import Image from 'next/image';
-import { UpdateFlashcard, DeleteFlashcard, ReadFlashcard } from '@/app/ui/flashcards/buttons';
+import { UpdateFlashcard, DeleteFlashcard, ReadFlashcard, CreateFlashcard } from '@/app/ui/flashcards/buttons';
 // import InvoiceStatus from '@/app/ui/flashcards/status';
 // import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredFlashcards } from '@/app/lib/data';
@@ -54,6 +54,7 @@ export default async function FlashcardsTable({
                       <div className="flex justify-end gap-3">
                         <ReadFlashcard id={flashcard.fcid} />
                         <UpdateFlashcard id={flashcard.fcid} />
+                        {/* <CreateFlashcard/> */}
                         <DeleteFlashcard id={flashcard.fcid} ft={flashcard.front_text} />
                       </div>
                     </td>

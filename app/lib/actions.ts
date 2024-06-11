@@ -153,18 +153,6 @@ export async function deleteFlashcard(id: string){
   redirect('/dashboard/flashcards');
 }
 
-export async function deleteCardset(id: string){
-  try{
-    await sql `DELETE FROM cardsets WHERE csid = ${id}`
-  } catch (error) {
-    return {
-      message: `Database Error: Failed to Delete Card Set ${id}`,
-    }
-  }
-  revalidatePath('/dashboard/flashcards')
-  redirect('/dashboard/flashcards');
-}
-
 const UpdateFlashcard = FCSchema.omit({fcid: true})
 
 export async function updateFlashcard(fcid: string, prevState: FCState, formData: FormData){
@@ -198,7 +186,20 @@ export async function updateFlashcard(fcid: string, prevState: FCState, formData
   }
 
   // might not need bc modal
-  revalidatePath('/dashboard/flashcards');
+  // revalidatePath('/dashboard/flashcards');
+  // redirect('/dashboard/flashcards');
+}
+
+// --------------------- Card Sets ------------------------
+export async function deleteCardset(id: string){
+  try{
+    await sql `DELETE FROM cardsets WHERE csid = ${id}`
+  } catch (error) {
+    return {
+      message: `Database Error: Failed to Delete Card Set ${id}`,
+    }
+  }
+  revalidatePath('/dashboard/flashcards')
   redirect('/dashboard/flashcards');
 }
 
