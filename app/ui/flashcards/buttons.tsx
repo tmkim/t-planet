@@ -47,41 +47,14 @@ export function ReadFlashcard({ id }: { id: string }) {
   )
 }
 
-export function UpdateFlashcard({ id }: { id: string }) {
-  // const [flashcard] = await Promise.all([fetchFlashcardById(id)]);
-  // const flashcard = await Promise.resolve(fetchFlashcardById(id));
-  // const flashcard = fetchFlashcardById(id);
-  const initialStateFF: FlashcardForm = {
-    fcid: '',
-    front_text: '',
-    back_text: '',
-    front_img: '',
-    back_img: ''
-  }
-  const initialState = {
-      fcid: '',
-      front_text: '',
-      back_text: '',
-      front_img: '',
-      back_img: ''
-  }
-  const [flashcard, setData] = useState(initialState); 
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fc = await fetchFlashcardById(id);
-        setData(fc)
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  });
-
+// export function UpdateFlashcard({ id }: { id: string }) {
+export function UpdateFlashcard({
+  fc,
+}: {
+  fc: FlashcardForm;
+}) {
   const { isShown, toggle } = useModal();
-  const content = <FlashcardEditForm flashcard={flashcard}/>
+  const content = <FlashcardEditForm fc={fc}/>
   // const content = <FlashcardCreateForm/>
   // const fetchFlashcardByIdAction = fetchFlashcardById.bind(null, id)
 
@@ -95,7 +68,7 @@ export function UpdateFlashcard({ id }: { id: string }) {
             <span className="sr-only">Update Flashcard</span>{' '}
             <PencilIcon className="w-5" />
         </button>
-      <Modal isShown={isShown} hide={toggle} modalContent={content} headerText='Update Flashcard'/>
+        <Modal isShown={isShown} hide={toggle} modalContent={content} headerText='Update Flashcard'/>
     </React.Fragment>
   );
 }

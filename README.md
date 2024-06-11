@@ -84,5 +84,17 @@ Did a bit of work on create-form UI
     So, I think I figured out how to fetch data from client
         ** useEffect() lets me await in client component
     But there's an issue in edit-form with useFormState ... ?
-        I feel like this issue wasn't there before but now it is.
-        Maybe it just didn't recognize it as issue last time I checked? IONO vscode can be slow. Either way, have to look into it.
+        ok so it looks like it's because calling for a fetch in the Update button could return "undefined", so I had to add "| undefined" to the definition of FCState. Not sure if this is safe or not. But it works for now. We'll have to see what behavior we observe.
+
+    ok so useEffect() didn't actually work.. HMM.. 
+    ok so I rearranged some things and it seems to do things at the proper time but failing to fetch data
+    OKAYYYY GOT IT TO POPULATE
+        TL;DR : I'm already fetching data when populating the table, use that instead of trying to fetch on update
+        i'm so stupid lmao but this is kinda obvious fix.
+
+    SO .... Priority for the day (***) fulfilled.
+    *** Clicking on Edit button will bring up modal with information pre-filled (front and back text)
+
+    NEXT STEP -- ** CreateFC Modal Buttons // EditFC Modal Buttons
+    So I need to get the buttons working -- Cancel, Save + Exit, Save + Next
+    Right now, priorities are Cancel, Save + Exit .... Save + Next will be TODO.

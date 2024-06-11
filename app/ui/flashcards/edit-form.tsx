@@ -1,5 +1,4 @@
-'use client';
-
+'use client'
 import { FlashcardForm } from '@/app/lib/definitions';
 import {
   CheckIcon,
@@ -10,24 +9,27 @@ import {
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { useFormState } from 'react-dom';
-import { updateFlashcard } from '@/app/lib/actions';
+import { createFlashcard, updateFlashcard } from '@/app/lib/actions';
 import { TAC_Back, TAC_Front } from '../textarea_custom';
+// import { fetchFlashcardById } from '@/app/lib/data';
 
 export default function FlashcardEditForm({
-  flashcard,
+  fc,
 }: {
-  flashcard: FlashcardForm;
+  fc: FlashcardForm;
 }) {
-  const updateFlashcardWithId = updateFlashcard.bind(null, flashcard.fcid);
+
+  const updateFlashcardWithId = updateFlashcard.bind(null, fc.fcid);
   const initialState = {
-    message: null,
+    message: "",
     errors: {
-      // front_text: [],
-      // back_text: [],
-      // front_img: [],
-      // back_img: []
+      front_text: [],
+      back_text: [],
+      front_img: [],
+      back_img: []
     }
   }
+
   const [state, dispatch] = useFormState(updateFlashcardWithId, initialState);
 
   return (
@@ -41,18 +43,11 @@ export default function FlashcardEditForm({
             Front Text
           </label>
           <div className="relative">
-            <TAC_Front ft={flashcard.front_text}/>
-            {/* <textarea
-              className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
-              id="front_text"
-              name="front_text"
-              placeholder="Enter front text here"
-              required
-            /> */}
+            <TAC_Front ft={fc.front_text}/>
           </div>
           <div id="front_text-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.front_text &&
-              state.errors.front_text.map((error: string) => (
+            {state?.errors?.front_text &&
+              state?.errors.front_text.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
@@ -77,8 +72,8 @@ export default function FlashcardEditForm({
             {/* <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" /> */}
           </div>
           <div id="front_img-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.front_img &&
-              state.errors.front_img.map((error: string) => (
+            {state?.errors?.front_img &&
+              state?.errors.front_img.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
@@ -93,18 +88,11 @@ export default function FlashcardEditForm({
             Back Text
           </label>
           <div className="relative">
-            {/* <textarea
-              className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
-              id="back_text"
-              name="back_text"
-              placeholder="Enter back text here"
-              required
-            /> */}
-            <TAC_Back/>
+            <TAC_Back bt={fc.back_text}/>
           </div>
           <div id="back_text-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.back_text &&
-              state.errors.back_text.map((error: string) => (
+            {state?.errors?.back_text &&
+              state?.errors.back_text.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
@@ -130,8 +118,8 @@ export default function FlashcardEditForm({
             {/* <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" /> */}
           </div>
           <div id="back_img-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.back_img &&
-              state.errors.back_img.map((error: string) => (
+            {state?.errors?.back_img &&
+              state?.errors.back_img.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
@@ -147,7 +135,6 @@ export default function FlashcardEditForm({
             {/* Need to add appropriate functionality to the below buttons */}
             <Button type="button">Cancel</Button>
             <Button type="submit">Save + Close</Button>
-            <Button type="button">Save + Add New</Button>
           </div>
         </div>
       </div>

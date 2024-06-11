@@ -49,6 +49,8 @@ export type FlashcardsTable = {
   fcid: string;
   front_text: string;
   back_text: string;
+  front_img: string;
+  back_img: string;
 }
 
 export type CardsetsTable = {

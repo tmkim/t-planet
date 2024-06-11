@@ -31,13 +31,6 @@ export default function FlashcardCreateForm() {
           </label>
           <div className="relative">
             <TAC_Front ft={''}/>
-            {/* <textarea
-              className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
-              id="front_text"
-              name="front_text"
-              placeholder="Enter front text here"
-              required
-            /> */}
           </div>
           <div id="front_text-error" aria-live="polite" aria-atomic="true">
             {state.errors?.front_text &&
@@ -83,14 +76,7 @@ export default function FlashcardCreateForm() {
             Back Text
           </label>
           <div className="relative">
-            {/* <textarea
-              className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
-              id="back_text"
-              name="back_text"
-              placeholder="Enter back text here"
-              required
-            /> */}
-            <TAC_Back/>
+            <TAC_Back bt=""/>
           </div>
           <div id="back_text-error" aria-live="polite" aria-atomic="true">
             {state.errors?.back_text &&
@@ -128,16 +114,10 @@ export default function FlashcardCreateForm() {
               ))}
           </div>
           <div className="mt-6 flex justify-end gap-4">
-            {/* <Link
-              href="/dashboard/flashcards"
-              className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-            >
-              Cancel
-            </Link> */}
             {/* Need to add appropriate functionality to the below buttons */}
             <Button type="button">Cancel</Button>
             <Button type="submit">Save + Close</Button>
-            <Button type="button">Save + Add New</Button>
+            {/* <Button type="button">Save + Add New</Button> */}
           </div>
         </div>
       </div>

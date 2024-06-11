@@ -42,7 +42,9 @@ export async function fetchFilteredFlashcards(
     SELECT
       fcid,
       front_text,
-      back_text
+      back_text,
+      front_img,
+      back_img
     FROM flashcards
     WHERE
       front_text ILIKE ${`%${query}%`} OR
@@ -57,27 +59,27 @@ export async function fetchFilteredFlashcards(
   }
 }
 
-export async function fetchFlashcardById(id: string){
-  noStore();
-  try{
-    const data = await sql<FlashcardForm>`
-    SELECT
-      fcid,
-      front_text,
-      back_text,
-      front_img,
-      back_img
-    FROM flashcards
-    WHERE fcid = ${id}
-    `
+// export async function fetchFlashcardById(id: string){
+//   noStore();
+//   try{
+//     const data = await sql<FlashcardForm>`
+//     SELECT
+//       fcid,
+//       front_text,
+//       back_text,
+//       front_img,
+//       back_img
+//     FROM flashcards
+//     WHERE fcid = ${id}
+//     `
 
-    return data.rows[0]
-  } catch (error){
-    console.error('Database Error:', error);
-    throw new Error(`${error}`)
-    // throw new Error(`Failed to fetch Flashcard: ${id}`)
-  }
-}
+//     return data.rows[0]
+//   } catch (error){
+//     console.error('Database Error:', error);
+//     throw new Error(`${error}`)
+//     // throw new Error(`Failed to fetch Flashcard: ${id}`)
+//   }
+// }
 
 export async function fetchFlashcardsPages(query: string){
   noStore();

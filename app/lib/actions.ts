@@ -3,7 +3,6 @@ import { z } from 'zod'
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { Statement, getJSDocReturnType } from 'typescript';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth'
 import bcrypt from 'bcrypt'
@@ -106,7 +105,7 @@ export type FCState = {
     back_img?: string[];
   };
   message?: string | null;
-};
+} | undefined;
 
 export async function createFlashcard(prevState: FCState, formData: FormData) {
   const validatedFields = CreateFC.safeParse({
@@ -160,7 +159,7 @@ export async function updateFlashcard(fcid: string, prevState: FCState, formData
     front_text: formData.get('front_text'),
     back_text: formData.get('back_text'),
     front_img: formData.get('front_img'),
-    back_img: formData.get('back_text')
+    back_img: formData.get('back_text'),
   });
   if (!validatedFields.success){
     return{
@@ -181,6 +180,7 @@ export async function updateFlashcard(fcid: string, prevState: FCState, formData
     `;
   } catch (error){
     return {
+      errors: {},
       message: `Database Error: Failed to Update Flashcard: ${fcid}`
     }
   }

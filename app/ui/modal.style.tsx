@@ -6,7 +6,13 @@ export const Wrapper = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 700;
-  width: inherit;
+  width: 95%;
+  @media only screen and (min-width: 600px){
+    width: 75%
+  }
+  @media only screen and (min-width: 1024px){
+    width: 50%
+  }
   outline: 0;
 `;
 
@@ -42,9 +48,10 @@ export const HeaderText = styled.div`
 `;
 
 export const CloseButton = styled.button`
-  font-size: 0.8rem;
+  font-size: 1.42rem;
   border: none;
   border-radius: 3px;
+  margin-right: 0.5rem;
   margin-left: 0.5rem;
   background: none;
   :hover {

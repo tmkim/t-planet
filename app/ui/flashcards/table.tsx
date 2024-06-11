@@ -53,7 +53,7 @@ export default async function FlashcardsTable({
                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
                         <ReadFlashcard id={flashcard.fcid} />
-                        <UpdateFlashcard id={flashcard.fcid} />
+                        <UpdateFlashcard fc={flashcard} />
                         {/* <CreateFlashcard/> */}
                         <DeleteFlashcard id={flashcard.fcid} ft={flashcard.front_text} />
                       </div>
