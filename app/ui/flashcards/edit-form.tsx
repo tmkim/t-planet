@@ -1,5 +1,5 @@
 'use client'
-import { FlashcardForm } from '@/app/lib/definitions';
+import { Flashcard } from '@/app/lib/definitions';
 import {
   CheckIcon,
   ClockIcon,
@@ -13,11 +13,7 @@ import { createFlashcard, updateFlashcard } from '@/app/lib/actions';
 import { TAC_Back, TAC_Front } from '../textarea_custom';
 // import { fetchFlashcardById } from '@/app/lib/data';
 
-export default function FlashcardEditForm({
-  fc,
-}: {
-  fc: FlashcardForm;
-}) {
+export default function FlashcardEditForm({ fc }: { fc: Flashcard }) {
 
   const updateFlashcardWithId = updateFlashcard.bind(null, fc.fcid);
   const initialState = {

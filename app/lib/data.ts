@@ -9,8 +9,7 @@ import {
     Cardsets_Flashcards,
     UserField,
     FlashcardsTable,
-    CardsetsTable,
-    FlashcardForm
+    CardsetsTable
 } from './definitions';
 // import { formatCurrency } from './utils';
 
@@ -62,7 +61,7 @@ export async function fetchFilteredFlashcards(
 // export async function fetchFlashcardById(id: string){
 //   noStore();
 //   try{
-//     const data = await sql<FlashcardForm>`
+//     const data = await sql<Flashcard>`
 //     SELECT
 //       fcid,
 //       front_text,

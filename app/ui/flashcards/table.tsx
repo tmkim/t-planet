@@ -17,8 +17,8 @@ export default async function FlashcardsTable({
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="h-96 border-separate overflow-clip rounded-xl border border-solid flex flex-col">
-          <table className="hidden min-w-full text-gray-900">
-            <thead className="sticky rounded-lg text-left text-sm font-normal">
+          <table className="min-w-full text-gray-900">
+            <thead className="sticky bg-gray-300 rounded-lg text-left text-md font-bold">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
                   Front Text
@@ -33,7 +33,7 @@ export default async function FlashcardsTable({
             </thead>
           </table>
           <div className="flex-1 overflow-y-auto">
-            <table className="hidden min-w-full text-gray-900 md:table">
+            <table className="min-w-full text-gray-900 md:table">
               <tbody className="bg-white">
                 {flashcards?.map((flashcard) => (
                   <tr

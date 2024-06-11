@@ -3,6 +3,11 @@ import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, MagnifyingGlassPlusIcon } fro
 import Link from 'next/link';
 import { deleteCardset } from '@/app/lib/actions';
 import { FormEvent } from 'react';
+import { Cardset } from '@/app/lib/definitions';
+import { useModal } from '@/app/lib/useModal';
+import React from 'react';
+import { Modal } from '../myModal';
+import CardsetEditForm from './edit-form';
 
 export function CreateCardset() {
   return (
@@ -40,14 +45,20 @@ export function ReadCardset({ id }: { id: string }) {
   )
 }
 
-export function UpdateCardset({ id }: { id: string }) {
+export function UpdateCardset({ cs }: { cs: Cardset }) {
+  const { isShown, toggle } = useModal();
+  const content = <CardsetEditForm cs={cs}/>
+
   return (
-    <Link
-      href={`/dashboard/cardsets/edit/${id}`}
-      className="rounded-md border p-2 hover:bg-gray-100"
-    >
-      <PencilIcon className="w-5" />
-    </Link>
+    <React.Fragment>
+        <button 
+          onClick={toggle}
+          className="rounded-md border p-2 hover:bg-gray-100">
+            <span className="sr-only">Update Flashcard</span>{' '}
+            <PencilIcon className="w-5" />
+        </button>
+        <Modal isShown={isShown} hide={toggle} modalContent={content} headerText='Update Flashcard'/>
+    </React.Fragment>
   );
 }
 
