@@ -29,7 +29,7 @@ export default function FlashcardEditForm({ fc }: { fc: Flashcard }) {
   const [state, dispatch] = useFormState(updateFlashcardWithId, initialState);
 
   return (
-    <form action={dispatch}>
+    // <form action={dispatch}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         <div className="w-full">
           <label
@@ -134,6 +134,7 @@ export default function FlashcardEditForm({ fc }: { fc: Flashcard }) {
           </div>
         </div>
       </div>
-    </form>
+    // </form>
   );
 }
+

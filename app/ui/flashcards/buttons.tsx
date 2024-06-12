@@ -1,7 +1,7 @@
 'use client'
 import { PencilIcon, PlusIcon, TrashIcon, EyeIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { deleteFlashcard } from '@/app/lib/actions';
+import { deleteFlashcard, updateFlashcard, createFlashcard } from '@/app/lib/actions';
 import { FormEvent } from 'react';
 import { useModal } from '@/app/lib/useModal';
 import { Modal } from '@/app/ui/myModal';
@@ -10,9 +10,16 @@ import FlashcardCreateForm from './create-form';
 import FlashcardEditForm from './edit-form';
 // import { fetchFlashcardById } from '@/app/lib/data';
 import { Flashcard } from '@/app/lib/definitions';
+import { useFormState } from 'react-dom';
 
 export function CreateFlashcard() {
   const { isShown, toggle } = useModal();
+
+  function saveAndClose(){
+    // add logic to call create action
+    // createFlashcard();
+    toggle()
+  }
 
   const content = <FlashcardCreateForm/>
   return (
@@ -23,7 +30,7 @@ export function CreateFlashcard() {
           <span className="hidden md:block">Create Flashcard</span>{' '}
           <PlusIcon className="h-5 md:ml-4" />
       </button>
-      <Modal isShown={isShown} hide={toggle} modalContent={content} headerText='Add New Flashcard'/>
+      <Modal isShown={isShown} hide={toggle} saveAndClose={saveAndClose} modalContent={content} headerText='Add New Flashcard'/>
     </React.Fragment>
   );
 }
@@ -41,6 +48,13 @@ export function ReadFlashcard({ id }: { id: string }) {
 
 export function UpdateFlashcard({fc}: { fc: Flashcard }) {
   const { isShown, toggle } = useModal();
+
+  function saveAndClose(){
+    // add logic to call update action
+    //toggle()
+    console.log("SAC")
+  }
+
   const content = <FlashcardEditForm fc={fc}/>
   return (
     <React.Fragment>
@@ -50,7 +64,7 @@ export function UpdateFlashcard({fc}: { fc: Flashcard }) {
             <span className="sr-only">Update Flashcard</span>{' '}
             <PencilIcon className="w-5" />
         </button>
-        <Modal isShown={isShown} hide={toggle} modalContent={content} headerText='Update Flashcard'/>
+      <Modal isShown={isShown} hide={toggle} saveAndClose={saveAndClose} modalContent={content} headerText='Update Flashcard'/>
     </React.Fragment>
   );
 }

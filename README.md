@@ -98,3 +98,19 @@ Did a bit of work on create-form UI
     NEXT STEP -- ** CreateFC Modal Buttons // EditFC Modal Buttons
     So I need to get the buttons working -- Cancel, Save + Exit, Save + Next
     Right now, priorities are Cancel, Save + Exit .... Save + Next will be TODO.
+
+    So I got the buttons to toggle the modal off, but need to figure out best way to apply server actions to query database.
+    So I'm playing with a few different ideas right now...
+        >> Toggling modal works best if {hide} is added during myModal, but server actions dont work well there
+        >> Server actions should be in the create/edit-form, but toggling doesn't work well there.
+        .... so either I'm doing something wrong, or these belong separately (maybe could add a listener or something to help hook things together?)
+
+        For now, I'm leaving them separate, and focusing on making sure that submitting form actually performs server action
+            -- right now, working on making sure flashcards can be CREATED
+            -- next, make sure flashcards can be UPDATED
+            -- finally, work on making them work along with toggling.
+
+        Currently, issue with creating ---
+            Flashcard is created properly, but getting >> TypeError: state is undefined
+                Stems from (app-pages-browser)/./app/ui/flashcards/create-form.tsx
+                but not sure what the issue is.

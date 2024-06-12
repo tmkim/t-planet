@@ -3,8 +3,12 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { useFormState } from 'react-dom'
 import { TAC_Back, TAC_Front } from '@/app/ui/textarea_custom';
+import { useModal } from '@/app/lib/useModal';
 
 import { createFlashcard } from '@/app/lib/actions';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { useState } from 'react';
 
 
 export default function FlashcardCreateForm() {
@@ -58,7 +62,7 @@ export default function FlashcardCreateForm() {
             /> */}
             {/* <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" /> */}
           </div>
-
+{/* 
           <div id="front_img-error" aria-live="polite" aria-atomic="true">
             {state.errors?.front_img &&
               state.errors.front_img.map((error: string) => (
@@ -66,7 +70,7 @@ export default function FlashcardCreateForm() {
                   {error}
                 </p>
               ))}
-          </div>
+          </div> */}
         </div>
         <div>
           <label
@@ -105,19 +109,16 @@ export default function FlashcardCreateForm() {
             {/* <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload file</label> */}
             {/* <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" /> */}
           </div>
-          <div id="back_img-error" aria-live="polite" aria-atomic="true">
+          {/* <div id="back_img-error" aria-live="polite" aria-atomic="true">
             {state.errors?.back_img &&
               state.errors.back_img.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
-          </div>
+          </div> */}
           <div className="mt-6 flex justify-end gap-4">
-            {/* Need to add appropriate functionality to the below buttons */}
-            <Button type="button">Cancel</Button>
-            <Button type="submit">Save + Close</Button>
-            {/* <Button type="button">Save + Add New</Button> */}
+              <Button type="submit">Save + Close</Button>
           </div>
         </div>
       </div>

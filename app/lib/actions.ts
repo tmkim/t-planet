@@ -96,7 +96,7 @@ const FCSchema = z.object({
   back_img: z.string()
 });
 
-const CreateFC = FCSchema.omit({ fcid: true });
+const CreateFC = FCSchema.omit({ fcid: true, front_img: true, back_img: true });
 export type FCState = {
   errors?: {
     front_text?: string[];
@@ -121,19 +121,21 @@ export async function createFlashcard(prevState: FCState, formData: FormData) {
       message: 'Missing Fields. Failed to Create Flashcard.',
     };
   }
-  const { front_text, back_text, front_img, back_img } = validatedFields.data;
-
+  const { front_text, back_text} = validatedFields.data;
+  // const { front_text, back_text, front_img, back_img } = validatedFields.data;
   try {
     await sql`
-        INSERT INTO users (front_text, back_text, front_img, back_img)
-        VALUES (${front_text}, ${back_text}, ${front_img}, ${back_img})
+        INSERT INTO flashcards (front_text, back_text, front_img, back_img)
+        VALUES (${front_text}, ${back_text}, 'N/A', 'N/A')
         `;
   } catch (error) {
-    return {
+    console.log(error)
+  return {
       errors: {},
       message: `Database Error: Failed to Create Flashcard.\n${error}`,
     }
   }
+  console.log("FC Created")
 
   // not sure if below will be necessary -- want to make this into a modal form
   revalidatePath('/dashboard/flashcards');
