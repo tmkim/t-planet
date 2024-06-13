@@ -159,14 +159,14 @@ export async function deleteFlashcard(id: string) {
   redirect('/dashboard/flashcards');
 }
 
-const UpdateFlashcard = FCSchema.omit({ fcid: true })
+const UpdateFlashcard = FCSchema.omit({ fcid: true, front_img: true, back_img: true })
 
 export async function updateFlashcard(fcid: string, prevState: FCState, formData: FormData) {
   const validatedFields = UpdateFlashcard.safeParse({
     front_text: formData.get('front_text'),
     back_text: formData.get('back_text'),
-    front_img: formData.get('front_img'),
-    back_img: formData.get('back_text'),
+    // front_img: formData.get('front_img'),
+    // back_img: formData.get('back_text'),
   });
   if (!validatedFields.success) {
     return {
@@ -174,7 +174,11 @@ export async function updateFlashcard(fcid: string, prevState: FCState, formData
       message: 'Missing fields. Failed to Create Flashcard.',
     }
   }
-  const { front_text, back_text, front_img, back_img } = validatedFields.data;
+  // const { front_text, back_text, front_img, back_img } = validatedFields.data;
+  const { front_text, back_text } = validatedFields.data;
+  const front_img = "", back_img = ""
+
+  console.log("update time")
 
   try {
     await sql`
@@ -186,15 +190,18 @@ export async function updateFlashcard(fcid: string, prevState: FCState, formData
     WHERE fcid = ${fcid}
     `;
   } catch (error) {
+    console.log(error)
     return {
       errors: {},
       message: `Database Error: Failed to Update Flashcard: ${fcid}`
     }
   }
-
-  // might not need bc modal
-  // revalidatePath('/dashboard/flashcards');
-  // redirect('/dashboard/flashcards');
+  console.log('updated')
+  revalidatePath('/dashboard/flashcards');
+  return {
+    errors: {},
+    message: "updated"
+  }
 }
 
 // --------------------- Card Sets ------------------------

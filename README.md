@@ -127,3 +127,24 @@ Did a bit of work on create-form UI
         -- Modal closes properly
         * replaced create-form with fc_modal
         * useEffect() triggers toggle on formAction success
+        ... did a bit of file directory structure cleanup
+
+    Next up -- EditFC function
+        ++ AND WE ARE GOOD GOOD
+        * replaced edit-form with fc_modal
+
+    FC TODO : 
+        *** Query based on session user 
+        ** Images !!
+        * Save + Add New
+
+    Ok, next need to do CS Modals
+        Basic requirements -- 
+            CREATE :
+                Cardset Title
+                Table with checkmarks to select which flashcards to include
+                    Can copy from main flashcards page but update styling and add checkmarks column
+                    ++ Checkmark functionality
+                Close, Save
+            Edit : 
+                Same but pre-populate checkmarks. Utilize CARDSET_FLASHCARDS table.

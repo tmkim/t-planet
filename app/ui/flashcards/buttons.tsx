@@ -11,7 +11,7 @@ import FlashcardEditForm from './edit-form';
 // import { fetchFlashcardById } from '@/app/lib/data';
 import { Flashcard } from '@/app/lib/definitions';
 import { useFormState } from 'react-dom';
-import { CreateFCModal } from '@/app/ui/flashcards/modal';
+import { CreateFCModal, EditFCModal } from '@/app/ui/flashcards/modal';
 
 export function CreateFlashcard() {
   const { isShown, toggle } = useModal();
@@ -43,13 +43,6 @@ export function ReadFlashcard({ id }: { id: string }) {
 export function UpdateFlashcard({ fc }: { fc: Flashcard }) {
   const { isShown, toggle } = useModal();
 
-  function saveAndClose() {
-    // add logic to call update action
-    //toggle()
-    console.log("SAC")
-  }
-
-  const content = <FlashcardEditForm fc={fc} />
   return (
     <React.Fragment>
       <button
@@ -58,7 +51,7 @@ export function UpdateFlashcard({ fc }: { fc: Flashcard }) {
         <span className="sr-only">Update Flashcard</span>{' '}
         <PencilIcon className="w-5" />
       </button>
-      <Modal isShown={isShown} hide={toggle} saveAndClose={saveAndClose} modalContent={content} headerText='Update Flashcard' />
+      <EditFCModal isShown={isShown} hide={toggle} fc={fc} headerText='Update Flashcard' />
     </React.Fragment>
   );
 }
