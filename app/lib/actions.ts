@@ -101,18 +101,18 @@ export type FCState = {
   errors?: {
     front_text?: string[];
     back_text?: string[];
-    front_img?: string[];
-    back_img?: string[];
+    // front_img?: string[];
+    // back_img?: string[];
   };
   message?: string | null;
-} | undefined;
+} | undefined
 
 export async function createFlashcard(prevState: FCState, formData: FormData) {
   const validatedFields = CreateFC.safeParse({
     front_text: formData.get('front_text'),
     back_text: formData.get('back_text'),
-    front_img: formData.get('front_img'),
-    back_img: formData.get('back_img'),
+    // front_img: formData.get('front_img'),
+    // back_img: formData.get('back_img'),
   });
 
   if (!validatedFields.success) {
@@ -121,7 +121,7 @@ export async function createFlashcard(prevState: FCState, formData: FormData) {
       message: 'Missing Fields. Failed to Create Flashcard.',
     };
   }
-  const { front_text, back_text} = validatedFields.data;
+  const { front_text, back_text } = validatedFields.data;
   // const { front_text, back_text, front_img, back_img } = validatedFields.data;
   try {
     await sql`
@@ -130,7 +130,7 @@ export async function createFlashcard(prevState: FCState, formData: FormData) {
         `;
   } catch (error) {
     console.log(error)
-  return {
+    return {
       errors: {},
       message: `Database Error: Failed to Create Flashcard.\n${error}`,
     }
@@ -139,12 +139,17 @@ export async function createFlashcard(prevState: FCState, formData: FormData) {
 
   // not sure if below will be necessary -- want to make this into a modal form
   revalidatePath('/dashboard/flashcards');
-  redirect('/dashboard/flashcards');
+  // redirect('/dashboard/flashcards');
+
+  return {
+    errors: {},
+    message: "created"
+  }
 }
 
-export async function deleteFlashcard(id: string){
-  try{
-    await sql `DELETE FROM flashcards WHERE fcid = ${id}`
+export async function deleteFlashcard(id: string) {
+  try {
+    await sql`DELETE FROM flashcards WHERE fcid = ${id}`
   } catch (error) {
     return {
       message: `Database Error: Failed to Delete Flashcard ${id} `,
@@ -154,24 +159,24 @@ export async function deleteFlashcard(id: string){
   redirect('/dashboard/flashcards');
 }
 
-const UpdateFlashcard = FCSchema.omit({fcid: true})
+const UpdateFlashcard = FCSchema.omit({ fcid: true })
 
-export async function updateFlashcard(fcid: string, prevState: FCState, formData: FormData){
+export async function updateFlashcard(fcid: string, prevState: FCState, formData: FormData) {
   const validatedFields = UpdateFlashcard.safeParse({
     front_text: formData.get('front_text'),
     back_text: formData.get('back_text'),
     front_img: formData.get('front_img'),
     back_img: formData.get('back_text'),
   });
-  if (!validatedFields.success){
-    return{
+  if (!validatedFields.success) {
+    return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing fields. Failed to Create Flashcard.',
     }
   }
-  const {front_text, back_text, front_img, back_img} = validatedFields.data;
+  const { front_text, back_text, front_img, back_img } = validatedFields.data;
 
-  try{
+  try {
     await sql`
     UPDATE flashcards
     SET front_text = ${front_text},
@@ -180,7 +185,7 @@ export async function updateFlashcard(fcid: string, prevState: FCState, formData
         back_img = ${back_img}
     WHERE fcid = ${fcid}
     `;
-  } catch (error){
+  } catch (error) {
     return {
       errors: {},
       message: `Database Error: Failed to Update Flashcard: ${fcid}`
@@ -193,9 +198,9 @@ export async function updateFlashcard(fcid: string, prevState: FCState, formData
 }
 
 // --------------------- Card Sets ------------------------
-export async function deleteCardset(id: string){
-  try{
-    await sql `DELETE FROM cardsets WHERE csid = ${id}`
+export async function deleteCardset(id: string) {
+  try {
+    await sql`DELETE FROM cardsets WHERE csid = ${id}`
   } catch (error) {
     return {
       message: `Database Error: Failed to Delete Card Set ${id}`,

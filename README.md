@@ -99,6 +99,7 @@ Did a bit of work on create-form UI
     So I need to get the buttons working -- Cancel, Save + Exit, Save + Next
     Right now, priorities are Cancel, Save + Exit .... Save + Next will be TODO.
 
+6/12
     So I got the buttons to toggle the modal off, but need to figure out best way to apply server actions to query database.
     So I'm playing with a few different ideas right now...
         >> Toggling modal works best if {hide} is added during myModal, but server actions dont work well there
@@ -114,3 +115,15 @@ Did a bit of work on create-form UI
             Flashcard is created properly, but getting >> TypeError: state is undefined
                 Stems from (app-pages-browser)/./app/ui/flashcards/create-form.tsx
                 but not sure what the issue is.
+
+                OK so the issue ended up just being how var state was called in create-form. Had to adjust for possible undefined.
+
+6/13
+    *** Finish CreateFC button functionality, EditFC button functionality
+    ** Start working on CS Modals
+
+    WOOO got CreateFC modal to be fully functional (basic)
+        -- can add front/back text, cancel, and save
+        -- Modal closes properly
+        * replaced create-form with fc_modal
+        * useEffect() triggers toggle on formAction success

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import ReactDOM, { useFormState } from 'react-dom';
+import ReactDOM from 'react-dom';
 
 import {
   Wrapper,
@@ -11,7 +11,6 @@ import {
   Backdrop,
 } from './modal.style';
 import { Button } from './button';
-import { createFlashcard } from '../lib/actions';
 
 export interface ModalProps {
   isShown: boolean;
@@ -28,17 +27,7 @@ export const Modal: FunctionComponent<ModalProps> = ({
   modalContent,
   headerText,
 }) => {
-  // const initialState = {
-  //   message: "",
-  //   errors: {
-  //     front_text: [],
-  //     back_text: [],
-  //     front_img: [],
-  //     back_img: []
-  //   }
-  // }
-  // const [state, dispatch] = useFormState(createFlashcard, initialState);
-  
+
   const modal = (
     <React.Fragment>
       <Backdrop />
