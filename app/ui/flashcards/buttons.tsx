@@ -11,7 +11,7 @@ import FlashcardEditForm from './edit-form';
 // import { fetchFlashcardById } from '@/app/lib/data';
 import { Flashcard } from '@/app/lib/definitions';
 import { useFormState } from 'react-dom';
-import { CreateFCModal } from '../fc_modal';
+import { CreateFCModal } from '@/app/ui/flashcards/modal';
 
 export function CreateFlashcard() {
   const { isShown, toggle } = useModal();

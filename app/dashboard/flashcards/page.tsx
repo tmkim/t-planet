@@ -1,7 +1,7 @@
 import FlashcardsTable from '@/app/ui/flashcards/table'
 import CardsetsTable from '@/app/ui/cardsets/table';
-import FCSearch from '@/app/ui/fc_search';
-import CSSearch from '@/app/ui/cs_search';
+import FCSearch from '@/app/ui/flashcards/search';
+import CSSearch from '@/app/ui/cardsets/search';
 import FCPagination from '@/app/ui/flashcards/pagination';
 import CSPagination from '@/app/ui/cardsets/pagination';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
@@ -46,14 +46,14 @@ export default async function Page({
                     <FCSearch placeholder="Search Flashcards..." />
                     <CreateFlashcard />
                 </div>
-                <Suspense key={fcquery + currentFCPage} fallback={<FlashcardTableSkeleton/>}>
-                    <FlashcardsTable query={fcquery} currentPage={currentFCPage}/>
+                <Suspense key={fcquery + currentFCPage} fallback={<FlashcardTableSkeleton />}>
+                    <FlashcardsTable query={fcquery} currentPage={currentFCPage} />
                 </Suspense>
                 <div className="mt-5 flex w-full justify-center">
                     <FCPagination totalPages={totalFCPages} />
                 </div>
             </div>
-            
+
             {/* ---------------- card sets ---------------- */}
 
             <div className="w-full">
@@ -66,8 +66,8 @@ export default async function Page({
                     <CreateCardset />
                     <BrowseCardsets />
                 </div>
-                <Suspense key={csquery + currentCSPage} fallback={<CardsetTableSkeleton/>}>
-                    <CardsetsTable query={csquery} currentPage={currentCSPage}/>
+                <Suspense key={csquery + currentCSPage} fallback={<CardsetTableSkeleton />}>
+                    <CardsetsTable query={csquery} currentPage={currentCSPage} />
                 </Suspense>
                 <div className="mt-5 flex w-full justify-center">
                     <CSPagination totalPages={totalCSPages} />
