@@ -21,6 +21,7 @@ export type Cardset = {
   csid: string;
   name: string;
   created_by: string;
+  share: boolean;
 };
 
 export type Users_Flashcards = {

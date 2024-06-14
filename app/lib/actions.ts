@@ -205,6 +205,62 @@ export async function updateFlashcard(fcid: string, prevState: FCState, formData
 }
 
 // --------------------- Card Sets ------------------------
+const CSSchema = z.object({
+  csid: z.string(),
+  name: z.string(),
+  created_by: z.string(),
+  share: z.boolean()
+});
+
+const CreateCS = CSSchema.omit({ csid: true });
+export type CSState = {
+  errors?: {
+    name?: string[];
+    created_by?: string[];
+    share?: string[];
+  };
+  message?: string | null;
+} | undefined
+
+export async function createCardset(prevState: CSState, formData: FormData) {
+  const validatedFields = CreateCS.safeParse({
+    name: formData.get('name'),
+    created_by: formData.get('created_by'),
+    share: formData.get('share')
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Flashcard.',
+    };
+  }
+  const { name, created_by, share } = validatedFields.data;
+  
+  try {
+    await sql`
+        INSERT INTO cardsets (name, created_by, share)
+        VALUES (${name}, ${created_by}, ${share})
+        `;
+  } catch (error) {
+    console.log(error)
+    return {
+      errors: {},
+      message: `Database Error: Failed to Create Card Set.\n${error}`,
+    }
+  }
+  console.log("CS Created")
+
+  // not sure if below will be necessary -- want to make this into a modal form
+  revalidatePath('/dashboard/flashcards');
+  // redirect('/dashboard/flashcards');
+
+  return {
+    errors: {},
+    message: "created"
+  }
+}
+
 export async function deleteCardset(id: string) {
   try {
     await sql`DELETE FROM cardsets WHERE csid = ${id}`
