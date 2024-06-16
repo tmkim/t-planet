@@ -148,3 +148,21 @@ Did a bit of work on create-form UI
                 Close, Save
             Edit : 
                 Same but pre-populate checkmarks. Utilize CARDSET_FLASHCARDS table.
+
+6/16
+    *** Card Set Create Modal/Form
+    ** Make sure all CS actions are set up and functional
+    ** Make sure all CS Modal buttons are good
+    * Session User ID
+
+    OK so let's start with the basic structure of the modal.
+    We want:
+        Title, Public/Private toggle
+        Table with all flashcards
+        Close, Save
+
+    ~~ Card Set Create Modal ~~
+    Working on fetching from database via modal (client component)
+        Not sure if server actions are viable here or not (better for manipulate than fetch)
+        currently running into issue with missing_connection_string (works in server component but not client component)
+        

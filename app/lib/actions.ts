@@ -236,7 +236,7 @@ export async function createCardset(prevState: CSState, formData: FormData) {
     };
   }
   const { name, created_by, share } = validatedFields.data;
-  
+
   try {
     await sql`
         INSERT INTO cardsets (name, created_by, share)
@@ -259,6 +259,51 @@ export async function createCardset(prevState: CSState, formData: FormData) {
     errors: {},
     message: "created"
   }
+}
+
+const UpdateCardset = CSSchema.omit({ csid: true, created_by: true })
+
+export async function updateCardset(csid: string, prevState: FCState, formData: FormData) {
+  // const validatedFields = UpdateFlashcard.safeParse({
+  //   front_text: formData.get('front_text'),
+  //   back_text: formData.get('back_text'),
+  //   // front_img: formData.get('front_img'),
+  //   // back_img: formData.get('back_text'),
+  // });
+  // if (!validatedFields.success) {
+  //   return {
+  //     errors: validatedFields.error.flatten().fieldErrors,
+  //     message: 'Missing fields. Failed to Create Flashcard.',
+  //   }
+  // }
+  // // const { front_text, back_text, front_img, back_img } = validatedFields.data;
+  // const { front_text, back_text } = validatedFields.data;
+  // const front_img = "", back_img = ""
+
+  // console.log("update time")
+
+  // try {
+  //   await sql`
+  //   UPDATE flashcards
+  //   SET front_text = ${front_text},
+  //       back_text = ${back_text},
+  //       front_img = ${front_img},
+  //       back_img = ${back_img}
+  //   WHERE fcid = ${csid}
+  //   `;
+  // } catch (error) {
+  //   console.log(error)
+  //   return {
+  //     errors: {},
+  //     message: `Database Error: Failed to Update Flashcard: ${csid}`
+  //   }
+  // }
+  // console.log('updated')
+  // revalidatePath('/dashboard/flashcards');
+  // return {
+  //   errors: {},
+  //   message: "updated"
+  // }
 }
 
 export async function deleteCardset(id: string) {

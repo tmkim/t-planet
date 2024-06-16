@@ -1,16 +1,16 @@
 'use client'
 import { PencilIcon, PlusIcon, TrashIcon, EyeIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { deleteFlashcard, updateFlashcard, createFlashcard } from '@/app/lib/actions';
+import { deleteFlashcard } from '@/app/lib/actions';
 import { FormEvent } from 'react';
 import { useModal } from '@/app/lib/useModal';
-import { Modal } from '@/app/ui/myModal';
+// import { Modal } from '@/app/ui/myModal';
 import React from 'react'
 // import FlashcardCreateForm from './create-form';
-import FlashcardEditForm from './edit-form';
+// import FlashcardEditForm from './edit-form';
 // import { fetchFlashcardById } from '@/app/lib/data';
 import { Flashcard } from '@/app/lib/definitions';
-import { useFormState } from 'react-dom';
+// import { useFormState } from 'react-dom';
 import { CreateFCModal, EditFCModal } from '@/app/ui/flashcards/modal';
 
 export function CreateFlashcard() {
