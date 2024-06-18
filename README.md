@@ -177,7 +177,33 @@ Did a bit of work on create-form UI
         @/app/migration/
 
     so I think I got the basic concept of API set up for fetching. My priority should be something like..
-        -- API migration (load API with database)
         -- Appropriate API routes to fetch data
         -- Use fetched data in app
         -- Directory cleanup
+
+    Confirmed that I need to use "app/api/*/route.ts" for API routes
+    WOOOO got APIs (GET) set up.
+        Getting all flashcards was pretty straight forward.
+            connect to db, use sql to query
+        Difficulty was query by uuid
+            need to cast the variable i'm searching for
+                WHERE id = (${var})::uuid
+    
+    API Fetch TODO :
+        Users?
+        Card Sets
+        FC by CS
+        FC by User *
+        CS by User *
+            * need to set up session user id first, do later
+
+    OKAYYYYYYYYYYY
+    So I finally got the create CS modal to initiate how I want it to (basic). Have to work on functionality now.
+        ++ Create Card Set button loads a modal
+            ++ Title input
+            ++ Flash Cards table is pre-populated
+                ~~ TODO add search function, can do later
+        ** Tested that API isn't fetched too often (but might still have to figure out some cleanup for that)
+            ++ set [isShown] as dependency
+            -- edit isn't called when create is used, and vice-versa
+            -- but edit and created are called 2x/button on page refresh (??)

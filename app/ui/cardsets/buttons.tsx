@@ -3,40 +3,16 @@ import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, MagnifyingGlassPlusIcon } fro
 import Link from 'next/link';
 import { deleteCardset, fetchMyFlashcards } from '@/app/lib/actions';
 import { FormEvent, useEffect, useState } from 'react';
-import { Cardset, FlashcardsTable } from '@/app/lib/definitions';
+import { Cardset, Flashcard } from '@/app/lib/definitions';
 import { useModal } from '@/app/lib/useModal';
 import React from 'react';
 // import { Modal } from '@/app/ui/myModal';
 import CardsetEditForm from '@/app/ui/cardsets/edit-form';
-import { CreateCSModal } from '@/app/ui/cardsets/modal';
-import { fetchFilteredFlashcards } from '@/app/lib/data';
+import { CreateCSModal, EditCSModal } from '@/app/ui/cardsets/modal';
 
 export function CreateCardset() {
 
   const { isShown, toggle } = useModal();
-  // const [fc_list, set_fc] = useState<FlashcardsTable[]>([]);
-
-  // const loadFC = async () => {
-  // const my_fc_list = await fetchFilteredFlashcards('', 1)
-  // set_fc(my_fc_list);
-  // };
-
-  // var fcl: FlashcardsTable[] = []
-  // React.useEffect( async () => {
-  //   fcl = await fetchMyFlashcards()
-  // })
-
-  const [data, dataSet] = useState<any>(null)
-
-  useEffect(() => {
-    async function fetchMyAPI() {
-      let response = await fetch('../api/fcapi/13D07535-C59E-4157-A011-F8D2EF4E0CBB')
-      response = await response.json()
-      dataSet(response)
-    }
-
-    fetchMyAPI()
-  }, [])
 
   return (
     <React.Fragment>
@@ -46,7 +22,8 @@ export function CreateCardset() {
         <span className="hidden md:block">Create Card Set</span>{' '}
         <PlusIcon className="h-5 md:ml-4" />
       </button>
-      <CreateCSModal isShown={isShown} hide={toggle} headerText='Add New Flashcard' fcList={data} />
+      <CreateCSModal isShown={isShown} hide={toggle} headerText='Add New Card Set' />
+      {/* <CreateCSModal isShown={isShown} hide={toggle} headerText='Add New Flashcard' /> */}
     </React.Fragment>
   );
 }
@@ -87,7 +64,7 @@ export function UpdateCardset({ cs }: { cs: Cardset }) {
         <span className="sr-only">Update Flashcard</span>{' '}
         <PencilIcon className="w-5" />
       </button>
-      {/* <EditCSModal isShown={isShown} hide={toggle} headerText='Update Flashcard' /> */}
+      <EditCSModal isShown={isShown} hide={toggle} headerText='Update Flashcard' />
     </React.Fragment>
   );
 }

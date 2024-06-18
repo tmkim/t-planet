@@ -1,11 +1,27 @@
-import data from "@/app/data/fc.json";
 import { NextResponse } from 'next/server'
 
-export async function GET(request: Request, context: any) {
-  const { params } = context;
-  const flashcard = data.filter(x => params.fcid === x.fcid.toString());
+const bcrypt = require('bcrypt');
+const { db } = require('@vercel/postgres');
 
-  return NextResponse.json({
-    flashcard
-  })
+export async function GET(request: Request, context: any) {
+  const client = await db.connect();
+
+  const { params } = context
+
+  try {
+    const fc = await client.sql`
+    SELECT *
+    FROM flashcards
+    WHERE fcid = (${params.fcid})::uuid
+    `
+
+    console.log('select good')
+
+    return NextResponse.json({
+      fc
+    })
+  } catch (e) {
+    console.error(`Error getting flashcard '${params.fcid}'\n${e}`)
+  }
+
 }
