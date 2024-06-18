@@ -1,8 +1,8 @@
 'use client'
 import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, MagnifyingGlassPlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { deleteCardset } from '@/app/lib/actions';
-import { FormEvent, useState } from 'react';
+import { deleteCardset, fetchMyFlashcards } from '@/app/lib/actions';
+import { FormEvent, useEffect, useState } from 'react';
 import { Cardset, FlashcardsTable } from '@/app/lib/definitions';
 import { useModal } from '@/app/lib/useModal';
 import React from 'react';
@@ -14,22 +14,39 @@ import { fetchFilteredFlashcards } from '@/app/lib/data';
 export function CreateCardset() {
 
   const { isShown, toggle } = useModal();
-  const [fc_list, set_fc] = useState<FlashcardsTable[]>([]);
+  // const [fc_list, set_fc] = useState<FlashcardsTable[]>([]);
 
-  const loadFC = async () => {
-    const my_fc_list = await fetchFilteredFlashcards('', 1)
-    set_fc(my_fc_list);
-  };
+  // const loadFC = async () => {
+  // const my_fc_list = await fetchFilteredFlashcards('', 1)
+  // set_fc(my_fc_list);
+  // };
+
+  // var fcl: FlashcardsTable[] = []
+  // React.useEffect( async () => {
+  //   fcl = await fetchMyFlashcards()
+  // })
+
+  const [data, dataSet] = useState<any>(null)
+
+  useEffect(() => {
+    async function fetchMyAPI() {
+      let response = await fetch('../api/fcapi/13D07535-C59E-4157-A011-F8D2EF4E0CBB')
+      response = await response.json()
+      dataSet(response)
+    }
+
+    fetchMyAPI()
+  }, [])
 
   return (
     <React.Fragment>
       <button
-        onClick={loadFC}
+        onClick={toggle}
         className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
         <span className="hidden md:block">Create Card Set</span>{' '}
         <PlusIcon className="h-5 md:ml-4" />
       </button>
-      <CreateCSModal isShown={isShown} hide={toggle} headerText='Add New Flashcard' />
+      <CreateCSModal isShown={isShown} hide={toggle} headerText='Add New Flashcard' fcList={data} />
     </React.Fragment>
   );
 }

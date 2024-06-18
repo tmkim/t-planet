@@ -58,6 +58,7 @@ export type CardsetsTable = {
   csid: string;
   name: string;
   created_by: string;
+  share: boolean;
 }
 
 export type InvoicesTable = {

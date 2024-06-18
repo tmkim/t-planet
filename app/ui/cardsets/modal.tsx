@@ -16,13 +16,13 @@ import {
 import { TAC_Back, TAC_Front } from '@/app/ui/textarea_custom';
 import { Flashcard, FlashcardsTable } from '@/app/lib/definitions';
 import { fetchFilteredFlashcards } from '@/app/lib/data';
-import { FlashcardTableSkeleton } from '../skeletons';
 
 
 export interface CreateProps {
     isShown: boolean;
     hide: () => void;
     headerText: string;
+    fcList: FlashcardsTable[];
 }
 
 export interface EditProps {
@@ -30,12 +30,14 @@ export interface EditProps {
     hide: () => void;
     headerText: string;
     fc: Flashcard;
+    fcList: FlashcardsTable[];
 }
 
 export const CreateCSModal: FunctionComponent<CreateProps> = ({
     isShown,
     hide,
-    headerText
+    headerText,
+    fcList
 }) => {
     const initialState = {
         message: "",
@@ -51,8 +53,8 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
     const initialFCs: FlashcardsTable[] = [];
 
     async function GetFlashcards() {
-        let data = await fetchFilteredFlashcards('', 1)
-        SetFlashcards(data)
+        // let data = await fetchFilteredFlashcards('', 1)
+        // SetFlashcards(data)
     }
 
     const [flashcards, SetFlashcards] = useState(initialFCs)

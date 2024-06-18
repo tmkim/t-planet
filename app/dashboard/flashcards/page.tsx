@@ -31,8 +31,16 @@ export default async function Page({
     const csquery = searchParams?.csquery || '';
     const currentFCPage = Number(searchParams?.fcpage) || 1;
     const currentCSPage = Number(searchParams?.cspage) || 1;
-    const totalFCPages = await fetchFlashcardsPages(fcquery);
-    const totalCSPages = await fetchCardsetsPages(csquery);
+    var totalFCPages = 1
+    var totalCSPages = 1
+    try {
+        totalFCPages = await fetchFlashcardsPages(fcquery);
+        totalCSPages = await fetchCardsetsPages(csquery);
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error(`Failed to fetch flashcard pages : ${error}`);
+
+    }
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-5">

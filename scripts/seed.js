@@ -107,8 +107,8 @@ async function seedCardsets(client) {
         const insertedCardsets = await Promise.all(
             cardsets.map(
                 (cardset) => client.sql`
-        INSERT INTO cardsets (csid, name, created_by)
-        VALUES (${cardset.csid}, ${cardset.name}, ${cardset.created_by})
+        INSERT INTO cardsets (csid, name, created_by, share)
+        VALUES (${cardset.csid}, ${cardset.name}, ${cardset.created_by}, ${cardset.share})
         ON CONFLICT (csid) DO NOTHING;
       `,
             ),
@@ -220,8 +220,8 @@ async function seedCardsetsFlashcards(client) {
     }
 }
 
-async function clearTables(client){
-    try{
+async function clearTables(client) {
+    try {
         const clearTables = await client.sql`
         DROP TABLE IF EXISTS users;
         DROP TABLE IF EXISTS flashcards;

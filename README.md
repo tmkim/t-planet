@@ -165,4 +165,19 @@ Did a bit of work on create-form UI
     Working on fetching from database via modal (client component)
         Not sure if server actions are viable here or not (better for manipulate than fetch)
         currently running into issue with missing_connection_string (works in server component but not client component)
-        
+
+6/17
+    *** Card Set Modal (fetching data from client component)
+        ** functional checkboxes 
+
+    OK so I think it's best to set up API for fetching right now instead of relying on fetching from DB bc of client components
+        @/app/data.json
+        @/app/api/
+    Also need migration script
+        @/app/migration/
+
+    so I think I got the basic concept of API set up for fetching. My priority should be something like..
+        -- API migration (load API with database)
+        -- Appropriate API routes to fetch data
+        -- Use fetched data in app
+        -- Directory cleanup

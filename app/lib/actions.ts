@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth'
 import bcrypt from 'bcrypt'
+import { FlashcardsTable } from './definitions';
 
 const UserSchema = z.object({
   uid: z.string(),
@@ -204,6 +205,26 @@ export async function updateFlashcard(fcid: string, prevState: FCState, formData
   }
 }
 
+export async function fetchMyFlashcards() {
+  // noStore();
+
+  try {
+    const flashcards = await sql<FlashcardsTable>
+      `
+    SELECT *
+    FROM flashcards
+    `;
+
+    // const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    // return totalPages;
+    return flashcards.rows
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of flashcards.');
+  }
+}
+
+
 // --------------------- Card Sets ------------------------
 const CSSchema = z.object({
   csid: z.string(),
@@ -318,6 +339,10 @@ export async function deleteCardset(id: string) {
   redirect('/dashboard/flashcards');
 }
 
+
+function noStore() {
+  throw new Error('Function not implemented.');
+}
 // export async function deleteInvoice(id: string){
 //   try{
 //     await sql `DELETE FROM invoices WHERE id = ${id}`
