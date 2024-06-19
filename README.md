@@ -181,6 +181,7 @@ Did a bit of work on create-form UI
         -- Use fetched data in app
         -- Directory cleanup
 
+6/18
     Confirmed that I need to use "app/api/*/route.ts" for API routes
     WOOOO got APIs (GET) set up.
         Getting all flashcards was pretty straight forward.
@@ -207,3 +208,7 @@ Did a bit of work on create-form UI
             ++ set [isShown] as dependency
             -- edit isn't called when create is used, and vice-versa
             -- but edit and created are called 2x/button on page refresh (??)
+
+6/19
+    Focused on resume today so not a lot of work done
+    Some cleanup and set up API routes to implement later
