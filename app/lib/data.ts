@@ -7,9 +7,7 @@ import {
     Users_Flashcards,
     Users_Cardsets,
     Cardsets_Flashcards,
-    UserField,
-    FlashcardsTable,
-    CardsetsTable
+    UserField
 } from './definitions';
 // import { formatCurrency } from './utils';
 
@@ -37,7 +35,7 @@ export async function fetchFilteredFlashcards(
     `;
 */
 
-    const flashcards = await sql<FlashcardsTable>`
+    const flashcards = await sql<Flashcard>`
     SELECT
       fcid,
       front_text,
@@ -107,14 +105,15 @@ export async function fetchFilteredCardsets(
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
-    const cardsets = await sql<CardsetsTable>`
+    const cardsets = await sql<Cardset>`
     SELECT
       csid,
-      name,
-      created_by
+      title,
+      created_by,
+      share
     FROM cardsets
     WHERE
-      name ILIKE ${`%${query}%`} OR
+      title ILIKE ${`%${query}%`} OR
       created_by ILIKE ${`%${query}%`} 
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `
@@ -133,7 +132,7 @@ export async function fetchCardsetsPages(query: string){
     const count = await sql`SELECT COUNT(*)
     FROM cardsets
     WHERE
-      name ILIKE ${`%${query}%`} OR
+      title ILIKE ${`%${query}%`} OR
       created_by ILIKE ${`%${query}%`} 
     `;
 
@@ -142,5 +141,42 @@ export async function fetchCardsetsPages(query: string){
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch total number of card sets.');
+  }
+}
+
+export async function fetchCardsetById(id: string) {
+  noStore();
+  try {
+    const data = await sql<Cardset>`
+      SELECT
+        csid,
+        title,
+        created_by,
+        share
+      FROM cardsets
+      WHERE csid = ${id};
+    `;
+
+    return data.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch cardset.');
+  }
+}
+
+export async function fetchCS2FC(id: string){
+  noStore();
+  try {
+    const data = await sql<Cardsets_Flashcards>`
+    SELECT
+    csid,
+    fcid
+    FROM cardsets_flashcards
+    WHERE csid = ${id}`
+
+    return data.rows;
+  }catch (error){
+    console.error('DB Error:', error);
+    throw new Error('Failed to fetch CS2FC')
   }
 }

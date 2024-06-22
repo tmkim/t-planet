@@ -19,7 +19,7 @@ export type Flashcard = {
 
 export type Cardset = {
   csid: string;
-  name: string;
+  title: string;
   created_by: string;
   share: boolean;
 };
@@ -35,7 +35,7 @@ export type Users_Cardsets = {
 };
 
 export type Cardsets_Flashcards = {
-  uid: string;
+  csid: string;
   fcid: string;
 };
 

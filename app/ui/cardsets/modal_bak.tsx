@@ -37,9 +37,11 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
     const initialState = {
         message: "",
         errors: {
-            title: [],
-            // created_by: [],
-            // share: [],
+            name: [],
+            created_by: [],
+            share: [],
+            // front_img: [],
+            // back_img: []
         }
     }
 
@@ -98,8 +100,8 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
                                         />
                                     </div>
                                     <div id="front_text-error" aria-live="polite" aria-atomic="true">
-                                        {state?.errors?.title &&
-                                            state?.errors.title.map((error: string) => (
+                                        {state?.errors?.name &&
+                                            state?.errors.name.map((error: string) => (
                                                 <p className="mt-2 text-sm text-red-500" key={error}>
                                                     {error}
                                                 </p>
@@ -133,9 +135,11 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
     const initialState = {
         message: "",
         errors: {
-            title: [],
-            // created_by: [],
-            // share: [],
+            name: [],
+            created_by: [],
+            share: [],
+            // front_img: [],
+            // back_img: []
         }
     }
 
@@ -171,7 +175,7 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
                                 <div className="w-full">
                                     <label
                                         className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-                                        htmlFor="title"
+                                        htmlFor="front_text"
                                     >
                                         Card Set Title
                                     </label>
@@ -185,9 +189,9 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
                                             required
                                         />
                                     </div>
-                                    <div id="title-error" aria-live="polite" aria-atomic="true">
-                                        {state?.errors?.title &&
-                                            state?.errors.title.map((error: string) => (
+                                    <div id="front_text-error" aria-live="polite" aria-atomic="true">
+                                        {state?.errors?.name &&
+                                            state?.errors.name.map((error: string) => (
                                                 <p className="mt-2 text-sm text-red-500" key={error}>
                                                     {error}
                                                 </p>

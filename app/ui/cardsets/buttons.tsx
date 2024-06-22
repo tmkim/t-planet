@@ -23,7 +23,6 @@ export function CreateCardset() {
         <PlusIcon className="h-5 md:ml-4" />
       </button>
       <CreateCSModal isShown={isShown} hide={toggle} headerText='Add New Card Set' />
-      {/* <CreateCSModal isShown={isShown} hide={toggle} headerText='Add New Flashcard' /> */}
     </React.Fragment>
   );
 }
@@ -44,7 +43,7 @@ export function BrowseCardsets() {
 export function ReadCardset({ id }: { id: string }) {
   return (
     <Link
-      href={`/dashboard/cardsets/read/${id}`}
+      href={`/dashboard/cardsets/${id}`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <EyeIcon className="w-5" />
@@ -69,11 +68,11 @@ export function UpdateCardset({ cs }: { cs: Cardset }) {
   );
 }
 
-export function DeleteCardset({ id, name }: { id: string, name: string }) {
+export function DeleteCardset({ id, title }: { id: string, title: string }) {
   const deleteCardsetWithId = deleteCardset.bind(null, id);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    if (!confirm(`Delete flashcard ${name}?`)) {
+    if (!confirm(`Delete card set ${title}?`)) {
       e.preventDefault();
     }
   };

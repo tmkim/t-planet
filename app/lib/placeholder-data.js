@@ -83,19 +83,19 @@ const flashcards = [
 const cardsets = [
     {
         csid: '410544b2-4201-4271-9855-fec4b6a6442a',
-        name: 'bing bong 1',
+        title: 'bing bong 1',
         created_by: users[0].name,
         share: 'true'
     },
     {
         csid: '410544b2-4301-4271-9855-fec4b6a6442a',
-        name: 'bing bong 2',
+        title: 'bing bong 2',
         created_by: users[0].name,
         share: 'true'
     },
     {
         csid: '410544b2-4401-4271-9855-fec4b6a6442a',
-        name: 'bing bong 3',
+        title: 'bing bong 3',
         created_by: users[0].name,
         share: 'true'
     },

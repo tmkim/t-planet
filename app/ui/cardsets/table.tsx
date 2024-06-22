@@ -43,7 +43,7 @@ export default async function CardsetsTable({
                   >
                     <td className="whitespace-nowrap py-3 pl-6 pr-3 border-r border-solid">
                       <div className="flex items-center gap-3">
-                        <p>{cardset.name}</p>
+                        <p>{cardset.title}</p>
                       </div>
                     </td>
                     <td className="whitespace-nowrap py-3 pl-6 pr-3 border-r border-solid">
@@ -55,7 +55,7 @@ export default async function CardsetsTable({
                       <div className="flex justify-end gap-3">
                         <ReadCardset id={cardset.csid} />
                         <UpdateCardset cs={cardset} />
-                        <DeleteCardset id={cardset.csid} name={cardset.name} />
+                        <DeleteCardset id={cardset.csid} title={cardset.title} />
                       </div>
                     </td>
                   </tr>

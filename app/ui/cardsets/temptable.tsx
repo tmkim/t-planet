@@ -14,9 +14,22 @@ export interface FormProps {
 
 export default function TempTable({
   fcl,
+  cs
 }: {
   fcl: Flashcard[]
+  cs: String[]
 }) {
+
+  const onChangeCheckBox = (e: {
+    target: { checked: boolean; value: String };
+  }) => {
+    if(e.target.checked){
+      cs.push(e.target.value)
+    }else{
+      cs.splice(cs.indexOf(e.target.value),1)
+    }
+  };
+
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -64,7 +77,7 @@ export default function TempTable({
                         type="checkbox"
                         value={flashcard.fcid}
                         name="include"
-                        // onChange={onChangeCheckBox}
+                        onChange={onChangeCheckBox}
                         id={flashcard.fcid}
                       // checked={item.checked}
                       />

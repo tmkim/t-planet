@@ -212,3 +212,27 @@ Did a bit of work on create-form UI
 6/19
     Focused on resume today so not a lot of work done
     Some cleanup and set up API routes to implement later
+
+6/22
+    Took a brief break to deal with health issues + resume
+    So let's see.. what do today?
+
+    *** Create Card Set
+        -- utilize check boxes to select flash cards
+        -- insert into cardset - cardset info
+        -- insert into cs_fc - one row per card in the set 
+
+    So first we can make sure that checking the boxes selects the cards - print a list on submit
+    Can do inserts with form actions because not fetching
+
+    OK so I made some good progress today.
+        * Checkboxes properly build a list of cards to add to the FC
+        * Cardset creation is like half way there?
+            - actual cardset is created, nice.
+            - connection of cardsets_flashcards needs work
+        * Set up temporary page /dashboard/cardsets/[id] to help check cs2fc connection
+            -- kinda buggy bc can't like, view one, go back, then view another ??
+            -- can sometimes, but something funny is going on
+        * updated cardset table to use "title" instead of "name"
+        * added some functions in data.ts to fetch cardset and cs2fc
+        

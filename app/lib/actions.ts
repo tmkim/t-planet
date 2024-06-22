@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth'
 import bcrypt from 'bcrypt'
-import { FlashcardsTable } from './definitions';
+import { Cardset, FlashcardsTable } from './definitions';
 
 const UserSchema = z.object({
   uid: z.string(),
@@ -228,26 +228,26 @@ export async function fetchMyFlashcards() {
 // --------------------- Card Sets ------------------------
 const CSSchema = z.object({
   csid: z.string(),
-  name: z.string(),
+  title: z.string(),
   created_by: z.string(),
   share: z.boolean()
 });
 
-const CreateCS = CSSchema.omit({ csid: true });
+const CreateCS = CSSchema.omit({ csid: true, created_by: true, share: true });
 export type CSState = {
   errors?: {
-    name?: string[];
-    created_by?: string[];
-    share?: string[];
+    title?: string[];
+    // created_by?: string[];
+    // share?: string[];
   };
   message?: string | null;
 } | undefined
 
-export async function createCardset(prevState: CSState, formData: FormData) {
+export async function createCardset(cards: String[], prevState: CSState, formData: FormData) {
   const validatedFields = CreateCS.safeParse({
-    name: formData.get('name'),
-    created_by: formData.get('created_by'),
-    share: formData.get('share')
+    title: formData.get('title'),
+    // created_by: formData.get('created_by'),
+    // share: formData.get('share')
   });
 
   if (!validatedFields.success) {
@@ -256,13 +256,36 @@ export async function createCardset(prevState: CSState, formData: FormData) {
       message: 'Missing Fields. Failed to Create Flashcard.',
     };
   }
-  const { name, created_by, share } = validatedFields.data;
+  // const { name, created_by, share } = validatedFields.data;
+  const { title } = validatedFields.data;
+  const created_by = "Dab"
+  const share = true
 
   try {
     await sql`
-        INSERT INTO cardsets (name, created_by, share)
-        VALUES (${name}, ${created_by}, ${share})
+        INSERT INTO cardsets (title, created_by, share)
+        VALUES (${title}, ${created_by}, ${share})
         `;
+
+      console.log("cs created")
+
+    const cardset = await sql<Cardset>`
+      SELECT *
+      FROM cardsets
+      WHERE title = ${title}`
+
+      console.log("got csid")
+
+    const csid = cardset.rows[0].csid
+
+    for(var card in cards){
+      await sql`
+      INSERT INTO cardsets_flashcards (csid, fcid)
+      VALUES (${csid}, ${card})
+      `
+    }
+    console.log("cs2fc inserted")
+
   } catch (error) {
     console.log(error)
     return {
