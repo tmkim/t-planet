@@ -28,6 +28,7 @@ export default function TempTable({
     }else{
       cs.splice(cs.indexOf(e.target.value),1)
     }
+    console.log(cs)
   };
 
   return (

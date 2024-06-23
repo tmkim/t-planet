@@ -54,14 +54,14 @@ async function seedFlashcards(client) {
 
         // Create the "invoices" table if it doesn't exist
         const createTable = await client.sql`
-    CREATE TABLE IF NOT EXISTS flashcards (
-    fcid UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    front_text VARCHAR(255) NOT NULL,
-    back_text VARCHAR(255) NOT NULL,
-    front_img VARCHAR(255) NOT NULL,
-    back_img VARCHAR(255) NOT NULL
-  );
-`;
+            CREATE TABLE IF NOT EXISTS flashcards (
+            fcid UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+            front_text VARCHAR(255) NOT NULL,
+            back_text VARCHAR(255) NOT NULL,
+            front_img VARCHAR(255) NOT NULL,
+            back_img VARCHAR(255) NOT NULL
+        );
+        `;
 
         console.log(`Created "flashcards" table`);
 
@@ -194,8 +194,8 @@ async function seedCardsetsFlashcards(client) {
     try {
         const createTable = await client.sql`
         CREATE TABLE IF NOT EXISTS cardsets_flashcards(
-            csid UUID DEFAULT uuid_generate_v4(),
-            fcid UUID DEFAULT uuid_generate_v4()
+            csid VARCHAR(255) NOT NULL,
+            fcid VARCHAR(255) NOT NULL
         );
     `;
 
@@ -228,12 +228,12 @@ async function clearTables(client) {
         // DROP TABLE IF EXISTS flashcards;
         // DROP TABLE IF EXISTS users_flashcards;
         // DROP TABLE IF EXISTS users_cardsets;
-        // DROP TABLE IF EXISTS cardsets_flashcards;
+        // DROP TABLE IF EXISTS cardsets;
         const clearTables = await client.sql`
-        DROP TABLE IF EXISTS cardsets;
+        DROP TABLE IF EXISTS cardsets_flashcards;
         `;
 
-        console.log("All Tables Dropped")
+        console.log("Tables Dropped")
 
         return {
             clearTables
@@ -252,10 +252,10 @@ async function main() {
 
     // await seedUsers(client);
     // await seedFlashcards(client);
-    await seedCardsets(client);
+    // await seedCardsets(client);
     // await seedUsersFlashcards(client);
     // await seedUsersCardsets(client);
-    // await seedCardsetsFlashcards(client);
+    await seedCardsetsFlashcards(client);
 
     await client.end();
 }

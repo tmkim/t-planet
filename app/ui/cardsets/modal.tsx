@@ -43,7 +43,7 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
         }
     }
 
-    let cards: String[] = []
+    let cards: string[] = []
 
     const createCardsetWithCards = createCardset.bind(null, cards)
     const [state, formAction] = useFormState(createCardsetWithCards, initialState)
@@ -60,12 +60,13 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
         // console.log(fcl.flashcards)
     }, [isShown])
 
-
-    // const [cards, setCards] = useState<any>([])
-
-    // useEffect(() => {
-    //     setCards(cards)
-    // }, [cards])
+    useEffect(() => {
+        if (state?.message === "created") {
+            // console.log("using effect")
+            hide()
+            state.message = ""
+        }
+    }, [state])
 
     const create_modal = (
         <React.Fragment>
@@ -139,7 +140,7 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
         }
     }
 
-    let cards: String[] = []
+    let cards: string[] = []
     const createCardsetWithCards = createCardset.bind(null, cards)
     const [state, formAction] = useFormState(createCardsetWithCards, initialState)
 
@@ -154,6 +155,14 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
         // console.log("CHECKING USEEFFECT --edit")
         // console.log(fcl.flashcards)
     }, [isShown])
+
+    useEffect(() => {
+        if (state?.message === "updated") {
+            // console.log("using effect")
+            hide()
+            state.message = ""
+        }
+    }, [state])
 
     const edit_modal = (
         <React.Fragment>

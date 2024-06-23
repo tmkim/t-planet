@@ -7,6 +7,7 @@ import { signIn } from '@/auth';
 import { AuthError } from 'next-auth'
 import bcrypt from 'bcrypt'
 import { Cardset, FlashcardsTable } from './definitions';
+import { v4 } from 'uuid'
 
 const UserSchema = z.object({
   uid: z.string(),
@@ -243,7 +244,7 @@ export type CSState = {
   message?: string | null;
 } | undefined
 
-export async function createCardset(cards: String[], prevState: CSState, formData: FormData) {
+export async function createCardset(cards: string[], prevState: CSState, formData: FormData) {
   const validatedFields = CreateCS.safeParse({
     title: formData.get('title'),
     // created_by: formData.get('created_by'),
@@ -260,28 +261,23 @@ export async function createCardset(cards: String[], prevState: CSState, formDat
   const { title } = validatedFields.data;
   const created_by = "Dab"
   const share = true
+  const csid = v4()
+
+  console.log(cards)
 
   try {
     await sql`
-        INSERT INTO cardsets (title, created_by, share)
-        VALUES (${title}, ${created_by}, ${share})
+        INSERT INTO cardsets (csid, title, created_by, share)
+        VALUES (${csid}, ${title}, ${created_by}, ${share})
         `;
 
-      console.log("cs created")
+      console.log(`cs created: ${title}`)
 
-    const cardset = await sql<Cardset>`
-      SELECT *
-      FROM cardsets
-      WHERE title = ${title}`
-
-      console.log("got csid")
-
-    const csid = cardset.rows[0].csid
-
-    for(var card in cards){
+    for(var c = 0 ; c < cards.length ; c++){
+      console.log(`card: ${cards[c]}`)
       await sql`
       INSERT INTO cardsets_flashcards (csid, fcid)
-      VALUES (${csid}, ${card})
+      VALUES (${csid}, ${cards[c]})
       `
     }
     console.log("cs2fc inserted")
