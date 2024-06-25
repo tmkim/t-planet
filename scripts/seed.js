@@ -69,8 +69,8 @@ async function seedFlashcards(client) {
         const insertedFlashcards = await Promise.all(
             flashcards.map(
                 (flashcard) => client.sql`
-        INSERT INTO flashcards (front_text, back_text, front_img, back_img)
-        VALUES (${flashcard.front_text}, ${flashcard.back_text}, ${flashcard.front_img}, ${flashcard.back_img})
+        INSERT INTO flashcards (fcid, front_text, back_text, front_img, back_img)
+        VALUES (${flashcard.fcid}, ${flashcard.front_text}, ${flashcard.back_text}, ${flashcard.front_img}, ${flashcard.back_img})
         ON CONFLICT (fcid) DO NOTHING;
       `,
             ),
@@ -223,14 +223,14 @@ async function seedCardsetsFlashcards(client) {
 
 async function clearTables(client) {
     try {
-        
+
         // DROP TABLE IF EXISTS users;
-        // DROP TABLE IF EXISTS flashcards;
+        // DROP TABLE IF EXISTS cardsets_flashcards;
         // DROP TABLE IF EXISTS users_flashcards;
         // DROP TABLE IF EXISTS users_cardsets;
         // DROP TABLE IF EXISTS cardsets;
         const clearTables = await client.sql`
-        DROP TABLE IF EXISTS cardsets_flashcards;
+        DROP TABLE IF EXISTS flashcards;
         `;
 
         console.log("Tables Dropped")
@@ -251,11 +251,11 @@ async function main() {
     await clearTables(client);
 
     // await seedUsers(client);
-    // await seedFlashcards(client);
+    await seedFlashcards(client);
     // await seedCardsets(client);
     // await seedUsersFlashcards(client);
     // await seedUsersCardsets(client);
-    await seedCardsetsFlashcards(client);
+    // await seedCardsetsFlashcards(client);
 
     await client.end();
 }

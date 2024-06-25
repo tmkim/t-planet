@@ -1,7 +1,7 @@
 'use client'
 import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, MagnifyingGlassPlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { deleteCardset, fetchMyFlashcards } from '@/app/lib/actions';
+import { deleteCardset } from '@/app/lib/actions';
 import { FormEvent, useEffect, useState } from 'react';
 import { Cardset, Flashcard } from '@/app/lib/definitions';
 import { useModal } from '@/app/lib/useModal';

@@ -4,10 +4,7 @@ import {
   User,
   Flashcard,
   Cardset,
-  Users_Flashcards,
-  Users_Cardsets,
-  Cardsets_Flashcards,
-  UserField
+  Cardsets_Flashcards
 } from './definitions';
 import { auth } from '@/auth'
 
@@ -38,34 +35,27 @@ export async function fetchFilteredFlashcards(
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
-    const usr = getUID()
-    /*    const flashcards = await sql<FlashcardsTable>`
-          SELECT
-            fc.fcid,
-            fc.front_text
-          FROM users u
-          LEFT JOIN users_flashcards ufc ON ufc.uid = u.uid
-          LEFT JOIN flashcards fc ON ufc.fcid = fc.fcid
-          WHERE
-            fc.front_text ILIKE ${`%${query}%`} OR
-            fc.back_text ILIKE ${`%${query}%`}
-          LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-        `;
-    */
-
+    const usr = await getUID()
     const flashcards = await sql<Flashcard>`
-    SELECT
-      fcid,
-      front_text,
-      back_text,
-      front_img,
-      back_img
-    FROM flashcards
-    WHERE
-      front_text ILIKE ${`%${query}%`} OR
-      back_text ILIKE ${`%${query}%`}
+      SELECT
+        fc.fcid,
+        fc.front_text,
+        fc.back_text,
+        fc.front_img,
+        fc.back_img
+      FROM users u
+      JOIN users_flashcards ufc ON ufc.uid = u.uid
+      JOIN flashcards fc ON ufc.fcid = fc.fcid
+      WHERE
+        u.uid = ${usr} 
+      AND 
+        (
+          fc.front_text ILIKE ${`%${query}%`}
+        OR
+          fc.back_text ILIKE ${`%${query}%`}
+        )
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-      `
+    `;
 
     return flashcards.rows;
   } catch (error) {
@@ -78,16 +68,20 @@ export async function fetchUserFlashcards() {
   noStore();
 
   try {
-    const usr = getUID()
+    const usr = await getUID()
 
     const flashcards = await sql<Flashcard>`
-    SELECT
-      fcid,
-      front_text,
-      back_text,
-      front_img,
-      back_img
-    FROM flashcards
+      SELECT
+        fc.fcid,
+        fc.front_text,
+        fc.back_text,
+        fc.front_img,
+        fc.back_img
+      FROM users u
+      JOIN users_flashcards ufc ON ufc.uid = u.uid
+      JOIN flashcards fc ON ufc.fcid = fc.fcid
+      WHERE
+        u.uid = ${usr} 
       `
 
     return flashcards.rows;
@@ -123,12 +117,19 @@ export async function fetchFlashcardsPages(query: string) {
   noStore();
 
   try {
-    const usr = getUID()
+    const usr = await getUID()
     const count = await sql`SELECT COUNT(*)
-    FROM flashcards
-    WHERE
-      front_text ILIKE ${`%${query}%`} OR
-      back_text ILIKE ${`%${query}%`}
+      FROM users u
+      JOIN users_flashcards ufc ON ufc.uid = u.uid
+      JOIN flashcards fc ON ufc.fcid = fc.fcid
+      WHERE
+        u.uid = ${usr} 
+      AND 
+      (
+        front_text ILIKE ${`%${query}%`} 
+      OR
+        back_text ILIKE ${`%${query}%`}
+      )
     `;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
@@ -147,17 +148,25 @@ export async function fetchFilteredCardsets(
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
-    const usr = getUID()
+    const usr = await getUID()
     const cardsets = await sql<Cardset>`
     SELECT
-      csid,
-      title,
-      created_by,
-      share
-    FROM cardsets
+      c.csid,
+      c.title,
+      c.created_by,
+      c.share
+    FROM users u
+    JOIN users_cardsets uc on u.uid = uc.uid
+    JOIN cardsets c on uc.csid = c.csid
     WHERE
-      title ILIKE ${`%${query}%`} OR
-      created_by ILIKE ${`%${query}%`} 
+      u.uid = ${usr}
+      AND
+      (
+        title ILIKE ${`%${query}%`} 
+      OR
+        created_by ILIKE ${`%${query}%`} 
+      )
+      
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `
 
@@ -172,7 +181,7 @@ export async function fetchCardsetsPages(query: string) {
   noStore();
 
   try {
-    const usr = getUID()
+    const usr = await getUID()
     const count = await sql`SELECT COUNT(*)
     FROM cardsets
     WHERE

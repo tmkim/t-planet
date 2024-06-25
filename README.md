@@ -259,7 +259,20 @@ Did a bit of work on create-form UI
             - user_cs
 
     Currently working on updating fcapi 
+        > didn't work when using fetch() from data.ts, maybe bc of nostore()?
+        > it's ok, was unnecessary work anyways, don't need to do this.
 
+    So let's start with fetching flashcards by UID
+        * fetch list of fcid associated to uid using user_fc
+            >> DONE
+        * fetch list of csid assocaited to uid using user_cs
+            >> DONE
+        * make sure user_fc is properly populated
+            >> DONE
+        * make sure user_cs is properly populated
+            >> DONE
+            
+    Flashcards page and cardset modal are both properly populated based on user!
 
 Not sure why fcapi is being weird
 SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON data

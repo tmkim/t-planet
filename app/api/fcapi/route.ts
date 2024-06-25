@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { getUID } from '@/app/lib/data';
 
 const { db } = require('@vercel/postgres');
 
@@ -9,9 +10,25 @@ export async function GET(request: Request, context: any) {
   // const fc = data.filter((x) => params.fcid === x.fcid);
 
   try {
+    const usr = await getUID()
     const fc = await client.sql`
-    SELECT *
-    FROM flashcards
+      SELECT 
+        fc.front_text,
+        fc.back_text,
+        fc.front_img,
+        fc.back_img
+      FROM 
+        users u
+      JOIN 
+        users_flashcards ufc 
+        ON
+          ufc.uid = u.uid
+      JOIN 
+        flashcards fc 
+        ON 
+          ufc.fcid = fc.fcid
+      WHERE
+        u.uid = ${usr} 
     `
 
     const flashcards = fc.rows
@@ -22,19 +39,3 @@ export async function GET(request: Request, context: any) {
   }
 
 }
-
-
-
-// import { NextResponse } from 'next/server'
-// import { fetchUserFlashcards } from "@/app/lib/data";
-
-// export async function GET(request: Request, context: any) {
-
-//   try {
-//     const usr_fc = await fetchUserFlashcards()
-
-//     return NextResponse.json({ usr_fc })
-//   } catch (e) {
-//     console.error("Error getting flashcards : " + e)
-//   }
-// }

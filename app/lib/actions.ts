@@ -6,8 +6,9 @@ import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth'
 import bcrypt from 'bcrypt'
-import { Cardset, FlashcardsTable } from './definitions';
+import { Cardset, Flashcard } from '@/app/lib/definitions';
 import { v4 } from 'uuid'
+import { getUID } from '@/app/lib/data';
 
 const UserSchema = z.object({
   uid: z.string(),
@@ -124,12 +125,23 @@ export async function createFlashcard(prevState: FCState, formData: FormData) {
     };
   }
   const { front_text, back_text } = validatedFields.data;
+  const front_img = 'N/A'
+  const back_img = 'N/A'
   // const { front_text, back_text, front_img, back_img } = validatedFields.data;
   try {
+    const usr = await getUID()
+    const fcid = v4()
+
     await sql`
-        INSERT INTO flashcards (front_text, back_text, front_img, back_img)
-        VALUES (${front_text}, ${back_text}, 'N/A', 'N/A')
+        INSERT INTO flashcards (fcid, front_text, back_text, front_img, back_img)
+        VALUES (${fcid}, ${front_text}, ${back_text}, ${front_img}, ${back_img})
         `;
+
+    await sql`
+        INSERT INTO users_flashcards (uid, fcid)
+        VALUES (${usr}, ${fcid})
+        `
+
   } catch (error) {
     console.log(error)
     return {
@@ -206,26 +218,6 @@ export async function updateFlashcard(fcid: string, prevState: FCState, formData
   }
 }
 
-export async function fetchMyFlashcards() {
-  // noStore();
-
-  try {
-    const flashcards = await sql<FlashcardsTable>
-      `
-    SELECT *
-    FROM flashcards
-    `;
-
-    // const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
-    // return totalPages;
-    return flashcards.rows
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch total number of flashcards.');
-  }
-}
-
-
 // --------------------- Card Sets ------------------------
 const CSSchema = z.object({
   csid: z.string(),
@@ -266,21 +258,25 @@ export async function createCardset(cards: string[], prevState: CSState, formDat
   console.log(cards)
 
   try {
+    const usr = await getUID()
+
     await sql`
         INSERT INTO cardsets (csid, title, created_by, share)
         VALUES (${csid}, ${title}, ${created_by}, ${share})
         `;
 
-      console.log(`cs created: ${title}`)
+    await sql`
+      INSERT INTO users_cardsets (uid, csid)
+      VALUES (${usr}, ${csid})
+    `
 
-    for(var c = 0 ; c < cards.length ; c++){
+    for (var c = 0; c < cards.length; c++) {
       console.log(`card: ${cards[c]}`)
       await sql`
       INSERT INTO cardsets_flashcards (csid, fcid)
       VALUES (${csid}, ${cards[c]})
       `
     }
-    console.log("cs2fc inserted")
 
   } catch (error) {
     console.log(error)
