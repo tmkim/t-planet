@@ -236,3 +236,30 @@ Did a bit of work on create-form UI
         * updated cardset table to use "title" instead of "name"
         * added some functions in data.ts to fetch cardset and cs2fc
         
+6/24
+    OK, so flash cards are working fully. Card sets are on their way.
+    What do I have left to do?
+        > fix bugginess
+        > make pretty
+        *** > get user session
+        ** > edit card sets
+        * > view flashcards
+        * > view card sets
+
+    So I can get user id just using my auth() from auth.ts thanks to next-auth v5
+    but I can't get uid, only name and email. So I'm using email to query for uid.
+    ^ adding this to data.ts so I don't have to pass around the user in my html.
+
+    Now that I have my session UID, I need to update my queries to only grab flash cards for this user.
+    Also need to make sure my connection tables are being updated properly when adding fc/user
+        > fetch flashcards by UID
+            - user_fc
+
+        > fetch cardsets by UID
+            - user_cs
+
+    Currently working on updating fcapi 
+
+
+Not sure why fcapi is being weird
+SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON data

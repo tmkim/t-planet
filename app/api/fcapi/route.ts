@@ -1,8 +1,5 @@
-import data from "@/app/data/fc.json"
-import { FlashcardsTable } from "@/app/lib/definitions";
 import { NextResponse } from 'next/server'
 
-const bcrypt = require('bcrypt');
 const { db } = require('@vercel/postgres');
 
 export async function GET(request: Request, context: any) {
@@ -25,3 +22,19 @@ export async function GET(request: Request, context: any) {
   }
 
 }
+
+
+
+// import { NextResponse } from 'next/server'
+// import { fetchUserFlashcards } from "@/app/lib/data";
+
+// export async function GET(request: Request, context: any) {
+
+//   try {
+//     const usr_fc = await fetchUserFlashcards()
+
+//     return NextResponse.json({ usr_fc })
+//   } catch (e) {
+//     console.error("Error getting flashcards : " + e)
+//   }
+// }

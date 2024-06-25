@@ -1,16 +1,33 @@
 import { sql } from '@vercel/postgres';
 import { unstable_noStore as noStore } from 'next/cache';
 import {
-    User,
-    Flashcard,
-    Cardset,
-    Users_Flashcards,
-    Users_Cardsets,
-    Cardsets_Flashcards,
-    UserField
+  User,
+  Flashcard,
+  Cardset,
+  Users_Flashcards,
+  Users_Cardsets,
+  Cardsets_Flashcards,
+  UserField
 } from './definitions';
-// import { formatCurrency } from './utils';
+import { auth } from '@/auth'
 
+
+export async function getUID() {
+  noStore();
+  const sesh = await auth()
+
+  try {
+    const user = await sql<User>`
+    SELECT *
+    FROM users
+    WHERE email=${sesh?.user?.email}`
+
+    return user.rows[0].uid
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch user.');
+  }
+}
 
 const ITEMS_PER_PAGE = 5;
 export async function fetchFilteredFlashcards(
@@ -21,19 +38,20 @@ export async function fetchFilteredFlashcards(
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
-/*    const flashcards = await sql<FlashcardsTable>`
-      SELECT
-        fc.fcid,
-        fc.front_text
-      FROM users u
-      LEFT JOIN users_flashcards ufc ON ufc.uid = u.uid
-      LEFT JOIN flashcards fc ON ufc.fcid = fc.fcid
-      WHERE
-        fc.front_text ILIKE ${`%${query}%`} OR
-        fc.back_text ILIKE ${`%${query}%`}
-      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-    `;
-*/
+    const usr = getUID()
+    /*    const flashcards = await sql<FlashcardsTable>`
+          SELECT
+            fc.fcid,
+            fc.front_text
+          FROM users u
+          LEFT JOIN users_flashcards ufc ON ufc.uid = u.uid
+          LEFT JOIN flashcards fc ON ufc.fcid = fc.fcid
+          WHERE
+            fc.front_text ILIKE ${`%${query}%`} OR
+            fc.back_text ILIKE ${`%${query}%`}
+          LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+        `;
+    */
 
     const flashcards = await sql<Flashcard>`
     SELECT
@@ -53,6 +71,29 @@ export async function fetchFilteredFlashcards(
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error(`Failed to fetch flashcards. : ${error}`);
+  }
+}
+
+export async function fetchUserFlashcards() {
+  noStore();
+
+  try {
+    const usr = getUID()
+
+    const flashcards = await sql<Flashcard>`
+    SELECT
+      fcid,
+      front_text,
+      back_text,
+      front_img,
+      back_img
+    FROM flashcards
+      `
+
+    return flashcards.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error(`Failed to fetch user flashcards. : ${error}`);
   }
 }
 
@@ -78,10 +119,11 @@ export async function fetchFilteredFlashcards(
 //   }
 // }
 
-export async function fetchFlashcardsPages(query: string){
+export async function fetchFlashcardsPages(query: string) {
   noStore();
 
   try {
+    const usr = getUID()
     const count = await sql`SELECT COUNT(*)
     FROM flashcards
     WHERE
@@ -105,6 +147,7 @@ export async function fetchFilteredCardsets(
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
+    const usr = getUID()
     const cardsets = await sql<Cardset>`
     SELECT
       csid,
@@ -125,10 +168,11 @@ export async function fetchFilteredCardsets(
   }
 }
 
-export async function fetchCardsetsPages(query: string){
+export async function fetchCardsetsPages(query: string) {
   noStore();
 
   try {
+    const usr = getUID()
     const count = await sql`SELECT COUNT(*)
     FROM cardsets
     WHERE
@@ -164,7 +208,7 @@ export async function fetchCardsetById(id: string) {
   }
 }
 
-export async function fetchCS2FC(id: string){
+export async function fetchCS2FC(id: string) {
   noStore();
   try {
     const data = await sql<Cardsets_Flashcards>`
@@ -175,7 +219,7 @@ export async function fetchCS2FC(id: string){
     WHERE csid = ${id}`
 
     return data.rows;
-  }catch (error){
+  } catch (error) {
     console.error('DB Error:', error);
     throw new Error('Failed to fetch CS2FC')
   }
