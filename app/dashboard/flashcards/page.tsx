@@ -44,7 +44,7 @@ export default async function Page({
         totalCSPages = await fetchCardsetsPages(csquery);
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error(`Failed to fetch flashcard pages : ${error}`);
+        throw new Error(`Failed to fetch flashcard or cardset pages : ${error}`);
     }
 
     return (

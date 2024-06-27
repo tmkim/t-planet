@@ -53,7 +53,6 @@ export function ReadCardset({ id }: { id: string }) {
 
 export function UpdateCardset({ cs }: { cs: Cardset }) {
   const { isShown, toggle } = useModal();
-  const content = <CardsetEditForm cs={cs} />
 
   return (
     <React.Fragment>
@@ -63,7 +62,7 @@ export function UpdateCardset({ cs }: { cs: Cardset }) {
         <span className="sr-only">Update Flashcard</span>{' '}
         <PencilIcon className="w-5" />
       </button>
-      <EditCSModal isShown={isShown} hide={toggle} headerText='Update Flashcard' />
+      <EditCSModal cs={cs} isShown={isShown} hide={toggle} headerText='Update Flashcard' />
     </React.Fragment>
   );
 }

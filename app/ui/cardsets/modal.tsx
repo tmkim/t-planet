@@ -12,7 +12,7 @@ import {
     Backdrop,
 } from '@/app/ui/modal.style';
 import { TAC_Back, TAC_Front } from '@/app/ui/textarea_custom';
-import { Flashcard } from '@/app/lib/definitions';
+import { Cardset, Flashcard } from '@/app/lib/definitions';
 import TempTable from '@/app/ui/cardsets/temptable'
 import { effect } from 'zod';
 
@@ -27,6 +27,7 @@ export interface EditProps {
     isShown: boolean;
     hide: () => void;
     headerText: string;
+    cs: Cardset;
 }
 
 export const CreateCSModal: FunctionComponent<CreateProps> = ({
@@ -45,23 +46,23 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
 
     let cards: string[] = []
 
-    const createCardsetWithCards = createCardset.bind(null, cards)
-    const [state, formAction] = useFormState(createCardsetWithCards, initialState)
+    const updateCardsetWithCards = createCardset.bind(null, cards)
+    const [state, formAction] = useFormState(updateCardsetWithCards, initialState)
 
-    const [fcl, dataSet] = useState<any>([])
+    const [fcl, set_fcl] = useState<any>([])
 
     useEffect(() => {
         fetch('/api/fcapi')
             .then((res) => res.json())
             .then((data) => {
-                dataSet(data)
+                set_fcl(data)
             })
         // console.log("CHECKING USEEFFECT --create")
         // console.log(fcl.flashcards)
     }, [isShown])
 
     useEffect(() => {
-        if (state?.message === "created") {
+        if (state?.message === "updated") {
             // console.log("using effect")
             hide()
             state.message = ""
@@ -107,7 +108,7 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
                                             ))}
                                     </div>
                                 </div>
-                                <TempTable fcl={fcl.flashcards} cs={cards}/>
+                                <TempTable fcl={fcl.flashcards} cs={cards} />
                                 {/* <TempTable fcl={fcl.flashcards}/> */}
                                 <div className="mt-6 flex justify-end gap-4 mr-6 pb-6">
                                     <Button type="button" onClick={hide}>Cancel</Button>
@@ -128,7 +129,8 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
 export const EditCSModal: FunctionComponent<EditProps> = ({
     isShown,
     hide,
-    headerText
+    headerText,
+    cs
 }) => {
 
     const initialState = {
@@ -144,15 +146,27 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
     const createCardsetWithCards = createCardset.bind(null, cards)
     const [state, formAction] = useFormState(createCardsetWithCards, initialState)
 
-    const [fcl, dataSet] = useState<any>([])
+    const [fcl, set_fcl] = useState<any>([])
 
     useEffect(() => {
         fetch('/api/fcapi')
             .then((res) => res.json())
             .then((data) => {
-                dataSet(data)
+                set_fcl(data)
             })
         // console.log("CHECKING USEEFFECT --edit")
+        // console.log(fcl.flashcards)
+    }, [isShown])
+
+    const [csfcl, set_csfcl] = useState<any>([])
+
+    useEffect(() => {
+        fetch(`/api/csapi/${cs.csid}`)
+            .then((res) => res.json())
+            .then((data) => {
+                set_csfcl(data)
+            })
+        // console.log("CHECKING USEEFFECT --create")
         // console.log(fcl.flashcards)
     }, [isShown])
 

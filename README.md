@@ -276,3 +276,14 @@ Did a bit of work on create-form UI
 
 Not sure why fcapi is being weird
 SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON data
+
+6/25
+    *** pre-populate CS Edit checkboxes
+    
+    >> took a little detour to optimize cardset creation by building dynamic insert instead of doing multiple inserts
+    >> update getUID to getUSER
+
+    ***
+        Built csapi/[csid]
+            >> successfully returns all flashcards associated with cardset
+        -- need to work on setting checkbox defaults

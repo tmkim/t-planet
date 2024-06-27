@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getUID } from '@/app/lib/data';
+import { getUser } from '@/app/lib/data';
 
 const { db } = require('@vercel/postgres');
 
@@ -10,9 +10,10 @@ export async function GET(request: Request, context: any) {
   // const fc = data.filter((x) => params.fcid === x.fcid);
 
   try {
-    const usr = await getUID()
+    const usr = await getUser()
     const fc = await client.sql`
       SELECT 
+        fc.fcid,
         fc.front_text,
         fc.back_text,
         fc.front_img,
@@ -28,7 +29,7 @@ export async function GET(request: Request, context: any) {
         ON 
           ufc.fcid = fc.fcid
       WHERE
-        u.uid = ${usr} 
+        u.uid = ${usr.uid} 
     `
 
     const flashcards = fc.rows

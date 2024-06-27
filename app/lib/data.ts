@@ -9,7 +9,7 @@ import {
 import { auth } from '@/auth'
 
 
-export async function getUID() {
+export async function getUser() {
   noStore();
   const sesh = await auth()
 
@@ -19,7 +19,7 @@ export async function getUID() {
     FROM users
     WHERE email=${sesh?.user?.email}`
 
-    return user.rows[0].uid
+    return user.rows[0]
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch user.');
@@ -35,7 +35,7 @@ export async function fetchFilteredFlashcards(
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
-    const usr = await getUID()
+    const usr = await getUser()
     const flashcards = await sql<Flashcard>`
       SELECT
         fc.fcid,
@@ -47,7 +47,7 @@ export async function fetchFilteredFlashcards(
       JOIN users_flashcards ufc ON ufc.uid = u.uid
       JOIN flashcards fc ON ufc.fcid = fc.fcid
       WHERE
-        u.uid = ${usr} 
+        u.uid = ${usr.uid} 
       AND 
         (
           fc.front_text ILIKE ${`%${query}%`}
@@ -68,7 +68,7 @@ export async function fetchUserFlashcards() {
   noStore();
 
   try {
-    const usr = await getUID()
+    const usr = await getUser()
 
     const flashcards = await sql<Flashcard>`
       SELECT
@@ -81,7 +81,7 @@ export async function fetchUserFlashcards() {
       JOIN users_flashcards ufc ON ufc.uid = u.uid
       JOIN flashcards fc ON ufc.fcid = fc.fcid
       WHERE
-        u.uid = ${usr} 
+        u.uid = ${usr.uid} 
       `
 
     return flashcards.rows;
@@ -117,13 +117,13 @@ export async function fetchFlashcardsPages(query: string) {
   noStore();
 
   try {
-    const usr = await getUID()
+    const usr = await getUser()
     const count = await sql`SELECT COUNT(*)
       FROM users u
       JOIN users_flashcards ufc ON ufc.uid = u.uid
       JOIN flashcards fc ON ufc.fcid = fc.fcid
       WHERE
-        u.uid = ${usr} 
+        u.uid = ${usr.uid} 
       AND 
       (
         front_text ILIKE ${`%${query}%`} 
@@ -148,7 +148,7 @@ export async function fetchFilteredCardsets(
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
-    const usr = await getUID()
+    const usr = await getUser()
     const cardsets = await sql<Cardset>`
     SELECT
       c.csid,
@@ -159,7 +159,7 @@ export async function fetchFilteredCardsets(
     JOIN users_cardsets uc on u.uid = uc.uid
     JOIN cardsets c on uc.csid = c.csid
     WHERE
-      u.uid = ${usr}
+      u.uid = ${usr.uid}
       AND
       (
         title ILIKE ${`%${query}%`} 
@@ -181,13 +181,24 @@ export async function fetchCardsetsPages(query: string) {
   noStore();
 
   try {
-    const usr = await getUID()
-    const count = await sql`SELECT COUNT(*)
-    FROM cardsets
-    WHERE
-      title ILIKE ${`%${query}%`} OR
-      created_by ILIKE ${`%${query}%`} 
-    `;
+    const usr = await getUser()
+    const count = await sql`
+      SELECT COUNT(*)
+      FROM 
+        users u
+      JOIN 
+        users_cardsets uc ON u.uid = uc.uid
+      JOIN 
+        cardsets c ON uc.csid = c.csid
+      WHERE
+        u.uid = ${usr.uid}
+      AND
+      (
+        title ILIKE ${`%${query}%`} 
+      OR
+        created_by ILIKE ${`%${query}%`} 
+      )
+      `;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     return totalPages;

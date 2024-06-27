@@ -194,8 +194,8 @@ async function seedCardsetsFlashcards(client) {
     try {
         const createTable = await client.sql`
         CREATE TABLE IF NOT EXISTS cardsets_flashcards(
-            csid VARCHAR(255) NOT NULL,
-            fcid VARCHAR(255) NOT NULL
+            csid UUID DEFAULT uuid_generate_v4(),
+            fcid UUID DEFAULT uuid_generate_v4()
         );
     `;
 
@@ -225,11 +225,11 @@ async function clearTables(client) {
     try {
 
         // DROP TABLE IF EXISTS users;
-        // DROP TABLE IF EXISTS cardsets_flashcards;
-        // DROP TABLE IF EXISTS users_flashcards;
-        // DROP TABLE IF EXISTS users_cardsets;
-        // DROP TABLE IF EXISTS cardsets;
         const clearTables = await client.sql`
+        DROP TABLE IF EXISTS cardsets_flashcards;
+        DROP TABLE IF EXISTS users_flashcards;
+        DROP TABLE IF EXISTS users_cardsets;
+        DROP TABLE IF EXISTS cardsets;
         DROP TABLE IF EXISTS flashcards;
         `;
 
@@ -252,10 +252,10 @@ async function main() {
 
     // await seedUsers(client);
     await seedFlashcards(client);
-    // await seedCardsets(client);
-    // await seedUsersFlashcards(client);
-    // await seedUsersCardsets(client);
-    // await seedCardsetsFlashcards(client);
+    await seedCardsets(client);
+    await seedUsersFlashcards(client);
+    await seedUsersCardsets(client);
+    await seedCardsetsFlashcards(client);
 
     await client.end();
 }

@@ -20,13 +20,17 @@ export default function TempTable({
   cs: String[]
 }) {
 
+  // get flashcards associated to cardset
+  // if fcid in cs, checkbox default checked
+
+
   const onChangeCheckBox = (e: {
     target: { checked: boolean; value: String };
   }) => {
-    if(e.target.checked){
+    if (e.target.checked) {
       cs.push(e.target.value)
-    }else{
-      cs.splice(cs.indexOf(e.target.value),1)
+    } else {
+      cs.splice(cs.indexOf(e.target.value), 1)
     }
     console.log(cs)
   };
@@ -80,7 +84,7 @@ export default function TempTable({
                         name="include"
                         onChange={onChangeCheckBox}
                         id={flashcard.fcid}
-                      // checked={item.checked}
+                      // checked={flashcard.fcid in cs ? true : false}
                       />
                     </td>
                   </tr>
