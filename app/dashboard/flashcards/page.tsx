@@ -10,7 +10,7 @@ import { Suspense } from 'react';
 import { lusitana } from '@/app/ui/fonts';
 import { CreateFlashcard } from '@/app/ui/flashcards/buttons';
 import { CreateCardset, BrowseCardsets } from '@/app/ui/cardsets/buttons';
-import { fetchFlashcardsPages, fetchCardsetsPages } from '@/app/lib/data';
+import { fetchFlashcardsPages, fetchCardsetsPages, fetchUserFlashcards } from '@/app/lib/data';
 import { FlashcardTableSkeleton, CardsetTableSkeleton } from '@/app/ui/skeletons';
 import { auth } from '@/auth'
 import { sql } from '@vercel/postgres';
@@ -36,12 +36,14 @@ export default async function Page({
     const currentCSPage = Number(searchParams?.cspage) || 1;
     var totalFCPages = 1
     var totalCSPages = 1
+    var flashcards = []
     // var mySesh, seshUID
     try {
         // mySesh = await auth()
         // seshUID = await fetchCurrentUID(mySesh?.user?.email || '');
         totalFCPages = await fetchFlashcardsPages(fcquery);
         totalCSPages = await fetchCardsetsPages(csquery);
+        flashcards = await fetchUserFlashcards();
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error(`Failed to fetch flashcard or cardset pages : ${error}`);
@@ -76,11 +78,11 @@ export default async function Page({
 
                 <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
                     <CSSearch placeholder="Search Card Sets..." />
-                    <CreateCardset />
+                    <CreateCardset fcl={flashcards} />
                     <BrowseCardsets />
                 </div>
                 <Suspense key={csquery + currentCSPage} fallback={<CardsetTableSkeleton />}>
-                    <CardsetsTable query={csquery} currentPage={currentCSPage} />
+                    <CardsetsTable query={csquery} currentPage={currentCSPage} fcl={flashcards} />
                 </Suspense>
                 <div className="mt-5 flex w-full justify-center">
                     <CSPagination totalPages={totalCSPages} />

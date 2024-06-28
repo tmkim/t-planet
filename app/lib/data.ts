@@ -177,6 +177,28 @@ export async function fetchFilteredCardsets(
   }
 }
 
+// export async function fetchFclChecked(fcl: Flashcard[]) {
+//   noStore()
+
+//   try {
+//     const fcl_c = await sql`
+//     SELECT
+//       c.csid,
+//       cf.fcid
+//     FROM
+//       cardsets c
+//     LEFT JOIN
+//       cardsets_flashcards cf
+//     ON
+//       c.csid = cf.csid
+//     `
+
+//   } catch (error) {
+//     console.error('Error fetching checked flash cards', error);
+//     throw new Error(`Error fetching checked flash cards ${error}`);
+//   }
+// }
+
 export async function fetchCardsetsPages(query: string) {
   noStore();
 
@@ -231,12 +253,18 @@ export async function fetchCardsetById(id: string) {
 export async function fetchCS2FC(id: string) {
   noStore();
   try {
-    const data = await sql<Cardsets_Flashcards>`
+    const data = await sql`
     SELECT
-    csid,
-    fcid
-    FROM cardsets_flashcards
-    WHERE csid = ${id}`
+      cf.csid,
+      cf.fcid,
+      f.front_text
+    FROM 
+      cardsets_flashcards cf
+    JOIN 
+      flashcards f
+    ON 
+      cf.fcid = f.fcid
+    WHERE cf.csid = ${id}`
 
     return data.rows;
   } catch (error) {

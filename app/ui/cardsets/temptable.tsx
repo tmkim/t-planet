@@ -32,7 +32,7 @@ export default function TempTable({
     } else {
       cs.splice(cs.indexOf(e.target.value), 1)
     }
-    console.log(cs)
+    // console.log(cs)
   };
 
   return (
@@ -84,7 +84,7 @@ export default function TempTable({
                         name="include"
                         onChange={onChangeCheckBox}
                         id={flashcard.fcid}
-                      // checked={flashcard.fcid in cs ? true : false}
+                      // checked={flashcard.checked}
                       />
                     </td>
                   </tr>

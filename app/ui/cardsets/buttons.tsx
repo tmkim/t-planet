@@ -6,11 +6,9 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Cardset, Flashcard } from '@/app/lib/definitions';
 import { useModal } from '@/app/lib/useModal';
 import React from 'react';
-// import { Modal } from '@/app/ui/myModal';
-import CardsetEditForm from '@/app/ui/cardsets/edit-form';
 import { CreateCSModal, EditCSModal } from '@/app/ui/cardsets/modal';
 
-export function CreateCardset() {
+export function CreateCardset({ fcl }: { fcl: Flashcard[] }) {
 
   const { isShown, toggle } = useModal();
 
@@ -22,7 +20,7 @@ export function CreateCardset() {
         <span className="hidden md:block">Create Card Set</span>{' '}
         <PlusIcon className="h-5 md:ml-4" />
       </button>
-      <CreateCSModal isShown={isShown} hide={toggle} headerText='Add New Card Set' />
+      <CreateCSModal fcl={fcl} isShown={isShown} hide={toggle} headerText='Add New Card Set' />
     </React.Fragment>
   );
 }
@@ -51,7 +49,7 @@ export function ReadCardset({ id }: { id: string }) {
   )
 }
 
-export function UpdateCardset({ cs }: { cs: Cardset }) {
+export function UpdateCardset({ cs, fcl }: { cs: Cardset, fcl: Flashcard[] }) {
   const { isShown, toggle } = useModal();
 
   return (
@@ -62,7 +60,7 @@ export function UpdateCardset({ cs }: { cs: Cardset }) {
         <span className="sr-only">Update Flashcard</span>{' '}
         <PencilIcon className="w-5" />
       </button>
-      <EditCSModal cs={cs} isShown={isShown} hide={toggle} headerText='Update Flashcard' />
+      <EditCSModal fcl={fcl} cs={cs} isShown={isShown} hide={toggle} headerText='Update Flashcard' />
     </React.Fragment>
   );
 }

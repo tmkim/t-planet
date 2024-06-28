@@ -296,7 +296,7 @@ export async function createCardset(cards: string[], prevState: CSState, formDat
 
 const UpdateCardset = CSSchema.omit({ csid: true, created_by: true, share: true })
 
-export async function updateCardset(csid: string, cards: string[], prevState: FCState, formData: FormData) {
+export async function updateCardset(csid: string, cards: string[], prevState: CSState, formData: FormData) {
   const validatedFields = UpdateCardset.safeParse({
     title: formData.get('title'),
     // created_by: formData.get('created_by'),
@@ -371,18 +371,3 @@ export async function deleteCardset(id: string) {
   revalidatePath('/dashboard/flashcards')
   redirect('/dashboard/flashcards');
 }
-
-
-function noStore() {
-  throw new Error('Function not implemented.');
-}
-// export async function deleteInvoice(id: string){
-//   try{
-//     await sql `DELETE FROM invoices WHERE id = ${id}`
-//   } catch (error) {
-//     return {
-//       message: 'Database Error: Failed to Delete Invoice',
-//     }
-//   }
-//   revalidatePath('/dashboard/invoices')
-// }

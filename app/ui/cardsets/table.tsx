@@ -1,4 +1,5 @@
 // import Image from 'next/image';
+import { Flashcard } from '@/app/lib/definitions';
 import { UpdateCardset, DeleteCardset, ReadCardset } from './buttons';
 // import InvoiceStatus from '@/app/ui/flashcards/status';
 // import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
@@ -7,11 +8,14 @@ import { fetchFilteredCardsets } from '@/app/lib/data';
 export default async function CardsetsTable({
   query,
   currentPage,
+  fcl,
 }: {
   query: string;
   currentPage: number;
+  fcl: Flashcard[];
 }) {
   const cardsets = await fetchFilteredCardsets(query, currentPage);
+  // const fcl_checked: {csid: string, fcl: Flashcard[]}[] = [{csid: '', fcl: []}, {csid: '1', fcl: []}, {csid: '2', fcl: []}];
 
   return (
     <div className="mt-6 flow-root">
@@ -19,7 +23,7 @@ export default async function CardsetsTable({
         <div className="h-96 border-separate overflow-clip rounded-xl border border-solid flex flex-col overflow-y-auto">
           <table className="min-w-full text-gray-900 md:table">
             <thead className="sticky rounded-lg text-left text-md font-bold">
-            {/* <thead className="sticky bg-gray-300 rounded-lg text-left text-md font-bold"> */}
+              {/* <thead className="sticky bg-gray-300 rounded-lg text-left text-md font-bold"> */}
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6 border-r border-solid border-slate-900">
                   Name
@@ -54,7 +58,7 @@ export default async function CardsetsTable({
                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
                         <ReadCardset id={cardset.csid} />
-                        <UpdateCardset cs={cardset} />
+                        <UpdateCardset cs={cardset} fcl={fcl} />
                         <DeleteCardset id={cardset.csid} title={cardset.title} />
                       </div>
                     </td>
@@ -67,4 +71,8 @@ export default async function CardsetsTable({
       </div>
     </div>
   );
+}
+
+export function fetchCheckedCards() {
+  return ['h', 'e', 'w', 'o', '?']
 }
