@@ -11,7 +11,7 @@ import {
     Content,
     Backdrop,
 } from '@/app/ui/modal.style';
-import { Cardset, Flashcard } from '@/app/lib/definitions';
+import { Cardset, Cardsets_Flashcards_List, Flashcard } from '@/app/lib/definitions';
 import TempTable from '@/app/ui/cardsets/temptable'
 import { effect } from 'zod';
 
@@ -21,14 +21,6 @@ export interface CreateProps {
     hide: () => void;
     headerText: string;
     fcl: Flashcard[];
-}
-
-export interface EditProps {
-    isShown: boolean;
-    hide: () => void;
-    headerText: string;
-    fcl: Flashcard[];
-    cs: Cardset;
 }
 
 export const CreateCSModal: FunctionComponent<CreateProps> = ({
@@ -126,6 +118,14 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
 
     return isShown ? ReactDOM.createPortal(create_modal, document.body) : null;
 
+}
+
+export interface EditProps {
+    isShown: boolean;
+    hide: () => void;
+    headerText: string;
+    fcl: Cardsets_Flashcards_List[];
+    cs: Cardset;
 }
 
 export const EditCSModal: FunctionComponent<EditProps> = ({

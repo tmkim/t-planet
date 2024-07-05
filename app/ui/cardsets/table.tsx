@@ -1,9 +1,9 @@
 // import Image from 'next/image';
-import { Flashcard } from '@/app/lib/definitions';
+import { Cardset, Flashcard, Cardsets_Flashcards_List } from '@/app/lib/definitions';
 import { UpdateCardset, DeleteCardset, ReadCardset } from './buttons';
 // import InvoiceStatus from '@/app/ui/flashcards/status';
 // import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
-import { fetchFilteredCardsets } from '@/app/lib/data';
+import { fetchCS_FC, fetchFilteredCardsets } from '@/app/lib/data';
 
 export default async function CardsetsTable({
   query,
@@ -15,6 +15,24 @@ export default async function CardsetsTable({
   fcl: Flashcard[];
 }) {
   const cardsets = await fetchFilteredCardsets(query, currentPage);
+
+  let cs_fcl_checked = []
+  for (var cs of cardsets){
+    const cards = await fetchCS_FC(cs.csid)
+    console.log(cards)
+    var temp_fcl:Cardsets_Flashcards_List[] = []
+    for (var fc of fcl){
+      if (cards.includes(fc.fcid)){
+        temp_fcl.push({...fc, checked: true})
+      }
+      else{
+        temp_fcl.push({...fc, checked: false})
+      }
+    }
+    const cs_fcl = {...cs, 'fcl':temp_fcl}
+    cs_fcl_checked.push(cs_fcl)
+  }
+
   // const fcl_checked: {csid: string, fcl: Flashcard[]}[] = [{csid: '', fcl: []}, {csid: '1', fcl: []}, {csid: '2', fcl: []}];
 
   return (
@@ -40,7 +58,7 @@ export default async function CardsetsTable({
           <div className="flex-1 overflow-y-auto">
             <table className="min-w-full text-gray-900 md:table">
               <tbody className="bg-white">
-                {cardsets?.map((cardset) => (
+                {cs_fcl_checked?.map((cardset) => (
                   <tr
                     key={cardset.csid}
                     className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
@@ -58,7 +76,7 @@ export default async function CardsetsTable({
                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
                         <ReadCardset id={cardset.csid} />
-                        <UpdateCardset cs={cardset} fcl={fcl} />
+                        <UpdateCardset cs={cardset} fcl={cardset.fcl} />
                         <DeleteCardset id={cardset.csid} title={cardset.title} />
                       </div>
                     </td>

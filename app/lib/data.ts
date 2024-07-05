@@ -7,6 +7,8 @@ import {
   Cardsets_Flashcards
 } from './definitions';
 import { auth } from '@/auth'
+import { dataFocusVisibleClasses } from '@nextui-org/react';
+import { error } from 'console';
 
 
 export async function getUser() {
@@ -247,6 +249,28 @@ export async function fetchCardsetById(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch cardset.');
+  }
+}
+
+export async function fetchCS_FC(id: string){
+  noStore();
+  try{
+    const data = await sql`
+    SELECT
+      fcid
+    FROM
+      cardsets_flashcards
+    WHERE
+      csid = ${id}`
+    
+    var fcid_list = ''
+    for (var d of data.rows){
+      fcid_list += `${d.fcid},`
+    }
+    return fcid_list.substring(0,fcid_list.length-1)
+  } catch (e){
+    console.error('DB Error: ', e)
+    throw new Error('Failed to fetch CS_FC')
   }
 }
 

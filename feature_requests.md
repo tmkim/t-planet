@@ -1,0 +1,2 @@
+While reviewing, "Good" vs "Bad" to move to next one. If good, remove from view iteration. If bad, place back into stack.
+When making set, checkbox for whether to display flashcard front first or back first.

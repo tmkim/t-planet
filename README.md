@@ -298,3 +298,20 @@ SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON d
     I think this needs to be done within the modal because it's specific to each cardset (table row)
     So each table row should have the csid available to make an API call. Let's make sure we can get the list of cards in use properly first.
     
+7/5 I'M BAAAAAAAAAACK
+    So let's get back to editing card sets.
+
+    I need to focus on making sure the correct cards are being fetched.
+    then I can worry about populating the checkboxes.
+
+    GOTTEMMMMMM
+    ***
+    Edit CS Modal pre-populated with check marks !! 
+    Added new definition, Cardsets_Flashcards_List, which is basically Flashcard except with "checked: boolean"
+    So now in cardsets/table.tsx, I do some logic while getting list of flashcards
+        Use cs_fc table to get list of flashcards included in each cardset, then add "checked" boolean to each one
+        Pass new list that includes "checked"
+    I think this is a good spot to have it done as we're setting up mapping for this table specifically.
+    Maybe could do it later but then would have to do through API instead of fetching through server.
+        Not sure which is better but I'd have to set up a bunch of API logic as well
+    Let me check this in then do a bit of testing with API.

@@ -2,8 +2,8 @@
 import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, MagnifyingGlassPlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deleteCardset } from '@/app/lib/actions';
-import { FormEvent, useEffect, useState } from 'react';
-import { Cardset, Flashcard } from '@/app/lib/definitions';
+import { FormEvent, MouseEventHandler, useEffect, useState } from 'react';
+import { Cardset, Cardsets_Flashcards_List, Flashcard } from '@/app/lib/definitions';
 import { useModal } from '@/app/lib/useModal';
 import React from 'react';
 import { CreateCSModal, EditCSModal } from '@/app/ui/cardsets/modal';
@@ -49,13 +49,20 @@ export function ReadCardset({ id }: { id: string }) {
   )
 }
 
-export function UpdateCardset({ cs, fcl }: { cs: Cardset, fcl: Flashcard[] }) {
+export function UpdateCardset({ cs, fcl }: { cs: Cardset, fcl: Cardsets_Flashcards_List[] }) {
   const { isShown, toggle } = useModal();
+
+  const testCS = () => {
+    toggle()
+    for (var fc of fcl){
+      console.log(`testing updates - ${fc.checked}`)
+    }
+  }
 
   return (
     <React.Fragment>
       <button
-        onClick={toggle}
+        onClick={testCS}
         className="rounded-md border p-2 hover:bg-gray-100">
         <span className="sr-only">Update Flashcard</span>{' '}
         <PencilIcon className="w-5" />

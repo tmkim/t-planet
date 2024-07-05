@@ -46,12 +46,13 @@ export type UserField = {
   password: string;
 };
 
-export type FlashcardsTable = {
+export type Cardsets_Flashcards_List = {
   fcid: string;
   front_text: string;
   back_text: string;
   front_img: string;
   back_img: string;
+  checked: boolean;
 }
 
 export type CardsetsTable = {

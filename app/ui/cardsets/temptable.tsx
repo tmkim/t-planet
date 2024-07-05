@@ -3,7 +3,7 @@ import { UpdateFlashcard, DeleteFlashcard, ReadFlashcard, CreateFlashcard } from
 import { fetchFilteredFlashcards, fetchFlashcardsPages } from '@/app/lib/data';
 import FCSearch from '../flashcards/search';
 import FCPagination from '../flashcards/pagination';
-import { Flashcard } from '@/app/lib/definitions';
+import { Cardsets_Flashcards_List, Flashcard } from '@/app/lib/definitions';
 import { useEffect, useState } from 'react';
 
 export interface FormProps {
@@ -16,7 +16,7 @@ export default function TempTable({
   fcl,
   cs
 }: {
-  fcl: Flashcard[]
+  fcl: Cardsets_Flashcards_List[]
   cs: String[]
 }) {
 
@@ -84,14 +84,13 @@ export default function TempTable({
                         name="include"
                         onChange={onChangeCheckBox}
                         id={flashcard.fcid}
-                      // checked={flashcard.checked}
+                        checked={flashcard.checked}
                       />
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            {/* <FlashcardsTable query={fcquery} currentPage={currentFCPage} /> */}
             {/* </Suspense> */}
             {/* <div className="mt-5 flex w-full justify-center">
             <FCPagination totalPages={totalFCPages} />
