@@ -12,11 +12,11 @@ export interface FormProps {
   callTime: any;
 }
 
-export default function TempTable({
+export default function CreateTable({
   fcl,
   cs
 }: {
-  fcl: Cardsets_Flashcards_List[]
+  fcl: Flashcard[]
   cs: String[]
 }) {
 
@@ -84,7 +84,7 @@ export default function TempTable({
                         name="include"
                         onChange={onChangeCheckBox}
                         id={flashcard.fcid}
-                        checked={flashcard.checked}
+                        checked={false}
                       />
                     </td>
                   </tr>

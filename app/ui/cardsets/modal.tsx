@@ -12,7 +12,8 @@ import {
     Backdrop,
 } from '@/app/ui/modal.style';
 import { Cardset, Cardsets_Flashcards_List, Flashcard } from '@/app/lib/definitions';
-import TempTable from '@/app/ui/cardsets/temptable'
+import EditTable from '@/app/ui/cardsets/edit-table'
+import CreateTable from '@/app/ui/cardsets/create-table';
 import { effect } from 'zod';
 
 
@@ -102,7 +103,7 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
                                             ))}
                                     </div>
                                 </div>
-                                <TempTable fcl={fcl} cs={cards} />
+                                <CreateTable fcl={fcl} cs={cards} />
                                 {/* <TempTable fcl={fcl.flashcards}/> */}
                                 <div className="mt-6 flex justify-end gap-4 mr-6 pb-6">
                                     <Button type="button" onClick={hide}>Cancel</Button>
@@ -214,7 +215,7 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
                                             ))}
                                     </div>
                                 </div>
-                                <TempTable fcl={fcl} cs={cards} />
+                                <EditTable fcl={fcl} cs={cards} />
                                 <div className="mt-6 flex justify-end gap-4 mr-6 pb-6">
                                     <Button type="button" onClick={hide}>Cancel</Button>
                                     <Button type="submit" >Save + Close</Button>

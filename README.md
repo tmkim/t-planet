@@ -315,3 +315,5 @@ SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON d
     Maybe could do it later but then would have to do through API instead of fetching through server.
         Not sure which is better but I'd have to set up a bunch of API logic as well
     Let me check this in then do a bit of testing with API.
+
+    ** ok next, gotta make updating cardsets actually work.
