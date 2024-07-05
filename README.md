@@ -287,3 +287,14 @@ SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON d
         Built csapi/[csid]
             >> successfully returns all flashcards associated with cardset
         -- need to work on setting checkbox defaults
+
+6/26
+    *** pre-populate CS Edit checkboxes
+
+    >> detour time lmao
+        - restructured CS modal fetches to get flashcard list in page.tsx instead of in the modal (removed useEffect, makes less fetch calls)
+
+    OK so now let's look at CS Edit checkboxes.
+    I think this needs to be done within the modal because it's specific to each cardset (table row)
+    So each table row should have the csid available to make an API call. Let's make sure we can get the list of cards in use properly first.
+    
