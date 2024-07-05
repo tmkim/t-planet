@@ -3,7 +3,7 @@ import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, MagnifyingGlassPlusIcon } fro
 import Link from 'next/link';
 import { deleteCardset } from '@/app/lib/actions';
 import { FormEvent, MouseEventHandler, useEffect, useState } from 'react';
-import { Cardset, Cardsets_Flashcards_List, Flashcard } from '@/app/lib/definitions';
+import { Cardset, Cardsets_Flashcards_Helper, Cardsets_Helper, Flashcard } from '@/app/lib/definitions';
 import { useModal } from '@/app/lib/useModal';
 import React from 'react';
 import { CreateCSModal, EditCSModal } from '@/app/ui/cardsets/modal';
@@ -49,12 +49,12 @@ export function ReadCardset({ id }: { id: string }) {
   )
 }
 
-export function UpdateCardset({ cs, fcl }: { cs: Cardset, fcl: Cardsets_Flashcards_List[] }) {
+export function UpdateCardset({ cs }: { cs: Cardsets_Helper }) {
   const { isShown, toggle } = useModal();
 
   const testCS = () => {
     toggle()
-    for (var fc of fcl){
+    for (var fc of cs.cs_fcl){
       console.log(`testing updates - ${fc.checked}`)
     }
   }
@@ -67,7 +67,7 @@ export function UpdateCardset({ cs, fcl }: { cs: Cardset, fcl: Cardsets_Flashcar
         <span className="sr-only">Update Flashcard</span>{' '}
         <PencilIcon className="w-5" />
       </button>
-      <EditCSModal fcl={fcl} cs={cs} isShown={isShown} hide={toggle} headerText='Update Flashcard' />
+      <EditCSModal fcl={cs.cs_fcl} cs={cs} isShown={isShown} hide={toggle} headerText='Update Flashcard' />
     </React.Fragment>
   );
 }

@@ -11,7 +11,7 @@ import {
     Content,
     Backdrop,
 } from '@/app/ui/modal.style';
-import { Cardset, Cardsets_Flashcards_List, Flashcard } from '@/app/lib/definitions';
+import { Cardset, Cardsets_Flashcards_Helper, Cardsets_Helper, Flashcard } from '@/app/lib/definitions';
 import EditTable from '@/app/ui/cardsets/edit-table'
 import CreateTable from '@/app/ui/cardsets/create-table';
 import { effect } from 'zod';
@@ -125,8 +125,8 @@ export interface EditProps {
     isShown: boolean;
     hide: () => void;
     headerText: string;
-    fcl: Cardsets_Flashcards_List[];
-    cs: Cardset;
+    fcl: Cardsets_Flashcards_Helper[];
+    cs: Cardsets_Helper;
 }
 
 export const EditCSModal: FunctionComponent<EditProps> = ({
@@ -146,27 +146,8 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
         }
     }
 
-    let cards: string[] = []
-    const updateCardsetWithCards = updateCardset.bind(null, cs.csid, cards)
+    const updateCardsetWithCards = updateCardset.bind(null, cs.csid, cs.cards)
     const [state, formAction] = useFormState(updateCardsetWithCards, initialState)
-
-    // const [fcl, set_fcl] = useState<any>([])
-    // const [csfcl, set_csfcl] = useState<any>([])
-
-    // useEffect(() => {
-    //     fetch('/api/fcapi')
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             set_fcl(data)
-    //         })
-
-    //     fetch(`/api/csapi/${cs.csid}`)
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             set_csfcl(data)
-    //         })
-    // }, [isShown])
-
 
     useEffect(() => {
         if (state?.message === "updated") {
@@ -203,6 +184,7 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
                                             type="title"
                                             name="title"
                                             placeholder="Title Your Card Set..."
+                                            defaultValue={cs.title}
                                             required
                                         />
                                     </div>
@@ -215,7 +197,7 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
                                             ))}
                                     </div>
                                 </div>
-                                <EditTable fcl={fcl} cs={cards} />
+                                <EditTable fcl={fcl} cs={cs} />
                                 <div className="mt-6 flex justify-end gap-4 mr-6 pb-6">
                                     <Button type="button" onClick={hide}>Cancel</Button>
                                     <Button type="submit" >Save + Close</Button>

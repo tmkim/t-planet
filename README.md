@@ -312,8 +312,25 @@ SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON d
         Use cs_fc table to get list of flashcards included in each cardset, then add "checked" boolean to each one
         Pass new list that includes "checked"
     I think this is a good spot to have it done as we're setting up mapping for this table specifically.
-    Maybe could do it later but then would have to do through API instead of fetching through server.
-        Not sure which is better but I'd have to set up a bunch of API logic as well
-    Let me check this in then do a bit of testing with API.
 
     ** ok next, gotta make updating cardsets actually work.
+    Set up cardset_helper definition to hold list of cards + list including checked boolean
+
+    Updating card sets is all good!
+        Submitting updates the database properly
+        Opening edit modal is properly pre-populated
+
+    OKKKKK so...
+        Cardsets
+            +++ Create
+            +++ Update
+            +++ Delete
+            ~~ View (confirmed that proper list is fetched, need to work on interactivity)
+            ** Browse others' card sets
+
+    Next things I need to do --
+        Flash Card View
+        Card Set View
+        Card Set Browse
+
+        Bug testing and cleanup and make pretty

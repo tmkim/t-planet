@@ -46,13 +46,22 @@ export type UserField = {
   password: string;
 };
 
-export type Cardsets_Flashcards_List = {
+export type Cardsets_Flashcards_Helper = {
   fcid: string;
   front_text: string;
   back_text: string;
   front_img: string;
   back_img: string;
   checked: boolean;
+}
+
+export type Cardsets_Helper = {
+  csid: string;
+  title: string;
+  created_by: string;
+  share: boolean;
+  cs_fcl: Cardsets_Flashcards_Helper[];
+  cards: string[];
 }
 
 export type CardsetsTable = {

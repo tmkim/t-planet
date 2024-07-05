@@ -1,5 +1,5 @@
 // import Image from 'next/image';
-import { Cardset, Flashcard, Cardsets_Flashcards_List } from '@/app/lib/definitions';
+import { Cardset, Flashcard, Cardsets_Flashcards_Helper, Cardsets_Helper } from '@/app/lib/definitions';
 import { UpdateCardset, DeleteCardset, ReadCardset } from './buttons';
 // import InvoiceStatus from '@/app/ui/flashcards/status';
 // import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
@@ -20,7 +20,7 @@ export default async function CardsetsTable({
   for (var cs of cardsets){
     const cards = await fetchCS_FC(cs.csid)
     console.log(cards)
-    var temp_fcl:Cardsets_Flashcards_List[] = []
+    var temp_fcl:Cardsets_Flashcards_Helper[] = []
     for (var fc of fcl){
       if (cards.includes(fc.fcid)){
         temp_fcl.push({...fc, checked: true})
@@ -29,7 +29,7 @@ export default async function CardsetsTable({
         temp_fcl.push({...fc, checked: false})
       }
     }
-    const cs_fcl = {...cs, 'fcl':temp_fcl}
+    const cs_fcl: Cardsets_Helper = {...cs, 'cs_fcl':temp_fcl, 'cards':cards}
     cs_fcl_checked.push(cs_fcl)
   }
 
@@ -76,7 +76,7 @@ export default async function CardsetsTable({
                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
                         <ReadCardset id={cardset.csid} />
-                        <UpdateCardset cs={cardset} fcl={cardset.fcl} />
+                        <UpdateCardset cs={cardset} />
                         <DeleteCardset id={cardset.csid} title={cardset.title} />
                       </div>
                     </td>

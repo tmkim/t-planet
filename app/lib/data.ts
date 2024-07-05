@@ -263,11 +263,11 @@ export async function fetchCS_FC(id: string){
     WHERE
       csid = ${id}`
     
-    var fcid_list = ''
+    var fcid_list = []
     for (var d of data.rows){
-      fcid_list += `${d.fcid},`
+      fcid_list.push(d.fcid)
     }
-    return fcid_list.substring(0,fcid_list.length-1)
+    return fcid_list
   } catch (e){
     console.error('DB Error: ', e)
     throw new Error('Failed to fetch CS_FC')

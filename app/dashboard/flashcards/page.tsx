@@ -41,9 +41,10 @@ export default async function Page({
     try {
         // mySesh = await auth()
         // seshUID = await fetchCurrentUID(mySesh?.user?.email || '');
-        totalFCPages = await fetchFlashcardsPages(fcquery);
-        totalCSPages = await fetchCardsetsPages(csquery);
-        flashcards = await fetchUserFlashcards();
+        [totalFCPages, totalCSPages, flashcards] = await Promise.all([fetchFlashcardsPages(fcquery), fetchCardsetsPages(csquery), fetchUserFlashcards()])
+        // totalFCPages = await fetchFlashcardsPages(fcquery);
+        // totalCSPages = await fetchCardsetsPages(csquery);
+        // flashcards = await fetchUserFlashcards();
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error(`Failed to fetch flashcard or cardset pages : ${error}`);

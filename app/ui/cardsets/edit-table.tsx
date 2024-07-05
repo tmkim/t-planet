@@ -3,7 +3,7 @@ import { UpdateFlashcard, DeleteFlashcard, ReadFlashcard, CreateFlashcard } from
 import { fetchFilteredFlashcards, fetchFlashcardsPages } from '@/app/lib/data';
 import FCSearch from '../flashcards/search';
 import FCPagination from '../flashcards/pagination';
-import { Cardsets_Flashcards_List, Flashcard } from '@/app/lib/definitions';
+import { Cardsets_Flashcards_Helper, Cardsets_Helper, Flashcard } from '@/app/lib/definitions';
 import { useEffect, useState } from 'react';
 
 export interface FormProps {
@@ -16,8 +16,8 @@ export default function EditTable({
   fcl,
   cs
 }: {
-  fcl: Cardsets_Flashcards_List[]
-  cs: String[]
+  fcl: Cardsets_Flashcards_Helper[]
+  cs: Cardsets_Helper
 }) {
 
   // get flashcards associated to cardset
@@ -25,14 +25,14 @@ export default function EditTable({
 
 
   const onChangeCheckBox = (e: {
-    target: { checked: boolean; value: String };
+    target: { checked: boolean; value: string };
   }) => {
     if (e.target.checked) {
-      cs.push(e.target.value)
+      cs.cards.push(e.target.value)
     } else {
-      cs.splice(cs.indexOf(e.target.value), 1)
+      cs.cards.splice(cs.cards.indexOf(e.target.value), 1)
     }
-    // console.log(cs)
+    console.log(cs)
   };
 
   return (
@@ -84,7 +84,7 @@ export default function EditTable({
                         name="include"
                         onChange={onChangeCheckBox}
                         id={flashcard.fcid}
-                        checked={flashcard.checked}
+                        defaultChecked={flashcard.checked}
                       />
                     </td>
                   </tr>

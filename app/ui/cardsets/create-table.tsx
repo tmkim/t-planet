@@ -3,7 +3,7 @@ import { UpdateFlashcard, DeleteFlashcard, ReadFlashcard, CreateFlashcard } from
 import { fetchFilteredFlashcards, fetchFlashcardsPages } from '@/app/lib/data';
 import FCSearch from '../flashcards/search';
 import FCPagination from '../flashcards/pagination';
-import { Cardsets_Flashcards_List, Flashcard } from '@/app/lib/definitions';
+import { Flashcard } from '@/app/lib/definitions';
 import { useEffect, useState } from 'react';
 
 export interface FormProps {
@@ -84,7 +84,7 @@ export default function CreateTable({
                         name="include"
                         onChange={onChangeCheckBox}
                         id={flashcard.fcid}
-                        checked={false}
+                        defaultChecked={false}
                       />
                     </td>
                   </tr>
