@@ -6,7 +6,7 @@ import { FormEvent, MouseEventHandler, useEffect, useState } from 'react';
 import { Cardset, Cardsets_Flashcards_Helper, Cardsets_Helper, Flashcard } from '@/app/lib/definitions';
 import { useModal } from '@/app/lib/useModal';
 import React from 'react';
-import { CreateCSModal, EditCSModal } from '@/app/ui/cardsets/modal';
+import { CreateCSModal, EditCSModal, ViewCSModal } from '@/app/ui/cardsets/modal';
 
 export function CreateCardset({ fcl }: { fcl: Flashcard[] }) {
 
@@ -38,14 +38,19 @@ export function BrowseCardsets() {
 
 }
 
-export function ReadCardset({ id }: { id: string }) {
-  return (
-    <Link
-      href={`/dashboard/cardsets/${id}`}
-      className="rounded-md border p-2 hover:bg-gray-100"
-    >
-      <EyeIcon className="w-5" />
-    </Link>
+export function ReadCardset({ cs }: { cs: Cardsets_Helper }) {
+  const { isShown, toggle } = useModal();
+    // console.log(cs)
+    return (
+    <React.Fragment>
+      <button
+        onClick={toggle}
+        className="rounded-md border p-2 hover:bg-gray-100">
+        <span className="sr-only">Update Flashcard</span>{' '}
+        <EyeIcon className="w-5" />
+      </button>
+      <ViewCSModal cs={cs} isShown={isShown} hide={toggle}/>
+    </React.Fragment>
   )
 }
 
@@ -67,7 +72,7 @@ export function UpdateCardset({ cs }: { cs: Cardsets_Helper }) {
         <span className="sr-only">Update Flashcard</span>{' '}
         <PencilIcon className="w-5" />
       </button>
-      <EditCSModal fcl={cs.cs_fcl} cs={cs} isShown={isShown} hide={toggle} headerText='Update Flashcard' />
+      <EditCSModal cs={cs} isShown={isShown} hide={toggle} headerText='Update Flashcard' />
     </React.Fragment>
   );
 }

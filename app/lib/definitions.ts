@@ -62,6 +62,7 @@ export type Cardsets_Helper = {
   share: boolean;
   cs_fcl: Cardsets_Flashcards_Helper[];
   cards: string[];
+  cs_view: Flashcard[];
 }
 
 export type CardsetsTable = {

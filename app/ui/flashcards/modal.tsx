@@ -54,13 +54,13 @@ export const ViewFCModal: FunctionComponent<ViewProps> = ({
       // back_img: []
     }
   }
-  const [cardView, setCard] = useState<any>(fc.front_text)
+  const [cardView, flipText] = useState<any>(fc.front_text)
 
   const flipCard = () => {
     if (cardView == fc.front_text) {
-      setCard(fc.back_text)
+      flipText(fc.back_text)
     } else {
-      setCard(fc.front_text)
+      flipText(fc.front_text)
     }
   }
 

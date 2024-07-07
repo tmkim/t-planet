@@ -356,3 +356,8 @@ SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON d
         
         So my main concern here is doing things modally and making sure states are saved properly
         But I want to make sure certain logic doesn't occur until button is pressed, or it will take too long to load.
+
+        OK so I got some basic functionality working, need to make buttons prettier.
+        Also slight issue with "good" where it doesn't always move on to the next FC
+        Stack closes and resets after completion
+            -- having issue with reset

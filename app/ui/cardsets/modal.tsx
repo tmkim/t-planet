@@ -15,7 +15,7 @@ import { Cardset, Cardsets_Flashcards_Helper, Cardsets_Helper, Flashcard } from 
 import EditTable from '@/app/ui/cardsets/edit-table'
 import CreateTable from '@/app/ui/cardsets/create-table';
 import { effect } from 'zod';
-
+import { toggle } from '@nextui-org/react';
 
 export interface CreateProps {
     isShown: boolean;
@@ -43,18 +43,6 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
 
     const updateCardsetWithCards = createCardset.bind(null, cards)
     const [state, formAction] = useFormState(updateCardsetWithCards, initialState)
-
-    // const [fcl, set_fcl] = useState<any>([])
-
-    // useEffect(() => {
-    //     fetch('/api/fcapi')
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             set_fcl(data)
-    //         })
-    //     // console.log("CHECKING USEEFFECT --create")
-    //     // console.log(fcl.flashcards)
-    // }, [isShown])
 
     useEffect(() => {
         if (state?.message === "created") {
@@ -121,11 +109,97 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
 
 }
 
+export interface ViewProps{
+    isShown: boolean;
+    hide: () => void;
+    cs: Cardsets_Helper;
+}
+
+export const ViewCSModal: FunctionComponent<ViewProps> = ({
+    isShown,
+    hide,
+    cs
+}) => {
+
+    const [cardList, setNext] = useState<Flashcard[]>(cs.cs_view)
+    let ft = ''
+    if (cardList.length > 0){
+        ft = cardList[0].front_text
+    }
+    const [cardView, flipText] = useState<any>(ft)
+
+    const flipCard = () => {
+        if(cardList.length > 0){
+            if (cardView == cardList[0].front_text) {
+                flipText(cardList[0].back_text)
+              } else {
+                flipText(cardList[0].front_text)
+              }
+        }
+    }
+
+    const goodAnswer = () => {
+        // cardList.shift()
+        if(cardList.length > 0){
+            setNext(cardList.slice(1))
+            flipText(cardList[0].front_text)
+        } else{
+            setNext(cs.cs_view)
+            hide()
+        }
+    }
+    const badAnswer = () => {
+        cardList.push(cardList[0])
+        cardList.shift()
+        setNext(cardList)
+        flipText(cardList[0].front_text)
+    }
+  
+    const view_modal = (
+      <React.Fragment>
+        <Backdrop />
+        <Wrapper>
+          <StyledModal>
+            <Header>
+              <HeaderText>{cs.title}</HeaderText>
+              <CloseButton onClick={hide}>X</CloseButton>
+            </Header>
+            <Content>
+                <div className="relative flex flex-col items-center ">
+                  <button
+                    onClick={() => flipCard()}
+                    className="w-3/4 h-[50vh] content-center mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+                  // className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
+                  >
+                    {cardView} 
+                  </button>
+                </div>
+                <div className="relative flex flex-col">
+                    <button
+                    onClick={() => goodAnswer()}
+                    className="content-center mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+                    >
+                        GOOD
+                    </button>
+                    <button
+                    onClick={() => badAnswer()}
+                    className="content-center mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+                    >
+                        BAD
+                    </button>
+                </div>
+            </Content>
+          </StyledModal>
+        </Wrapper>
+      </React.Fragment>
+    )
+    return isShown ? ReactDOM.createPortal(view_modal, document.body) : null;
+}
+
 export interface EditProps {
     isShown: boolean;
     hide: () => void;
     headerText: string;
-    fcl: Cardsets_Flashcards_Helper[];
     cs: Cardsets_Helper;
 }
 
@@ -133,8 +207,7 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
     isShown,
     hide,
     headerText,
-    cs,
-    fcl
+    cs
 }) => {
 
     const initialState = {
@@ -197,7 +270,7 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
                                             ))}
                                     </div>
                                 </div>
-                                <EditTable fcl={fcl} cs={cs} />
+                                <EditTable fcl={cs.cs_fcl} cs={cs} />
                                 <div className="mt-6 flex justify-end gap-4 mr-6 pb-6">
                                     <Button type="button" onClick={hide}>Cancel</Button>
                                     <Button type="submit" >Save + Close</Button>

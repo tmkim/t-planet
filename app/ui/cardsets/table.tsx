@@ -16,22 +16,24 @@ export default async function CardsetsTable({
 }) {
   const cardsets = await fetchFilteredCardsets(query, currentPage);
 
-  let cs_fcl_checked = []
+  let cs_fcl_checked: Cardsets_Helper[] = []
   for (var cs of cardsets){
     const cards = await fetchCS_FC(cs.csid)
-    // console.log(cards)
+    let cs_view: Flashcard[] = []
     var temp_fcl:Cardsets_Flashcards_Helper[] = []
     for (var fc of fcl){
       if (cards.includes(fc.fcid)){
         temp_fcl.push({...fc, checked: true})
+        cs_view.push(fc)
       }
       else{
         temp_fcl.push({...fc, checked: false})
       }
     }
-    const cs_fcl: Cardsets_Helper = {...cs, 'cs_fcl':temp_fcl, 'cards':cards}
+    const cs_fcl: Cardsets_Helper = {...cs, 'cs_fcl':temp_fcl, 'cards':cards, 'cs_view': cs_view}
     cs_fcl_checked.push(cs_fcl)
   }
+  // console.log(cs_fcl_checked)
 
   // const fcl_checked: {csid: string, fcl: Flashcard[]}[] = [{csid: '', fcl: []}, {csid: '1', fcl: []}, {csid: '2', fcl: []}];
 
@@ -75,7 +77,7 @@ export default async function CardsetsTable({
                     </td>
                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
-                        <ReadCardset id={cardset.csid} />
+                        <ReadCardset cs={cardset} />
                         <UpdateCardset cs={cardset} />
                         <DeleteCardset id={cardset.csid} title={cardset.title} />
                       </div>
