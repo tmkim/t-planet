@@ -334,3 +334,25 @@ SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON d
         Card Set Browse
 
         Bug testing and cleanup and make pretty
+
+7/7
+    Today let's start working on viewing our flash cards.
+    *** Single Flashcard View
+    ** Card Set View
+
+    >> Single Flashcard View
+        - Modal
+        - Start by showing front side view
+        - Click flashcard to toggle between front and back
+
+        ~~ DONE ~~
+
+    >> Card Set View
+        - Modal (?)
+        Similar to SFV but option to select whether you were right/wrong (+ 2 buttons)
+        Selecting right/wrong moves to next FC
+            If right, FC won't be shown again during set
+            If wrong, FC will be placed back into stack to try again later
+        
+        So my main concern here is doing things modally and making sure states are saved properly
+        But I want to make sure certain logic doesn't occur until button is pressed, or it will take too long to load.

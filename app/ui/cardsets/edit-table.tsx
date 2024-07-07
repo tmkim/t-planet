@@ -32,7 +32,7 @@ export default function EditTable({
     } else {
       cs.cards.splice(cs.cards.indexOf(e.target.value), 1)
     }
-    console.log(cs)
+    // console.log(cs)
   };
 
   return (

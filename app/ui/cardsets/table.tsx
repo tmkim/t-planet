@@ -19,7 +19,7 @@ export default async function CardsetsTable({
   let cs_fcl_checked = []
   for (var cs of cardsets){
     const cards = await fetchCS_FC(cs.csid)
-    console.log(cards)
+    // console.log(cards)
     var temp_fcl:Cardsets_Flashcards_Helper[] = []
     for (var fc of fcl){
       if (cards.includes(fc.fcid)){

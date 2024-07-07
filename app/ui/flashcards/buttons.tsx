@@ -2,16 +2,11 @@
 import { PencilIcon, PlusIcon, TrashIcon, EyeIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deleteFlashcard } from '@/app/lib/actions';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { useModal } from '@/app/lib/useModal';
-// import { Modal } from '@/app/ui/myModal';
 import React from 'react'
-// import FlashcardCreateForm from './create-form';
-// import FlashcardEditForm from './edit-form';
-// import { fetchFlashcardById } from '@/app/lib/data';
 import { Flashcard } from '@/app/lib/definitions';
-// import { useFormState } from 'react-dom';
-import { CreateFCModal, EditFCModal } from '@/app/ui/flashcards/modal';
+import { CreateFCModal, EditFCModal, ViewFCModal } from '@/app/ui/flashcards/modal';
 
 export function CreateFlashcard() {
   const { isShown, toggle } = useModal();
@@ -29,14 +24,19 @@ export function CreateFlashcard() {
   );
 }
 
-export function ReadFlashcard({ id }: { id: string }) {
+export function ReadFlashcard({ fc }: { fc: Flashcard }) {
+  const { isShown, toggle } = useModal();
+
   return (
-    <Link
-      href={`/dashboard/flashcards/read/${id}`}
-      className="rounded-md border p-2 hover:bg-gray-100"
-    >
-      <EyeIcon className="w-5" />
-    </Link>
+    <React.Fragment>
+      <button
+        onClick={toggle}
+        className="rounded-md border p-2 hover:bg-gray-100">
+        <span className="sr-only">Read Flashcard</span>{' '}
+        <EyeIcon className="w-5" />
+      </button>
+    <ViewFCModal isShown={isShown} hide={toggle} fc={fc} headerText='View Flashcard' />
+    </React.Fragment>
   )
 }
 
@@ -56,11 +56,11 @@ export function UpdateFlashcard({ fc }: { fc: Flashcard }) {
   );
 }
 
-export function DeleteFlashcard({ id, ft }: { id: string, ft: string }) {
-  const deleteFlashcardWithId = deleteFlashcard.bind(null, id);
+export function DeleteFlashcard({ fc }: { fc: Flashcard }) {
+  const deleteFlashcardWithId = deleteFlashcard.bind(null, fc.fcid);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    if (!confirm(`Delete flashcard ${ft}?`)) {
+    if (!confirm(`Delete flashcard ${fc.front_text}?`)) {
       e.preventDefault();
     }
   };
