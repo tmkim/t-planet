@@ -11,11 +11,10 @@ import {
     Content,
     Backdrop,
 } from '@/app/ui/modal.style';
-import { Cardset, Cardsets_Flashcards_Helper, Cardsets_Helper, Flashcard } from '@/app/lib/definitions';
+import { Cardsets_Helper, Flashcard } from '@/app/lib/definitions';
 import EditTable from '@/app/ui/cardsets/edit-table'
 import CreateTable from '@/app/ui/cardsets/create-table';
-import { effect } from 'zod';
-import { toggle } from '@nextui-org/react';
+import { CheckIcon } from '@heroicons/react/24/outline';
 
 export interface CreateProps {
     isShown: boolean;
@@ -40,9 +39,20 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
     }
 
     let cards: string[] = []
+    const [shareProp, setShareP] = useState<boolean>(true)
+    const [shareText, setShareT] = useState<string>("Public")
+    const shareToggle = () => {
+        if (shareProp) {
+            setShareT("Private")
+            setShareP(false)
+        } else {
+            setShareT("Public")
+            setShareP(true)
+        }
+    }
 
-    const updateCardsetWithCards = createCardset.bind(null, cards)
-    const [state, formAction] = useFormState(updateCardsetWithCards, initialState)
+    const createCardsetWithCards = createCardset.bind(null, cards, shareProp)
+    const [state, formAction] = useFormState(createCardsetWithCards, initialState)
 
     useEffect(() => {
         if (state?.message === "created") {
@@ -93,9 +103,20 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
                                 </div>
                                 <CreateTable fcl={fcl} cs={cards} />
                                 {/* <TempTable fcl={fcl.flashcards}/> */}
-                                <div className="mt-6 flex justify-end gap-4 mr-6 pb-6">
-                                    <Button type="button" onClick={hide}>Cancel</Button>
-                                    <Button type="submit" >Save + Close</Button>
+                                <div className="grid grid-cols-2 items-center mt-6">
+                                    <div className="flex justify-start">
+                                        <Button
+                                            type="button"
+                                            onClick={shareToggle}
+                                            className="w-1/3 text-lg justify-center"
+                                        >
+                                            {shareText}
+                                        </Button>
+                                    </div>
+                                    <div className="flex justify-end gap-4">
+                                        <Button type="button" onClick={hide} className="w-1/3 text-lg justify-center">Cancel</Button>
+                                        <Button type="submit" className="w-1/3 text-lg justify-center">Save + Close</Button>
+                                    </div>
                                 </div>
                             </div>
                         </Content>
@@ -109,7 +130,7 @@ export const CreateCSModal: FunctionComponent<CreateProps> = ({
 
 }
 
-export interface ViewProps{
+export interface ViewProps {
     isShown: boolean;
     hide: () => void;
     cs: Cardsets_Helper;
@@ -121,30 +142,34 @@ export const ViewCSModal: FunctionComponent<ViewProps> = ({
     cs
 }) => {
 
-    const [cardList, setNext] = useState<Flashcard[]>(cs.cs_view)
-    let ft = ''
-    if (cardList.length > 0){
-        ft = cardList[0].front_text
-    }
-    const [cardView, flipText] = useState<any>(ft)
+    const [cardList, setNext] = useState<Flashcard[]>(cs.cs_view.slice())
+
+    const [cardView, flipText] = useState<any>()
+
+    useEffect(() => {
+        if (cardList.length > 0) {
+            flipText(cardList[0].front_text)
+        }
+    }, [cardList])
 
     const flipCard = () => {
-        if(cardList.length > 0){
+        if (cardList.length > 0) {
             if (cardView == cardList[0].front_text) {
                 flipText(cardList[0].back_text)
-              } else {
+            } else {
                 flipText(cardList[0].front_text)
-              }
+            }
         }
     }
 
     const goodAnswer = () => {
-        // cardList.shift()
-        if(cardList.length > 0){
-            setNext(cardList.slice(1))
+        cardList.shift()
+        // const tempList = cardList.slice(1)
+        if (cardList.length > 0) {
+            setNext(cardList)
             flipText(cardList[0].front_text)
-        } else{
-            setNext(cs.cs_view)
+        } else {
+            setNext(cs.cs_view.slice())
             hide()
         }
     }
@@ -154,44 +179,46 @@ export const ViewCSModal: FunctionComponent<ViewProps> = ({
         setNext(cardList)
         flipText(cardList[0].front_text)
     }
-  
+
     const view_modal = (
-      <React.Fragment>
-        <Backdrop />
-        <Wrapper>
-          <StyledModal>
-            <Header>
-              <HeaderText>{cs.title}</HeaderText>
-              <CloseButton onClick={hide}>X</CloseButton>
-            </Header>
-            <Content>
-                <div className="relative flex flex-col items-center ">
-                  <button
-                    onClick={() => flipCard()}
-                    className="w-3/4 h-[50vh] content-center mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
-                  // className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
-                  >
-                    {cardView} 
-                  </button>
-                </div>
-                <div className="relative flex flex-col">
-                    <button
-                    onClick={() => goodAnswer()}
-                    className="content-center mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
-                    >
-                        GOOD
-                    </button>
-                    <button
-                    onClick={() => badAnswer()}
-                    className="content-center mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
-                    >
-                        BAD
-                    </button>
-                </div>
-            </Content>
-          </StyledModal>
-        </Wrapper>
-      </React.Fragment>
+        <React.Fragment>
+            <Backdrop />
+            <Wrapper>
+                <StyledModal>
+                    <Header>
+                        <HeaderText>{cs.title}</HeaderText>
+                        <CloseButton onClick={hide}>X</CloseButton>
+                    </Header>
+                    <Content>
+                        <div className="relative flex flex-col items-center ">
+                            <button
+                                onClick={() => flipCard()}
+                                className="w-3/4 h-[50vh] content-center mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+                            // className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 text-center"
+                            >
+                                {cardView}
+                            </button>
+                        </div>
+                        <div className="relative flex flex-row justify-center">
+                            <button
+                                onClick={() => goodAnswer()}
+                                className="flex h-10 items-center rounded-lg bg-green-600 px-20 py-5 m-10 text-sm font-medium text-white transition-colors 
+                    hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                            >
+                                <CheckIcon className="h-6" />
+                            </button>
+                            <button
+                                onClick={() => badAnswer()}
+                                className="flex h-10 items-center rounded-lg bg-red-600 px-20 py-5 m-10 text-sm font-medium text-white transition-colors 
+                    hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                            >
+                                X
+                            </button>
+                        </div>
+                    </Content>
+                </StyledModal>
+            </Wrapper>
+        </React.Fragment>
     )
     return isShown ? ReactDOM.createPortal(view_modal, document.body) : null;
 }
@@ -210,6 +237,20 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
     cs
 }) => {
 
+
+
+    const [shareProp, setShareP] = useState<boolean>(cs.share)
+    const [shareText, setShareT] = useState<string>(cs.share ? "Public" : "Private")
+    const shareToggle = () => {
+        if (shareProp) {
+            setShareT("Private")
+            setShareP(false)
+        } else {
+            setShareT("Public")
+            setShareP(true)
+        }
+    }
+
     const initialState = {
         message: "",
         errors: {
@@ -219,7 +260,7 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
         }
     }
 
-    const updateCardsetWithCards = updateCardset.bind(null, cs.csid, cs.cards)
+    const updateCardsetWithCards = updateCardset.bind(null, cs.csid, cs.cards, shareProp)
     const [state, formAction] = useFormState(updateCardsetWithCards, initialState)
 
     useEffect(() => {
@@ -271,9 +312,20 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
                                     </div>
                                 </div>
                                 <EditTable fcl={cs.cs_fcl} cs={cs} />
-                                <div className="mt-6 flex justify-end gap-4 mr-6 pb-6">
-                                    <Button type="button" onClick={hide}>Cancel</Button>
-                                    <Button type="submit" >Save + Close</Button>
+                                <div className="grid grid-cols-2 items-center mt-6">
+                                    <div className="flex justify-start">
+                                        <Button
+                                            type="button"
+                                            onClick={shareToggle}
+                                            className="w-1/3 text-lg justify-center"
+                                        >
+                                            {shareText}
+                                        </Button>
+                                    </div>
+                                    <div className="flex justify-end gap-4">
+                                        <Button type="button" onClick={hide} className="w-1/3 text-lg justify-center">Cancel</Button>
+                                        <Button type="submit" className="w-1/3 text-lg justify-center">Save + Close</Button>
+                                    </div>
                                 </div>
                             </div>
                         </Content>
@@ -286,3 +338,35 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
     return isShown ? ReactDOM.createPortal(edit_modal, document.body) : null;
 
 }
+
+export interface BrowseProps {
+    isShown: boolean;
+    hide: () => void;
+}
+
+export const BrowseCSModal: FunctionComponent<BrowseProps> = ({
+    isShown,
+    hide
+}) => {
+
+    const browse_modal = (
+        <React.Fragment>
+            <Backdrop />
+            <Wrapper>
+                <StyledModal>
+                    <Header>
+                        <HeaderText>Browse Card Sets</HeaderText>
+                        <CloseButton onClick={hide}>X</CloseButton>
+                    </Header>
+                    <Content>
+                        <></>
+                    </Content>
+                </StyledModal>
+            </Wrapper>
+        </React.Fragment>
+    )
+
+    return isShown ? ReactDOM.createPortal(browse_modal, document.body) : null;
+ 
+}
+

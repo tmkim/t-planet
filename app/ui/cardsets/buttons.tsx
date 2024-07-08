@@ -57,17 +57,10 @@ export function ReadCardset({ cs }: { cs: Cardsets_Helper }) {
 export function UpdateCardset({ cs }: { cs: Cardsets_Helper }) {
   const { isShown, toggle } = useModal();
 
-  const testCS = () => {
-    toggle()
-    for (var fc of cs.cs_fcl){
-      console.log(`testing updates - ${fc.checked}`)
-    }
-  }
-
   return (
     <React.Fragment>
       <button
-        onClick={testCS}
+        onClick={toggle}
         className="rounded-md border p-2 hover:bg-gray-100">
         <span className="sr-only">Update Flashcard</span>{' '}
         <PencilIcon className="w-5" />

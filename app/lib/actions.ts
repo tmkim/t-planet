@@ -226,7 +226,7 @@ const CSSchema = z.object({
   share: z.boolean()
 });
 
-const CreateCS = CSSchema.omit({ csid: true, created_by: true, share: true });
+const CreateCS = CSSchema.omit({ csid: true, created_by: true, share: true});
 export type CSState = {
   errors?: {
     title?: string[];
@@ -236,7 +236,7 @@ export type CSState = {
   message?: string | null;
 } | undefined
 
-export async function createCardset(cards: string[], prevState: CSState, formData: FormData) {
+export async function createCardset(cards: string[], share: boolean, prevState: CSState, formData: FormData) {
   const validatedFields = CreateCS.safeParse({
     title: formData.get('title'),
     // created_by: formData.get('created_by'),
@@ -251,8 +251,7 @@ export async function createCardset(cards: string[], prevState: CSState, formDat
   }
   // const { name, created_by, share } = validatedFields.data;
   const { title } = validatedFields.data;
-  const created_by = "Dab"
-  const share = true
+  // const share = true
   const csid = v4()
 
   // console.log(cards)
@@ -296,7 +295,7 @@ export async function createCardset(cards: string[], prevState: CSState, formDat
 
 const UpdateCardset = CSSchema.omit({ csid: true, created_by: true, share: true })
 
-export async function updateCardset(csid: string, cards: string[], prevState: CSState, formData: FormData) {
+export async function updateCardset(csid: string, cards: string[], share: boolean, prevState: CSState, formData: FormData) {
   const validatedFields = UpdateCardset.safeParse({
     title: formData.get('title'),
     // created_by: formData.get('created_by'),
@@ -311,7 +310,7 @@ export async function updateCardset(csid: string, cards: string[], prevState: CS
   }
   // const { name, created_by, share } = validatedFields.data;
   const { title } = validatedFields.data;
-  const share = true
+  // const share = true
 
   // console.log(cards)
 

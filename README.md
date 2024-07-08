@@ -361,3 +361,29 @@ SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON d
         Also slight issue with "good" where it doesn't always move on to the next FC
         Stack closes and resets after completion
             -- having issue with reset
+
+7/9
+    *** work on CS view resetting properly
+        NICE got it working with useEffect to call flipText and set cardView to front text whenever cardList is changed
+        Updated the GOOD/BAD buttons to be a bit prettier too
+
+    >> Card Set View
+        ~~ DONE ~~
+
+    ** Card Set Browse
+        > First I have to include a Private/Public option
+        > Then I make a BROWSE modal that lists all public card sets regardless of user
+        So I can kind of copy a few things I did before but just make sure it fetches different data.
+
+        I'm thinking it will basically be the same Card Set List, but only button available is "Copy" which will add a copy to your user with OG "Created_by"
+        If created_by != uid, don't allow for public? 
+        Maybe include stats for how many people copied it
+        This can all be modal as well.
+
+        So first let's include the option for public/private.
+        We already have this as part of our database table, so we just need to include a button that sets the value, and update server action to set the property.
+        ~~ Done ~~
+            .. cardset create has public/private button
+            .. cardset edit has public/private button
+            .. tested that public/private value is stored properly for both create/edit
+            .. tested that public/private value is displayed properly for both create/edit
