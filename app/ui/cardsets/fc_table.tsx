@@ -4,7 +4,7 @@ import { UpdateFlashcard, DeleteFlashcard, ReadFlashcard, CreateFlashcard } from
 import { fetchFilteredFlashcards, fetchFlashcardsPages } from '@/app/lib/data';
 import FCSearch from '../flashcards/search';
 import FCPagination from '../flashcards/pagination';
-import { FlashcardsTable } from '@/app/lib/definitions';
+import { Flashcard } from '@/app/lib/definitions';
 
 export interface FormProps {
   result: boolean;
@@ -38,7 +38,7 @@ export default async function CSFlashcardsTable({
   // const totalFCPages = await fetchFlashcardsPages(fcquery);
   // const flashcards = await fetchFilteredFlashcards(fcquery, currentFCPage);
   // const flashcards = await fetchFilteredFlashcards('', 1);
-  const flashcards: FlashcardsTable[] = []
+  const flashcards: Flashcard[] = []
 
   return (
     <div className="mt-6 flow-root">

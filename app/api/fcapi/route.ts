@@ -37,6 +37,6 @@ export async function GET(request: Request, context: any) {
     return NextResponse.json({ flashcards })
   } catch (e) {
     console.error("Error getting flashcards : " + e)
+    return NextResponse.json({"Failure":"No Response"})
   }
-
 }
