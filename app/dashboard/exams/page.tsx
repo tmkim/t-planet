@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Invoices'
+    title: 'Exams'
 }
 
 export default async function Page(){
