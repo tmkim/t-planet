@@ -362,7 +362,7 @@ SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON d
         Stack closes and resets after completion
             -- having issue with reset
 
-7/9
+7/8
     *** work on CS view resetting properly
         NICE got it working with useEffect to call flipText and set cardView to front text whenever cardList is changed
         Updated the GOOD/BAD buttons to be a bit prettier too
@@ -387,3 +387,17 @@ SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON d
             .. cardset edit has public/private button
             .. tested that public/private value is stored properly for both create/edit
             .. tested that public/private value is displayed properly for both create/edit
+
+7/9
+    Cleaned up workspace and fixed errors in 'npm run build'
+    Successfully deployed on Vercel
+    Tested Registration - works !!
+        TODO -- Make pretty/cleanup. Confirm password (type x2). Email user. Maybe replace auth with Kinde.
+    Tested Login - nope :(
+        ..
+        OK so, Rejection for invalid credentials is working (might want prettier, larger, better wording)
+        Using correct credentials does not get rejected. So it queried database to confirm I exist. But doesn't move me on to the next page.
+        Trying to brute-force myself past login page not working. So need to check auth logic?
+        Confirmed that login works locally
+
+    So I think today I want to spend a bit of time making sure you can actually log in.

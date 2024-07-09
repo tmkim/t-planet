@@ -10,6 +10,9 @@ export default function LoginPage() {
   return (
     <main className="flex items-center justify-center md:h-screen">
       <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
+        <div>
+          Welcome to T-Planet!
+        </div>
         <Link
           href="/login"
           className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
