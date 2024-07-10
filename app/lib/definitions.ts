@@ -19,6 +19,7 @@ export type Flashcard = {
 
 export type Cardset = {
   csid: string;
+  uid: string;
   title: string;
   created_by: string;
   share: boolean;
@@ -29,10 +30,10 @@ export type Users_Flashcards = {
   fcid: string;
 };
 
-export type Users_Cardsets = {
-  uid: string;
-  fcid: string;
-};
+// export type Users_Cardsets = {
+//   uid: string;
+//   fcid: string;
+// };
 
 export type Cardsets_Flashcards = {
   csid: string;
@@ -57,6 +58,7 @@ export type Cardsets_Flashcards_Helper = {
 
 export type Cardsets_Helper = {
   csid: string;
+  uid: string;
   title: string;
   created_by: string;
   share: boolean;
@@ -65,9 +67,10 @@ export type Cardsets_Helper = {
   cs_view: Flashcard[];
 }
 
-export type CardsetsTable = {
-  csid: string;
-  name: string;
-  created_by: string;
-  share: boolean;
-}
+// export type CardsetsTable = {
+//   csid: string;
+//   uid: string;
+//   name: string;
+//   created_by: string;
+//   share: boolean;
+// }

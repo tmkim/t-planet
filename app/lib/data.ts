@@ -28,7 +28,8 @@ export async function getUser() {
   }
 }
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 10;
+
 export async function fetchFilteredFlashcards(
   query: string,
   currentPage: number,
@@ -139,6 +140,32 @@ export async function fetchFlashcardsPages(query: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch total number of flashcards.');
+  }
+}
+
+export async function fetchBrowseCardsets(
+  query: string,
+  currentPage: number,
+) {
+  noStore();
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE
+  try{
+    const usr = await getUser()
+    const cardsets = await sql<Cardset>`
+    SELECT
+      c.csid,
+      c.title,
+      c.created_by,
+      c.share
+    FROM
+      cardsets c 
+    WHERE
+      c.share = 'true'
+    `
+
+    return cardsets.rows
+  } catch(e){
+    throw new Error(`Error browsing cardsets: ${e}`);
   }
 }
 

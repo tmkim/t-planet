@@ -401,3 +401,17 @@ SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON d
         Confirmed that login works locally
 
     So I think today I want to spend a bit of time making sure you can actually log in.
+
+7/10
+    Bruh
+    ok so I used vercel logging to figure out what's going on. Idk why I didnt try this earlier.
+    Anyway realized I need to update environment variable for auth_secret, now i'm good !
+    Did a bit of work cleaning up the appearance
+
+    OK so today let's get card browsing available.
+
+    Made progress on CS browsing.
+    + Made new page that contains a table of all public CS regardless of user
+    + Need to add buttons to 
+        -- Preview Card Set
+        -- Add Card Set

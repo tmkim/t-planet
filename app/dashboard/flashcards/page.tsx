@@ -55,7 +55,7 @@ export default async function Page({
             {/* ---------------- flash cards ---------------- */}
             <div className="w-full">
                 <div className="flex w-full items-center justify-between">
-                    <h1 className={`${lusitana.className} text-2xl`}>Flashcards</h1>
+                    <h1 className={`${lusitana.className} text-3xl`}>Flashcards</h1>
                 </div>
 
                 <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
@@ -74,7 +74,7 @@ export default async function Page({
 
             <div className="w-full">
                 <div className="flex w-full items-center justify-between">
-                    <h1 className={`${lusitana.className} text-2xl`}>Card Sets</h1>
+                    <h1 className={`${lusitana.className} text-3xl`}>Card Sets</h1>
                 </div>
 
                 <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">

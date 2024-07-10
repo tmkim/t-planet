@@ -102,7 +102,6 @@ export default function RegistrationForm() {
                   </p>
                 ))}
             </div>
-            <RegisterButton />
             <div
               className="flex h-8 items-end space-x-1"
               aria-live="polite"
@@ -123,8 +122,8 @@ export default function RegistrationForm() {
             >
               Cancel
             </Link>
-            <Button type="submit">Register</Button>
-          </div>
+            <RegisterButton />
+            </div>
         </div>
       </div>
     </form>

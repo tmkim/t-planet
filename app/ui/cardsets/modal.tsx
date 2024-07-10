@@ -15,6 +15,7 @@ import { Cardsets_Helper, Flashcard } from '@/app/lib/definitions';
 import EditTable from '@/app/ui/cardsets/edit-table'
 import CreateTable from '@/app/ui/cardsets/create-table';
 import { CheckIcon } from '@heroicons/react/24/outline';
+import CardsetsTable from '@/app/ui/cardsets/table';
 
 export interface CreateProps {
     isShown: boolean;
@@ -338,35 +339,3 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
     return isShown ? ReactDOM.createPortal(edit_modal, document.body) : null;
 
 }
-
-export interface BrowseProps {
-    isShown: boolean;
-    hide: () => void;
-}
-
-export const BrowseCSModal: FunctionComponent<BrowseProps> = ({
-    isShown,
-    hide
-}) => {
-
-    const browse_modal = (
-        <React.Fragment>
-            <Backdrop />
-            <Wrapper>
-                <StyledModal>
-                    <Header>
-                        <HeaderText>Browse Card Sets</HeaderText>
-                        <CloseButton onClick={hide}>X</CloseButton>
-                    </Header>
-                    <Content>
-                        <></>
-                    </Content>
-                </StyledModal>
-            </Wrapper>
-        </React.Fragment>
-    )
-
-    return isShown ? ReactDOM.createPortal(browse_modal, document.body) : null;
- 
-}
-
