@@ -11,6 +11,7 @@ import { Button } from '@/app/ui/button';
 import { useFormState, useFormStatus } from 'react-dom';
 import { authenticate } from '@/app/lib/actions';
 import Link from 'next/link';
+import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
@@ -62,7 +63,8 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
-        <LoginButton />
+          <LoginLink>Sign in</LoginLink>
+{/* <LoginButton /> */}
         <div
           className="flex h-8 items-end space-x-1"
           aria-live="polite"
@@ -76,7 +78,8 @@ export default function LoginForm() {
           )}
         </div>
         <div className="">
-          <Link href="/registration">Register</Link>
+          <RegisterLink>Sign up</RegisterLink>
+{/* <Link href="/registration">Register</Link> */}
         </div>
       </div>
     </form>

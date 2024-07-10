@@ -123,7 +123,6 @@ export default function RegistrationForm() {
             >
               Cancel
             </Link>
-            <Button type="submit">Register</Button>
           </div>
         </div>
       </div>
