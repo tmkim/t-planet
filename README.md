@@ -415,3 +415,22 @@ SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON d
     + Need to add buttons to 
         -- Preview Card Set
         -- Add Card Set
+
+7/11
+    ****Don't forget simple profile page so I can change name and such
+
+    Work on Browse CS Buttons (add, preview)
+    So "Add" should basically add an entry to user_cs with the csid
+    "Preview" should read cs_fc to obtain the specific flashcards as a list of Front + Back
+
+    Preview works easy
+    Copy works for copying over the CSID but doesn't retrieve flashcards (probably bc I fetch via user)
+    I guess I can all flash cards that are part of a copied set can be copied over too for customization
+
+    Gottem!! Preview and Copy both work. Browsing other people's flash cards seems success.
+
+    Todo -- disable features for copied card sets (maybe need boolean for copied or not)
+        
+    Actually I'm going to update Copy to make its own CSID
+
+    make sure browse doesn't produce duplicates (somehow idk dude lmao)

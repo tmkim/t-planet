@@ -1,12 +1,12 @@
 'use client'
-import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, MagnifyingGlassPlusIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, MagnifyingGlassPlusIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { deleteCardset } from '@/app/lib/actions';
+import { copyCardset, deleteCardset } from '@/app/lib/actions';
 import { FormEvent, MouseEventHandler, useEffect, useState } from 'react';
 import { Cardset, Cardsets_Flashcards_Helper, Cardsets_Helper, Flashcard } from '@/app/lib/definitions';
 import { useModal } from '@/app/lib/useModal';
 import React from 'react';
-import { CreateCSModal, EditCSModal, ViewCSModal } from '@/app/ui/cardsets/modal';
+import { CreateCSModal, EditCSModal, PreviewCSModal, ViewCSModal } from '@/app/ui/cardsets/modal';
 
 export function CreateCardset({ fcl }: { fcl: Flashcard[] }) {
 
@@ -35,7 +35,41 @@ export function BrowseCardsets() {
       <MagnifyingGlassPlusIcon className="h-5 md:ml-4" />
     </Link>
   )
+}
 
+export function CopyCardset({ cs }: { cs: Cardsets_Helper }) {
+  const copyCardsetWithId = copyCardset.bind(null, cs);
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    if (!confirm(`Copy card set "${cs.title}" by ${cs.created_by}?`)) {
+      e.preventDefault();
+    }
+  };
+
+  return (
+    <form action={copyCardsetWithId} onSubmit={onSubmit}>
+      <button className="rounded-md border p-2 hover:bg-gray-100">
+        <span className="sr-only">Delete</span>
+        <DocumentDuplicateIcon className="h-8 w-8" />
+      </button>
+    </form>
+  );
+}
+
+export function PreviewCardset({ cs }: { cs: Cardsets_Helper }) {
+  const { isShown, toggle } = useModal();
+
+  return (
+    <React.Fragment>
+      <button
+        onClick={toggle}
+        className="rounded-md border p-2 hover:bg-gray-100">
+        <span className="sr-only">Update Flashcard</span>{' '}
+        <EyeIcon className="w-8 h-8" />
+      </button>
+      <PreviewCSModal cs={cs} isShown={isShown} hide={toggle} headerText={`Preview Flashcard ${cs.title}`} />
+    </React.Fragment>
+  );
 }
 
 export function ReadCardset({ cs }: { cs: Cardsets_Helper }) {

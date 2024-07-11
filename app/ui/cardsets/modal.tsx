@@ -16,6 +16,7 @@ import EditTable from '@/app/ui/cardsets/edit-table'
 import CreateTable from '@/app/ui/cardsets/create-table';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import CardsetsTable from '@/app/ui/cardsets/table';
+import PreviewTable from './preview-table';
 
 export interface CreateProps {
     isShown: boolean;
@@ -337,5 +338,50 @@ export const EditCSModal: FunctionComponent<EditProps> = ({
     );
 
     return isShown ? ReactDOM.createPortal(edit_modal, document.body) : null;
+
+}
+
+export interface PreviewProps{
+    isShown: boolean,
+    hide: () => void,
+    headerText: string,
+    cs: Cardsets_Helper
+}
+
+export const PreviewCSModal: FunctionComponent<PreviewProps> = ({
+    isShown,
+    hide,
+    headerText,
+    cs
+}) => {
+    const preview_modal = (
+        <React.Fragment>
+            <Backdrop />
+            <Wrapper>
+                <StyledModal>
+                    <Header>
+                        <HeaderText>{headerText}</HeaderText>
+                        <CloseButton onClick={hide}>X</CloseButton>
+                    </Header>
+                        <Content>
+                            <div className="rounded-md bg-gray-50 p-4 md:p-6">
+                                <div className="w-full">
+                                    <label
+                                        className="mb-3 mt-5 block text-2xl font-bold text-gray-900"
+                                        htmlFor="title"
+                                    >
+                                        {cs.title}
+                                    </label>
+                                    
+                                <PreviewTable cs={cs} />
+                                </div>                                
+                            </div>
+                        </Content>
+                </StyledModal>
+            </Wrapper>
+        </React.Fragment>
+    );
+
+    return isShown ? ReactDOM.createPortal(preview_modal, document.body) : null;
 
 }

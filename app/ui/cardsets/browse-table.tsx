@@ -1,10 +1,17 @@
 // import Image from 'next/image';
 import { Cardset, Flashcard, Cardsets_Flashcards_Helper, Cardsets_Helper } from '@/app/lib/definitions';
-import { UpdateCardset, DeleteCardset, ReadCardset } from './buttons';
-import { fetchBrowseCardsets, fetchCS_FC, fetchFilteredCardsets } from '@/app/lib/data';
+import { UpdateCardset, DeleteCardset, ReadCardset, CopyCardset, PreviewCardset } from './buttons';
+import { fetchBrowseCardsets, fetchBrowseFCL, fetchCS_FC, fetchFilteredCardsets } from '@/app/lib/data';
 
 export default async function BrowseCardsetsTable({query, currentPage}: {query:string, currentPage: number}) {
   const cardsets = await fetchBrowseCardsets(query, currentPage);
+
+  let cs_help: Cardsets_Helper[] = []
+  for (var cs of cardsets){
+    const cards = await fetchBrowseFCL(cs.csid)
+    const cs_fcl: Cardsets_Helper = {...cs, 'cs_fcl':[], 'cards':[], 'cs_view': cards}
+    cs_help.push(cs_fcl)
+  }
 
   return (
     <div className="mt-6 flow-root">
@@ -23,7 +30,7 @@ export default async function BrowseCardsetsTable({query, currentPage}: {query:s
               </tr>
             </thead>
               <tbody className="bg-white">
-                {cardsets?.map((cardset) => (
+                {cs_help?.map((cardset) => (
                   <tr
                     key={cardset.csid}
                     className="w-full border-b py-3 text-lg last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
@@ -38,8 +45,8 @@ export default async function BrowseCardsetsTable({query, currentPage}: {query:s
                     </td>
                     <td className="whitespace-nowrap py-3 pl-6 pr-3 w-1/4">
                       <div className="flex justify-end gap-3">
-                        {/* <ViewCardset />
-                        <AddCardset /> */}
+                        <PreviewCardset cs={cardset}/>
+                        <CopyCardset cs={cardset}/>
                       </div>
                     </td>
                   </tr>

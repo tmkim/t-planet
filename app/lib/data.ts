@@ -301,6 +301,24 @@ export async function fetchCS_FC(id: string){
   }
 }
 
+export async function fetchBrowseFCL(id: string){
+  noStore();
+  try{
+    const data = await sql<Flashcard>`
+    SELECT
+      f.*
+    FROM cardsets_flashcards cf
+    JOIN flashcards f
+    ON cf.fcid = f.fcid
+    WHERE cf.csid = ${id}`
+
+    return data.rows
+  }catch (e){
+    console.error('DDB Error: ', e)
+    throw new Error('Failed to fetch flashcard list for card set: ' + id)
+  }
+}
+
 export async function fetchCS2FC(id: string) {
   noStore();
   try {

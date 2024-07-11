@@ -11,7 +11,7 @@ import { lusitana } from '@/app/ui/fonts';
 import { CreateCardset, BrowseCardsets } from '@/app/ui/cardsets/buttons';
 import { fetchCardsetsPages } from '@/app/lib/data';
 import { CardsetTableSkeleton } from '@/app/ui/skeletons';
-import BrowseCardsetsTable from '@/app/ui/cardsets/browse_table';
+import BrowseCardsetsTable from '@/app/ui/cardsets/browse-table';
 
 export const metadata: Metadata = {
     title: 'Browse Card Sets',

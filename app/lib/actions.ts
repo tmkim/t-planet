@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth'
 import bcrypt from 'bcrypt'
-import { Cardset, Flashcard } from '@/app/lib/definitions';
+import { Cardset, Cardsets_Helper, Flashcard } from '@/app/lib/definitions';
 import { v4 } from 'uuid'
 import { getUser } from '@/app/lib/data';
 
@@ -369,4 +369,44 @@ export async function deleteCardset(id: string) {
   }
   revalidatePath('/dashboard/flashcards')
   redirect('/dashboard/flashcards');
+}
+
+export async function copyCardset(cs: Cardsets_Helper) {
+    const csid = v4()
+    try {
+    const usr = await getUser()
+
+    await sql`
+        INSERT INTO cardsets (csid, title, created_by, share)
+        VALUES (${csid}, ${cs.title}, ${cs.created_by}, ${cs.share})
+        `;
+
+    await sql`
+    INSERT INTO users_cardsets (uid, csid)
+    VALUES (${usr.uid}, ${csid})
+    `;
+
+    const arr = cs.cs_view.map((c) => ({ uid: usr.uid, fcid: c.fcid }));
+    
+    await sql.query(
+      `INSERT INTO users_flashcards (uid, fcid)
+        SELECT uid, fcid FROM json_populate_recordset(null::users_flashcards, $1)`,
+      [JSON.stringify(arr)]
+    );
+
+    const arr2 = cs.cs_view.map((c) => ({ csid: csid, fcid: c.fcid }));
+
+    await sql.query(
+      `INSERT INTO cardsets_flashcards (csid, fcid)
+       SELECT csid, fcid FROM json_populate_recordset(null::cardsets_flashcards, $1)`,
+      [JSON.stringify(arr2)]
+    );
+
+  } catch (error) {
+    return {
+      message: `Database Error: Failed to Copy Card Set ${cs.csid}`,
+    }
+  }
+  revalidatePath('/dashboard/cardsets/browse')
+  redirect('/dashboard/cardsets/browse');
 }
